@@ -1,0 +1,10 @@
+Flask
+pytest
+psycopg2-binary
+flask-sqlalchemy
+flask-cors
+debugpy
+python-dotenv
+requests
+Pyrebase4
+firebase-admin

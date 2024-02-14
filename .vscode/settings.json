@@ -1,0 +1,9 @@
+{
+  "python.testing.unittestArgs": [
+    "discover",
+    "-s",
+    "backend"
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true
+}

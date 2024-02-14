@@ -1,0 +1,30 @@
+version: "3"
+services:
+  languageapp:
+    build:
+      context: ./backend
+    ports: 
+      - "5000:5000"
+      - "5678:5678"
+    command: python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m pytest
+    #command: pytest
+    depends_on:
+      - languageapp-db
+      - languageapp-db-test
+  languageapp-db:
+    build: 
+      context: ./db
+    environment:
+      POSTGRES_USER: languageapp
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: languageapp
+    volumes:
+      - /home/medaphor/languageappdata:/var/lib/postgresql/data
+  languageapp-db-test:
+    build: 
+      context: ./db
+    environment:
+      POSTGRES_USER: languageapptest
+      POSTGRES_PASSWORD: passwordtest
+      POSTGRES_DB: languageapptest
+
