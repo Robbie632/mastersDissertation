@@ -14,10 +14,10 @@ docker-compose up --build -d
 
 **GET Endpoints:**
 
-- `/api/rating`: Modify to all ratings for a specific phrase.
+- `/api/rating`: Gets all ratings for a specific phrase.
 - `/api/phrase`: Get all phrases.
 - `/api/language`: Get all languages.
-- `/api/phraseselection`: Modify to get all phrases associated with a user.
+- `/api/phraseselection`: Get all phrases associated with a user.
 
 **POST Endpoints:**
 

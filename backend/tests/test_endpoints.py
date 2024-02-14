@@ -45,9 +45,9 @@ class TestGetEndpoints(unittest.TestCase):
         test GET for phrases
         """
         mock_data_1 = {"languageid": 1, "userid": 1,
-                     "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
+                       "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
         mock_data_2 = {"languageid": 2, "userid": 1,
-                     "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
+                       "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
         with self.app.app_context():
             db.session.add(Phrase(languageid=mock_data_1["languageid"],
                                   userid=mock_data_1["userid"],
@@ -61,23 +61,25 @@ class TestGetEndpoints(unittest.TestCase):
                                   l2=mock_data_2["l2"],
                                   category=mock_data_2["category"]))
             db.session.commit()
-            
+
         response = self.test_client.get(
             "/api/phrases", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
         self.assertEqual(2, len(observed_data))
-        observed_data_1 = [c for c in observed_data if c["languageid"] == mock_data_1["languageid"]]
-        observed_data_2 = [c for c in observed_data if c["languageid"] == mock_data_2["languageid"]]
-        
-        for (observed, expected, test_name) in [(observed_data_1, mock_data_1, "mock_data_1"), (observed_data_2, mock_data_2, "mock_data_2")]:
-          with self.subTest(test_name):
-            self.assertEqual(observed[0]["languageid"], expected["languageid"])
-            self.assertEqual(observed[0]["userid"], expected["userid"])
-            self.assertEqual(observed[0]["l1"], expected["l1"])
-            self.assertEqual(observed[0]["l2"], expected["l2"])
-            self.assertEqual(observed[0]["category"], expected["category"])
+        observed_data_1 = [
+            c for c in observed_data if c["languageid"] == mock_data_1["languageid"]]
+        observed_data_2 = [
+            c for c in observed_data if c["languageid"] == mock_data_2["languageid"]]
 
+        for (observed, expected, test_name) in [(observed_data_1, mock_data_1, "mock_data_1"), (observed_data_2, mock_data_2, "mock_data_2")]:
+            with self.subTest(test_name):
+                self.assertEqual(
+                    observed[0]["languageid"], expected["languageid"])
+                self.assertEqual(observed[0]["userid"], expected["userid"])
+                self.assertEqual(observed[0]["l1"], expected["l1"])
+                self.assertEqual(observed[0]["l2"], expected["l2"])
+                self.assertEqual(observed[0]["category"], expected["category"])
 
     def test_languages_get(self):
         """
@@ -122,7 +124,6 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/language", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
-        
 
     def test_phrase_post(self):
         """
@@ -157,7 +158,8 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test get ratings for specific phraseid
         """
-        mock_data_1 = {"ratingid":1, "phraseid": 1, "userid": 1, "rating": 3}
+        mock_data_1 = {"ratingid": 1, "phraseid": 1, "userid": 1, "rating": 3}
+        mock_data_2 = {"ratingid": 2, "phraseid": 2, "userid": 1, "rating": 3}
 
         with self.app.app_context():
             db.session.add(Rating(ratingid=mock_data_1["ratingid"],
@@ -165,23 +167,30 @@ class TestGetEndpoints(unittest.TestCase):
                                   userid=mock_data_1["userid"],
                                   rating=mock_data_1["rating"]))
             db.session.commit()
+            db.session.add(Rating(ratingid=mock_data_2["ratingid"],
+                                  phraseid=mock_data_2["phraseid"],
+                                  userid=mock_data_2["userid"],
+                                  rating=mock_data_2["rating"]))
+            db.session.commit()
 
         response = self.test_client.get(
-            "/api/ratings", headers={"authorization": self.jwt})
+            f"/api/rating?phraseid={mock_data_1['phraseid']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
         self.assertEqual(1, len(observed_data))
         observed_data = observed_data[0]
-        self.assertEqual(mock_data_1["ratingid"], int(observed_data["ratingid"]))
-        self.assertEqual(mock_data_1["phraseid"], int(observed_data["phraseid"]))
+        self.assertEqual(mock_data_1["ratingid"],
+                         int(observed_data["ratingid"]))
+        self.assertEqual(mock_data_1["phraseid"],
+                         int(observed_data["phraseid"]))
         self.assertEqual(mock_data_1["userid"], int(observed_data["userid"]))
         self.assertEqual(mock_data_1["rating"], int(observed_data["rating"]))
-    
+
+
     def test_rating_post(self):
         """
         test post rating for specific phraseid
         """
-        raise Exception("need to modify endpoint so takes id")
         mock_data = {"phraseid": 1, "userid": 1,
                      "rating": 4}
         response = self.test_client.post(
@@ -210,21 +219,36 @@ class TestGetEndpoints(unittest.TestCase):
         test get phraseselection for specific phraseid
         """
         mock_data_1 = {"userid": 1, "phraseid": 1}
+        mock_data_2 = {"userid": 2, "phraseid": 1}
 
         with self.app.app_context():
-            db.session.add(PhraseSelection(userid=mock_data_1["userid"], 
-                                  phraseid=mock_data_1["phraseid"]))
+            db.session.add(PhraseSelection(userid=mock_data_1["userid"],
+                                           phraseid=mock_data_1["phraseid"]))
+            db.session.commit()
+            db.session.add(PhraseSelection(userid=mock_data_2["userid"],
+                                           phraseid=mock_data_2["phraseid"]))
             db.session.commit()
 
         response = self.test_client.get(
-            "/api/phraseselection", headers={"authorization": self.jwt})
+            f"/api/phraseselection?userid={mock_data_1['userid']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
         self.assertEqual(1, len(observed_data))
         observed_data = observed_data[0]
-        self.assertEqual(mock_data_1["phraseid"], int(observed_data["phraseid"]))
+        self.assertEqual(mock_data_1["phraseid"],
+                         int(observed_data["phraseid"]))
         self.assertEqual(mock_data_1["userid"], int(observed_data["userid"]))
-    
+
+    def test_phraseselection_get_400(self):
+        """
+        test get phraseselection for specific phraseid when use bad arg name
+        """
+        mock_data_1 = {"userid": 1, "phraseid": 1}
+
+        response = self.test_client.get(
+            f"/api/phraseselection?badargname={mock_data_1['userid']}", headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 400)
+
     def test_phraseselection_post(self):
         """
         test post phraseselection
@@ -249,11 +273,6 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/phraseselection", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
-
-
-
-
-
 
 
 if __name__ == '__main__':

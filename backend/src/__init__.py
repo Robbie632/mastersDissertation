@@ -44,7 +44,10 @@ def create_app(test=False):
             if not request.headers.get('authorization'):
                 return {'message': 'No token provided'}, 400
             try:
-                user = auth.verify_id_token(request.headers['authorization'])
+                if not test:
+                  user = auth.verify_id_token(request.headers['authorization'])
+                else:
+                    user = "testuser"
                 request.user = user
             except:
                 return {'message': 'Invalid token provided.'}, 400
@@ -73,8 +76,12 @@ def create_app(test=False):
         email = data.get('email')
         password = data.get('password')
         try:
-            user = pb.auth().sign_in_with_email_and_password(email, password)
-            jwt = user['idToken']
+            if not test:
+              user = pb.auth().sign_in_with_email_and_password(email, password)
+              jwt = user['idToken']
+            else:
+                jwt = "testtoken"
+            
             return {'token': jwt}, 200
         except:
             return {'message': 'There was an error logging in'}, 400
@@ -93,7 +100,8 @@ def create_app(test=False):
             l2 = data["l2"]
             category = data["category"]
             try:
-                db.session.add(Phrase(languageid=languageid, userid=userid, l1=l1, l2=l2, category=category))
+                db.session.add(Phrase(languageid=languageid,
+                               userid=userid, l1=l1, l2=l2, category=category))
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
@@ -102,10 +110,9 @@ def create_app(test=False):
         except KeyError:
             status_code = 400
             response["status"] = "received unexpected data format"
-        
+
         return jsonify(response), status_code
 
-    
     @app.route('/api/language', methods=["POST"])
     def language_post():
         status_code = 201
@@ -126,9 +133,9 @@ def create_app(test=False):
         except KeyError:
             status_code = 400
             response["status"] = "received unexpected data format"
-        
+
         return jsonify(response), status_code
-    
+
     @app.route('/api/phrases', methods=["GET"])
     def phrases_get():
         status_code = 200
@@ -143,8 +150,8 @@ def create_app(test=False):
             data["status"] = f"error: {e}"
             data["status_code"] = status_code
 
-        return jsonify(data), status_code   
-    
+        return jsonify(data), status_code
+
     @app.route('/api/languages', methods=["GET"])
     def languages_get():
         status_code = 200
@@ -159,8 +166,8 @@ def create_app(test=False):
             data["status"] = f"error: {e}"
             data["status_code"] = status_code
 
-        return jsonify(data), status_code    
-    
+        return jsonify(data), status_code
+
     @app.route('/api/rating', methods=["POST"])
     def rating_post():
         status_code = 201
@@ -172,7 +179,7 @@ def create_app(test=False):
             phraseid = data["phraseid"]
             userid = data["userid"]
             rating = data["rating"]
-            
+
             try:
                 db.session.add(Rating(phraseid=phraseid,
                                       userid=userid,
@@ -185,15 +192,21 @@ def create_app(test=False):
         except KeyError:
             status_code = 400
             response["status"] = "received unexpected data format"
-        
+
         return jsonify(response), status_code
-    
-    @app.route('/api/ratings', methods=["GET"])
+
+    @app.route('/api/rating', methods=["GET"])
     def ratings_get():
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
-            db_response = Rating.query.all()
+            phrase_id = request.args["phraseid"]
+        except KeyError as e:
+            status_code = 400
+            data["status"] = f"did not get expected arg: {e}"
+            return jsonify(data), status_code
+        try:
+            db_response = Rating.query.filter_by(phraseid=phrase_id).all()
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts
             data["status_code"] = status_code
@@ -202,14 +215,21 @@ def create_app(test=False):
             data["status"] = f"error: {e}"
             data["status_code"] = status_code
 
-        return jsonify(data), status_code  
-    
+        return jsonify(data), status_code
+
     @app.route('/api/phraseselection', methods=["GET"])
     def phraseselection_get():
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
-            db_response = PhraseSelection.query.all()
+            user_id = request.args["userid"]
+        except KeyError as e:
+            status_code = 400
+            data["status"] = f"did not get expected arg: {e}"
+            return jsonify(data), status_code
+
+        try:
+            db_response = PhraseSelection.query.filter_by(userid=user_id).all()
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts
             data["status_code"] = status_code
@@ -218,8 +238,8 @@ def create_app(test=False):
             data["status"] = f"error: {e}"
             data["status_code"] = status_code
 
-        return jsonify(data), status_code  
-    
+        return jsonify(data), status_code
+
     @app.route('/api/phraseselection', methods=["POST"])
     def phraseselection_post():
         status_code = 201
@@ -230,22 +250,20 @@ def create_app(test=False):
             data = request.json
             phraseid = data["phraseid"]
             userid = data["userid"]
-            
+
             try:
                 db.session.add(PhraseSelection(phraseid=phraseid,
-                                      userid=userid))
+                                               userid=userid))
                 db.session.commit()
             except Exception as e:
                 db.session.rollback()
                 status_code = 500
-                response["status"] = f"problem writing new phraseselection to database: {str(e)}"
+                response[
+                    "status"] = f"problem writing new phraseselection to database: {str(e)}"
         except KeyError:
             status_code = 400
             response["status"] = "received unexpected data format"
-        
+
         return jsonify(response), status_code
-    
 
-    
     return app
-
