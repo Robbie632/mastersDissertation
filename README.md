@@ -17,7 +17,7 @@ docker-compose up --build -d
 - `/api/rating`: Gets all ratings for a specific phrase.
 - `/api/phrase`: Get all phrases.
 - `/api/language`: Get all languages.
-- `/api/phraseselection`: Get all phrases associated with a user.
+- `/api/phraseselection`: Get all phrases associated with a user and language.
 
 **POST Endpoints:**
 

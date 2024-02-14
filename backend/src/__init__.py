@@ -223,13 +223,20 @@ def create_app(test=False):
         data = {"status": "success", "data": 0}
         try:
             user_id = request.args["userid"]
+            language_id = request.args["languageid"]
         except KeyError as e:
             status_code = 400
             data["status"] = f"did not get expected arg: {e}"
             return jsonify(data), status_code
 
         try:
-            db_response = PhraseSelection.query.filter_by(userid=user_id).all()
+            # db_response = PhraseSelection.query.filter_by(userid=user_id).all()
+            # TODO do join with Phrase table on phraseid then filter by languageid
+            # ie something like 
+            db_response = PhraseSelection.query.filter_by(userid=user_id)\
+              .join(Phrase, PhraseSelection.phraseid==Phrase.phraseid)\
+              .filter_by(languageid=language_id).all()
+            
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts
             data["status_code"] = status_code
