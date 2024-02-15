@@ -50,6 +50,8 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/user", json=mock_data_1, content_type='application/json')
         self.assertEqual(response.status_code, 201)
+        self.assertIsNotNone(response.json.get("id"))
+        self.assertIsNotNone(response.json.get("id"))
 
     def test_user_post_400(self):
         """
@@ -66,11 +68,10 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test DELETE for user, should delete relevant phraseselection data and user data
         """
+        mock_data_user = {"userid": 1}
 
-        mock_data_user = {"userid": "testuserid"}
-
-        mock_data_phrase = [{"languageid": 2,
-                             "userid": 1,
+        mock_phrases = [{"languageid": 2,
+                             "userid": mock_data_user["userid"],
                              "l1": "l1 phrase 1",
                              "l2": "l2 phrase 1",
                              "category": "cafe"},
@@ -80,15 +81,35 @@ class TestGetEndpoints(unittest.TestCase):
                              "l2": "l2 phrase 2",
                              "category": "cafe"}]
 
-        mock_data_phraseselections = [{"userid": 1, "phraseid": 1},
-                                      {"userid": 1, "phraseid": 2},
+        mock_phraseselections = [{"userid": mock_data_user["userid"], "phraseid": 1},
+                                      {"userid": mock_data_user["userid"], "phraseid": 2},
                                       {"userid": 2, "phraseid": 2},]
+        with self.app.app_context():
+            for phrase in mock_phrases:         
+                db.session.add(Phrase(languageid=phrase["languageid"],
+                                      userid=phrase["userid"],
+                                      l1=phrase["l1"],
+                                      l2=phrase["l2"],
+                                      category=phrase["category"]))
+                db.session.commit()
+            for phraseselection in mock_phraseselections:
+                db.session.add(PhraseSelection(userid=phraseselection["userid"],
+                                phraseid=phraseselection["phraseid"]))
+                db.session.commit()
 
         response = self.test_client.delete(
             "/api/user", json=mock_data_user, content_type='application/json')
         self.assertEqual(response.status_code, 200)
-        raise Exception("not finished implementing test nor endpoint")
 
+        with self.app.app_context():
+            observed_phraseselections = PhraseSelection.query.all()
+            observed_phrases = Phrase.query.all()
+        for observed_phraseselection in observed_phraseselections:
+            self.assertEqual(2, int(observed_phraseselection.userid))
+            
+        # TODO check no phraseselection exist with userid = 1 but still exists for userid=2
+        # TODO check phrases associated with user1 still exist
+        
     def test_phrases_get(self):
         """
         test GET for phrases
@@ -159,6 +180,7 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/language", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 201)
+        self.assertIsNotNone(response.json.get("id"))
         with self.app.app_context():
             observed = Language.query.all()
         self.assertEqual(1, len(observed))
@@ -183,6 +205,7 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/phrase", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 201)
+        self.assertIsNotNone(response.json.get("id"))
         with self.app.app_context():
             observed = Phrase.query.all()
         self.assertEqual(1, len(observed))
@@ -244,6 +267,7 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/rating", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 201)
+        self.assertIsNotNone(response.json.get("id"))
         with self.app.app_context():
             observed = Rating.query.all()
         self.assertEqual(1, len(observed))
@@ -331,6 +355,7 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/phraseselection", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 201)
+        self.assertIsNotNone(response.json.get("id"))
         with self.app.app_context():
             observed = PhraseSelection.query.all()
         self.assertEqual(1, len(observed))

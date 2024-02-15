@@ -45,7 +45,8 @@ def create_app(test=False):
                 return {'message': 'No token provided'}, 400
             try:
                 if not test:
-                  user = auth.verify_id_token(request.headers['authorization'])
+                    user = auth.verify_id_token(
+                        request.headers['authorization'])
                 else:
                     user = "testuser"
                 request.user = user
@@ -71,42 +72,52 @@ def create_app(test=False):
             return jsonify(response), status_code
         try:
             if not test:
-              user = auth.create_user(
-                  email=email,
-                  password=password
-              )
-              uid = user.uid
+                user = auth.create_user(
+                    email=email,
+                    password=password
+                )
+                uid = user.uid
             else:
                 uid = "testuserid"
             response["id"] = uid
             response["status"] = "successfully created user"
             status_code = 201
             return jsonify(response), status_code
-            
+
         except:
             status_code = 500
-            response["message"] = "Error creating user" 
+            response["message"] = "Error creating user"
             return jsonify(response), status_code
-        
+
     @app.route('/api/user', methods=["DELETE"])
     def user_delete():
-        data=request.json
+        response = {"status":""}
+        status_code = 200
+        data = request.json
         userid = data.get('userid')
 
         if userid is None:
-            return {'message': 'Error missing email or password'}, 400
+            status_code = 400
+            response["status"] = 'Error missing email or password'
+            return jsonify(response), status_code
         try:
             if not test:
-              auth.delete_user(
-                  uid=userid)
+                auth.delete_user(
+                    uid=userid)
             else:
                 pass
-            return {'message': f'Successfully deleted user {userid}'}, 200
-        except:
-            return {'message': 'Error deleting user'}, 500
-    
+            PhraseSelection.query.filter_by(userid=userid).delete()
+            db.session.commit()
+            
+            response['status'] = f'Successfully deleted user {userid}'
+            
+            return jsonify(response), status_code
+        except Exception as e:
+            response["status"] = f'Error deleting user: {e}' 
+            return jsonify(response), 500
 
     # Api route to get a new token for a valid user
+
     @app.route('/api/token', methods=["POST"])
     def token():
         status_code = 200
@@ -123,19 +134,19 @@ def create_app(test=False):
             return jsonify(response), status_code
         try:
             if not test:
-              user = pb.auth().sign_in_with_email_and_password(email, password)
-              jwt = user['idToken']
+                user = pb.auth().sign_in_with_email_and_password(email, password)
+                jwt = user['idToken']
             else:
                 jwt = "testtoken"
-            
-            response['token']= jwt
+
+            response['token'] = jwt
             response["status"] = "successfully retieved JWT"
             status_code = 200
             return jsonify(response), status_code
         except:
             response["status"] = "could not retrieve jwt"
             status_code = 400
-            
+
             return jsonify(response), status_code
 
     @app.route('/api/phrase', methods=["POST"])
@@ -154,7 +165,7 @@ def create_app(test=False):
             category = data["category"]
             try:
                 phrase = Phrase(languageid=languageid,
-                               userid=userid, l1=l1, l2=l2, category=category)
+                                userid=userid, l1=l1, l2=l2, category=category)
                 db.session.add(phrase)
                 db.session.commit()
                 response["id"] = phrase.phraseid
@@ -173,7 +184,7 @@ def create_app(test=False):
         status_code = 201
         response = {
             "status": "",
-            "id":""
+            "id": ""
         }
         try:
             data = request.json
@@ -241,8 +252,8 @@ def create_app(test=False):
 
             try:
                 rating = Rating(phraseid=phraseid,
-                                      userid=userid,
-                                      rating=rating)
+                                userid=userid,
+                                rating=rating)
                 db.session.add(rating)
                 db.session.commit()
                 response["id"] = rating.ratingid
@@ -291,13 +302,10 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            # db_response = PhraseSelection.query.filter_by(userid=user_id).all()
-            # TODO do join with Phrase table on phraseid then filter by languageid
-            # ie something like 
             db_response = PhraseSelection.query.filter_by(userid=user_id)\
-              .join(Phrase, PhraseSelection.phraseid==Phrase.phraseid)\
-              .filter_by(languageid=language_id).all()
-            
+                .join(Phrase, PhraseSelection.phraseid == Phrase.phraseid)\
+                .filter_by(languageid=language_id).all()
+
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts
             data["status_code"] = status_code
@@ -322,7 +330,7 @@ def create_app(test=False):
 
             try:
                 phraseselection = PhraseSelection(phraseid=phraseid,
-                                               userid=userid)
+                                                  userid=userid)
                 db.session.add(phraseselection)
                 db.session.commit()
                 response["id"] = phraseselection.phraseselectionid
