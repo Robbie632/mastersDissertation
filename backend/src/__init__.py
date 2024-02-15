@@ -54,27 +54,73 @@ def create_app(test=False):
             return f(*args, **kwargs)
         return wrap
 
-    # @app.route('/signup')
-    # def signup():
-    #     email = request.form.get('email')
-    #     password = request.form.get('password')
-    #     if email is None or password is None:
-    #         return {'message': 'Error missing email or password'}, 400
-    #     try:
-    #         user = auth.create_user(
-    #             email=email,
-    #             password=password
-    #         )
-    #         return {'message': f'Successfully created user {user.uid}'}, 200
-    #     except:
-    #         return {'message': 'Error creating user'}, 400
-
-    # Api route to get a new token for a valid user
-    @app.route('/token', methods=["POST"])
-    def token():
+    @app.route('/api/user', methods=["POST"])
+    def user_post():
+        status_code = 201
+        response = {
+            "status": "",
+            "id": ""
+        }
         data = request.json
         email = data.get('email')
         password = data.get('password')
+
+        if email is None or password is None:
+            status_code = 400
+            response["status"] = "Error missing email or password"
+            return jsonify(response), status_code
+        try:
+            if not test:
+              user = auth.create_user(
+                  email=email,
+                  password=password
+              )
+              uid = user.uid
+            else:
+                uid = "testuserid"
+            response["id"] = uid
+            response["status"] = "successfully created user"
+            status_code = 201
+            return jsonify(response), status_code
+            
+        except:
+            status_code = 500
+            response["message"] = "Error creating user" 
+            return jsonify(response), status_code
+        
+    @app.route('/api/user', methods=["DELETE"])
+    def user_delete():
+        data=request.json
+        userid = data.get('userid')
+
+        if userid is None:
+            return {'message': 'Error missing email or password'}, 400
+        try:
+            if not test:
+              auth.delete_user(
+                  uid=userid)
+            else:
+                pass
+            return {'message': f'Successfully deleted user {userid}'}, 200
+        except:
+            return {'message': 'Error deleting user'}, 500
+    
+
+    # Api route to get a new token for a valid user
+    @app.route('/api/token', methods=["POST"])
+    def token():
+        status_code = 200
+        response = {
+            "status": "",
+            "token": ""
+        }
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
+        if email is None or password is None:
+            status_code = 400
+            response["status"] = "password and or email missing"
+            return jsonify(response), status_code
         try:
             if not test:
               user = pb.auth().sign_in_with_email_and_password(email, password)
@@ -82,15 +128,22 @@ def create_app(test=False):
             else:
                 jwt = "testtoken"
             
-            return {'token': jwt}, 200
+            response['token']= jwt
+            response["status"] = "successfully retieved JWT"
+            status_code = 200
+            return jsonify(response), status_code
         except:
-            return {'message': 'There was an error logging in'}, 400
+            response["status"] = "could not retrieve jwt"
+            status_code = 400
+            
+            return jsonify(response), status_code
 
     @app.route('/api/phrase', methods=["POST"])
     def phrase_post():
         status_code = 201
         response = {
-            "status": ""
+            "status": "",
+            "id": ""
         }
         try:
             data = request.json
@@ -100,9 +153,11 @@ def create_app(test=False):
             l2 = data["l2"]
             category = data["category"]
             try:
-                db.session.add(Phrase(languageid=languageid,
-                               userid=userid, l1=l1, l2=l2, category=category))
+                phrase = Phrase(languageid=languageid,
+                               userid=userid, l1=l1, l2=l2, category=category)
+                db.session.add(phrase)
                 db.session.commit()
+                response["id"] = phrase.phraseid
             except Exception as e:
                 db.session.rollback()
                 status_code = 500
@@ -117,15 +172,18 @@ def create_app(test=False):
     def language_post():
         status_code = 201
         response = {
-            "status": ""
+            "status": "",
+            "id":""
         }
         try:
             data = request.json
             name = data["name"]
             name = name.lower()
             try:
-                db.session.add(Language(name=name))
+                language = Language(name=name)
+                db.session.add(language)
                 db.session.commit()
+                response["id"] = language.languageid
             except Exception as e:
                 db.session.rollback()
                 status_code = 500
@@ -172,7 +230,8 @@ def create_app(test=False):
     def rating_post():
         status_code = 201
         response = {
-            "status": ""
+            "status": "",
+            "id": ""
         }
         try:
             data = request.json
@@ -181,10 +240,12 @@ def create_app(test=False):
             rating = data["rating"]
 
             try:
-                db.session.add(Rating(phraseid=phraseid,
+                rating = Rating(phraseid=phraseid,
                                       userid=userid,
-                                      rating=rating))
+                                      rating=rating)
+                db.session.add(rating)
                 db.session.commit()
+                response["id"] = rating.ratingid
             except Exception as e:
                 db.session.rollback()
                 status_code = 500
@@ -251,7 +312,8 @@ def create_app(test=False):
     def phraseselection_post():
         status_code = 201
         response = {
-            "status": ""
+            "status": "",
+            "id": ""
         }
         try:
             data = request.json
@@ -259,9 +321,11 @@ def create_app(test=False):
             userid = data["userid"]
 
             try:
-                db.session.add(PhraseSelection(phraseid=phraseid,
-                                               userid=userid))
+                phraseselection = PhraseSelection(phraseid=phraseid,
+                                               userid=userid)
+                db.session.add(phraseselection)
                 db.session.commit()
+                response["id"] = phraseselection.phraseselectionid
             except Exception as e:
                 db.session.rollback()
                 status_code = 500

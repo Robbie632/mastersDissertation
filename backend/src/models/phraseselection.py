@@ -10,7 +10,7 @@ class PhraseSelection(db.Model):
     """
     __tablename__ = 'phraseselections'
 
-    phraseselectionid = db.Column(db.Integer, primary_key=True, unique=True) 
+    phraseselectionid = db.Column(db.Integer, primary_key=True, unique=True)
     phraseid = db.Column(db.Integer, nullable=False)
     userid = db.Column(db.Integer, nullable=False)
 

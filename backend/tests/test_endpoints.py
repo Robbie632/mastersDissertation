@@ -28,7 +28,7 @@ class TestGetEndpoints(unittest.TestCase):
             "ACCOUNT_EMAIL"), "password": os.environ.get("ACCOUNT_PASSWORD")}
 
         response = cls.test_client.post(
-            "/token", json=test_credentials, content_type='application/json')
+            "/api/token", json=test_credentials, content_type='application/json')
         cls.jwt = response.json["token"]
 
     def setUp(self):
@@ -39,6 +39,55 @@ class TestGetEndpoints(unittest.TestCase):
             db.drop_all()
             db.create_all()
         self.test_client = self.app.test_client()
+
+    def test_user_post(self):
+        """
+        test POST for user, i.e signing up
+        """
+        mock_data_1 = {"email": "testemail@hotmail.co.uk",
+                       "password": "testpassword123!"}
+
+        response = self.test_client.post(
+            "/api/user", json=mock_data_1, content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+
+    def test_user_post_400(self):
+        """
+        test POST for user return 400, i.e signing up
+        """
+        mock_data_1 = {"badkey": "testemail@hotmail.co.uk",
+                       "password": "testpassword123!"}
+
+        response = self.test_client.post(
+            "/api/user", json=mock_data_1, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_user_delete(self):
+        """
+        test DELETE for user, should delete relevant phraseselection data and user data
+        """
+
+        mock_data_user = {"userid": "testuserid"}
+
+        mock_data_phrase = [{"languageid": 2,
+                             "userid": 1,
+                             "l1": "l1 phrase 1",
+                             "l2": "l2 phrase 1",
+                             "category": "cafe"},
+                            {"languageid": 2,
+                             "userid": 2,
+                             "l1": "l1 phrase 2",
+                             "l2": "l2 phrase 2",
+                             "category": "cafe"}]
+
+        mock_data_phraseselections = [{"userid": 1, "phraseid": 1},
+                                      {"userid": 1, "phraseid": 2},
+                                      {"userid": 2, "phraseid": 2},]
+
+        response = self.test_client.delete(
+            "/api/user", json=mock_data_user, content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        raise Exception("not finished implementing test nor endpoint")
 
     def test_phrases_get(self):
         """
@@ -186,7 +235,6 @@ class TestGetEndpoints(unittest.TestCase):
         self.assertEqual(mock_data_1["userid"], int(observed_data["userid"]))
         self.assertEqual(mock_data_1["rating"], int(observed_data["rating"]))
 
-
     def test_rating_post(self):
         """
         test post rating for specific phraseid
@@ -218,19 +266,17 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test get phraseselection for specific phraseid
         """
-        
+
         mock_phraseselection_data_1 = {"userid": 1, "phraseid": 1}
         mock_phraseselection_data_2 = {"userid": 2, "phraseid": 2}
 
-
         mock_phrase_data_1 = {"languageid": 1, "userid": 1,
-                     "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
+                              "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
         mock_phrase_data_2 = {"languageid": 2, "userid": 1,
-                     "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
-        
+                              "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
+
         mock_language_data_1 = {"name": "Swedish"}
         mock_language_data_2 = {"name": "Spanish"}
-      
 
         with self.app.app_context():
             db.session.add(PhraseSelection(userid=mock_phraseselection_data_1["userid"],
@@ -264,7 +310,8 @@ class TestGetEndpoints(unittest.TestCase):
         observed_data = observed_data[0]
         self.assertEqual(mock_phraseselection_data_1["phraseid"],
                          int(observed_data["phraseid"]))
-        self.assertEqual(mock_phraseselection_data_1["userid"], int(observed_data["userid"]))
+        self.assertEqual(mock_phraseselection_data_1["userid"], int(
+            observed_data["userid"]))
 
     def test_phraseselection_get_400(self):
         """
