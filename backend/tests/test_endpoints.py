@@ -71,21 +71,22 @@ class TestGetEndpoints(unittest.TestCase):
         mock_data_user = {"userid": 1}
 
         mock_phrases = [{"languageid": 2,
-                             "userid": mock_data_user["userid"],
-                             "l1": "l1 phrase 1",
-                             "l2": "l2 phrase 1",
-                             "category": "cafe"},
-                            {"languageid": 2,
-                             "userid": 2,
-                             "l1": "l1 phrase 2",
-                             "l2": "l2 phrase 2",
-                             "category": "cafe"}]
+                         "userid": mock_data_user["userid"],
+                         "l1": "l1 phrase 1",
+                         "l2": "l2 phrase 1",
+                         "category": "cafe"},
+                        {"languageid": 2,
+                         "userid": 2,
+                         "l1": "l1 phrase 2",
+                         "l2": "l2 phrase 2",
+                         "category": "cafe"}]
 
         mock_phraseselections = [{"userid": mock_data_user["userid"], "phraseid": 1},
-                                      {"userid": mock_data_user["userid"], "phraseid": 2},
-                                      {"userid": 2, "phraseid": 2},]
+                                 {"userid": mock_data_user["userid"],
+                                     "phraseid": 2},
+                                 {"userid": 2, "phraseid": 2},]
         with self.app.app_context():
-            for phrase in mock_phrases:         
+            for phrase in mock_phrases:
                 db.session.add(Phrase(languageid=phrase["languageid"],
                                       userid=phrase["userid"],
                                       l1=phrase["l1"],
@@ -94,7 +95,7 @@ class TestGetEndpoints(unittest.TestCase):
                 db.session.commit()
             for phraseselection in mock_phraseselections:
                 db.session.add(PhraseSelection(userid=phraseselection["userid"],
-                                phraseid=phraseselection["phraseid"]))
+                                               phraseid=phraseselection["phraseid"]))
                 db.session.commit()
 
         response = self.test_client.delete(
@@ -106,50 +107,15 @@ class TestGetEndpoints(unittest.TestCase):
             observed_phrases = Phrase.query.all()
         for observed_phraseselection in observed_phraseselections:
             self.assertEqual(2, int(observed_phraseselection.userid))
-            
-        # TODO check no phraseselection exist with userid = 1 but still exists for userid=2
-        # TODO check phrases associated with user1 still exist
-        
-    def test_phrases_get(self):
-        """
-        test GET for phrases
-        """
-        mock_data_1 = {"languageid": 1, "userid": 1,
-                       "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
-        mock_data_2 = {"languageid": 2, "userid": 1,
-                       "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
-        with self.app.app_context():
-            db.session.add(Phrase(languageid=mock_data_1["languageid"],
-                                  userid=mock_data_1["userid"],
-                                  l1=mock_data_1["l1"],
-                                  l2=mock_data_1["l2"],
-                                  category=mock_data_1["category"]))
-            db.session.commit()
-            db.session.add(Phrase(languageid=mock_data_2["languageid"],
-                                  userid=mock_data_2["userid"],
-                                  l1=mock_data_2["l1"],
-                                  l2=mock_data_2["l2"],
-                                  category=mock_data_2["category"]))
-            db.session.commit()
+        self.assertEqual(len(observed_phrases), 2)
 
-        response = self.test_client.get(
-            "/api/phrases", headers={"authorization": self.jwt})
-        self.assertEqual(response.status_code, 200)
-        observed_data = response.json["data"]
-        self.assertEqual(2, len(observed_data))
-        observed_data_1 = [
-            c for c in observed_data if c["languageid"] == mock_data_1["languageid"]]
-        observed_data_2 = [
-            c for c in observed_data if c["languageid"] == mock_data_2["languageid"]]
-
-        for (observed, expected, test_name) in [(observed_data_1, mock_data_1, "mock_data_1"), (observed_data_2, mock_data_2, "mock_data_2")]:
-            with self.subTest(test_name):
-                self.assertEqual(
-                    observed[0]["languageid"], expected["languageid"])
-                self.assertEqual(observed[0]["userid"], expected["userid"])
-                self.assertEqual(observed[0]["l1"], expected["l1"])
-                self.assertEqual(observed[0]["l2"], expected["l2"])
-                self.assertEqual(observed[0]["category"], expected["category"])
+    def test_user_delete_400(self):
+        """
+        test delete for user where 400 returned
+        """
+        response = self.test_client.delete(
+            "/api/user", json={"badkey": 1}, content_type='application/json')
+        self.assertEqual(response.status_code, 400)
 
     def test_languages_get(self):
         """
@@ -195,6 +161,47 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/language", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
+
+    def test_phrases_get(self):
+        """
+        test GET for phrases
+        """
+        mock_data_1 = {"languageid": 1, "userid": 1,
+                       "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
+        mock_data_2 = {"languageid": 2, "userid": 1,
+                       "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
+        with self.app.app_context():
+            db.session.add(Phrase(languageid=mock_data_1["languageid"],
+                                  userid=mock_data_1["userid"],
+                                  l1=mock_data_1["l1"],
+                                  l2=mock_data_1["l2"],
+                                  category=mock_data_1["category"]))
+            db.session.commit()
+            db.session.add(Phrase(languageid=mock_data_2["languageid"],
+                                  userid=mock_data_2["userid"],
+                                  l1=mock_data_2["l1"],
+                                  l2=mock_data_2["l2"],
+                                  category=mock_data_2["category"]))
+            db.session.commit()
+
+        response = self.test_client.get(
+            "/api/phrases", headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 200)
+        observed_data = response.json["data"]
+        self.assertEqual(2, len(observed_data))
+        observed_data_1 = [
+            c for c in observed_data if c["languageid"] == mock_data_1["languageid"]]
+        observed_data_2 = [
+            c for c in observed_data if c["languageid"] == mock_data_2["languageid"]]
+
+        for (observed, expected, test_name) in [(observed_data_1, mock_data_1, "mock_data_1"), (observed_data_2, mock_data_2, "mock_data_2")]:
+            with self.subTest(test_name):
+                self.assertEqual(
+                    observed[0]["languageid"], expected["languageid"])
+                self.assertEqual(observed[0]["userid"], expected["userid"])
+                self.assertEqual(observed[0]["l1"], expected["l1"])
+                self.assertEqual(observed[0]["l2"], expected["l2"])
+                self.assertEqual(observed[0]["category"], expected["category"])
 
     def test_phrase_post(self):
         """
@@ -372,6 +379,35 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.post(
             "/api/phraseselection", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
+
+    def test_phraseselection_delete(self):
+        """
+        Test deletion of phraseselection
+        """
+        mock_phraseselection_data = [{"userid": 1, "phraseid": 1},
+                                     {"userid": 1, "phraseid": 3},
+                                     {"userid": 2, "phraseid": 2},
+                                     {"userid": 2, "phraseid": 4}]
+
+        with self.app.app_context():
+            phrase_selection_ids = []
+            for phraseselection in mock_phraseselection_data:
+                phrase_selection_object = PhraseSelection(userid=phraseselection["userid"],
+                                                        phraseid=phraseselection["phraseid"])
+                db.session.add(phrase_selection_object)
+                db.session.commit()
+                phrase_selection_ids.append(phrase_selection_object.phraseselectionid)
+        id_for_deletion = phrase_selection_ids.pop()
+        response = self.test_client.delete("/api/phraseselection",
+                                           json={"phraseselectionid": id_for_deletion},
+                                           content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        with self.app.app_context():
+            response = PhraseSelection.query.all()
+        self.assertEqual(len(response), len(mock_phraseselection_data)-1)
+        phraseselectionids = [r.toDict()["phraseselectionid"] for r in response]
+        self.assertTrue(id_for_deletion not in phraseselectionids)
+
 
 
 if __name__ == '__main__':

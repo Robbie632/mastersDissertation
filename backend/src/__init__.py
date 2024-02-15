@@ -98,7 +98,7 @@ def create_app(test=False):
 
         if userid is None:
             status_code = 400
-            response["status"] = 'Error missing email or password'
+            response["status"] = 'Error missing userid'
             return jsonify(response), status_code
         try:
             if not test:
@@ -113,10 +113,8 @@ def create_app(test=False):
             
             return jsonify(response), status_code
         except Exception as e:
-            response["status"] = f'Error deleting user: {e}' 
+            response["status"] = f'Error deleting user: {e}'
             return jsonify(response), 500
-
-    # Api route to get a new token for a valid user
 
     @app.route('/api/token', methods=["POST"])
     def token():
@@ -344,5 +342,28 @@ def create_app(test=False):
             response["status"] = "received unexpected data format"
 
         return jsonify(response), status_code
+    
+    @app.route('/api/phraseselection', methods=["DELETE"])
+    def phraseselection_delete():
+        response = {"status":""}
+        status_code = 200
+        data = request.json
+        phraseselectionid = data.get('phraseselectionid')
+
+        if phraseselectionid is None:
+            status_code = 400
+            response["status"] = 'Error missing phraseselectionid'
+            return jsonify(response), status_code
+        try:
+
+            PhraseSelection.query.filter_by(phraseselectionid=phraseselectionid).delete()
+            db.session.commit()
+            response['status'] = f'Successfully deleted phraselection {phraseselectionid}'
+            
+            return jsonify(response), status_code
+        except Exception as e:
+            response["status"] = f'Error deleting phraseselection: {e}'
+            return jsonify(response), 500
+
 
     return app
