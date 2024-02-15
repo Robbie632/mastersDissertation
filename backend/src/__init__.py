@@ -146,6 +146,22 @@ def create_app(test=False):
             status_code = 400
 
             return jsonify(response), status_code
+        
+    @app.route('/api/phrases', methods=["GET"])
+    def phrases_get():
+        status_code = 200
+        data = {"status": "success", "data": 0}
+        try:
+            db_response = Phrase.query.all()
+            dicts = [c.toDict() for c in db_response]
+            data["data"] = dicts
+            data["status_code"] = status_code
+        except Exception as e:
+            status_code = 400
+            data["status"] = f"error: {e}"
+            data["status_code"] = status_code
+
+        return jsonify(data), status_code
 
     @app.route('/api/phrase', methods=["POST"])
     def phrase_post():
@@ -171,6 +187,35 @@ def create_app(test=False):
                 db.session.rollback()
                 status_code = 500
                 response["status"] = f"problem writing new phrase to database: {str(e)}"
+        except KeyError:
+            status_code = 400
+            response["status"] = "received unexpected data format"
+
+        return jsonify(response), status_code
+    
+    @app.route('/api/phrase', methods=["PATCH"])
+    def phrase_patch():
+        status_code = 200
+        response = {
+            "status": "",
+            "id": ""
+        }
+        try:
+            data = request.json
+            phraseid = data["phraseid"]
+            l1 = data["l1"]
+            l2 = data["l2"]
+
+            try:
+                phrase = Phrase.query.filter_by(phraseid=phraseid).first()
+                phrase.l1 = l1
+                phrase.l2 = l2
+                db.session.commit()
+                response["id"] = phrase.phraseid
+            except Exception as e:
+                db.session.rollback()
+                status_code = 500
+                response["status"] = f"problem updating phrase: {str(e)}"
         except KeyError:
             status_code = 400
             response["status"] = "received unexpected data format"
@@ -202,22 +247,6 @@ def create_app(test=False):
             response["status"] = "received unexpected data format"
 
         return jsonify(response), status_code
-
-    @app.route('/api/phrases', methods=["GET"])
-    def phrases_get():
-        status_code = 200
-        data = {"status": "success", "data": 0}
-        try:
-            db_response = Phrase.query.all()
-            dicts = [c.toDict() for c in db_response]
-            data["data"] = dicts
-            data["status_code"] = status_code
-        except Exception as e:
-            status_code = 400
-            data["status"] = f"error: {e}"
-            data["status_code"] = status_code
-
-        return jsonify(data), status_code
 
     @app.route('/api/languages', methods=["GET"])
     def languages_get():

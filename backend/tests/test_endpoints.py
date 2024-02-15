@@ -224,6 +224,37 @@ class TestGetEndpoints(unittest.TestCase):
         self.assertEqual(mock_data["l2"], first_observed.l2)
         self.assertEqual(mock_data["category"], first_observed.category)
 
+    def test_phrase_update(self):
+        """
+        test update of phrase
+        """
+        mock_data = {"languageid": 1, "userid": 1,
+                     "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
+        new_l1 = "new l1 phrase"
+        new_l2 = "new l2 phrase"
+
+        with self.app.app_context():
+            phrase = Phrase(languageid=mock_data["languageid"],
+                            userid=mock_data["userid"],
+                            l1=mock_data["l1"],
+                            l2=mock_data["l2"],
+                            category=mock_data["category"])
+            db.session.add(phrase)
+            db.session.commit()
+            phraseid = phrase.phraseid
+        response = self.test_client.patch("/api/phrase", json={"phraseid": phraseid,
+                                                                "l1": new_l1,
+                                                                "l2": new_l2},
+                                           content_type='application/json',
+                                           headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 200)
+        with self.app.app_context():
+            updated_phrase = Phrase.query.filter_by(phraseid=phraseid).all()
+        
+        self.assertEqual(len(updated_phrase), 1)
+        self.assertEqual(updated_phrase[0].l1, new_l1)
+        self.assertEqual(updated_phrase[0].l2, new_l2)
+
     def test_phrase_post_400(self):
         """
         test post where write phrase data and get 400 status code back
@@ -393,21 +424,23 @@ class TestGetEndpoints(unittest.TestCase):
             phrase_selection_ids = []
             for phraseselection in mock_phraseselection_data:
                 phrase_selection_object = PhraseSelection(userid=phraseselection["userid"],
-                                                        phraseid=phraseselection["phraseid"])
+                                                          phraseid=phraseselection["phraseid"])
                 db.session.add(phrase_selection_object)
                 db.session.commit()
-                phrase_selection_ids.append(phrase_selection_object.phraseselectionid)
+                phrase_selection_ids.append(
+                    phrase_selection_object.phraseselectionid)
         id_for_deletion = phrase_selection_ids.pop()
         response = self.test_client.delete("/api/phraseselection",
-                                           json={"phraseselectionid": id_for_deletion},
+                                           json={
+                                               "phraseselectionid": id_for_deletion},
                                            content_type='application/json')
         self.assertEqual(response.status_code, 200)
         with self.app.app_context():
             response = PhraseSelection.query.all()
         self.assertEqual(len(response), len(mock_phraseselection_data)-1)
-        phraseselectionids = [r.toDict()["phraseselectionid"] for r in response]
+        phraseselectionids = [r.toDict()["phraseselectionid"]
+                              for r in response]
         self.assertTrue(id_for_deletion not in phraseselectionids)
-
 
 
 if __name__ == '__main__':
