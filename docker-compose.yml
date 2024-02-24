@@ -27,4 +27,11 @@ services:
       POSTGRES_USER: languageapptest
       POSTGRES_PASSWORD: passwordtest
       POSTGRES_DB: languageapptest
+  languageapp-frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./frontend/src:/app/src"
 
