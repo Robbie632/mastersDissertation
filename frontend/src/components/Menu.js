@@ -1,12 +1,11 @@
 import "../styles/menu.css";
 
-export default function Menu() {
+export default function Menu({ setMenuSelection}) {
   return (
     <header className="App-header">
-      <div>Home</div>
-      <div>Learn</div>
-      <div>Browse</div>
-      <div>Account</div>
+      <div onClick={() => setMenuSelection("learn") } >Learn</div>
+      <div onClick={() => setMenuSelection("browse") }>Browse</div>
+      <div onClick={() => setMenuSelection("account") }>Account</div>
       <div>flag</div>
     </header>
   );
