@@ -1,4 +1,10 @@
-.content {
+.learn-content {
   height:400px;
   color: white;
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+  border-radius: 5px;
+  justify-content: flex-start;
+  align-items: center;
 }
