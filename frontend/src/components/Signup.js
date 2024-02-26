@@ -1,7 +1,7 @@
-import "../styles/account.css";
+import "../styles/signup.css";
 import { useState } from "react";
 
-export default function Account() {
+export default function SignUp({ setSignedUp}) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,12 +18,14 @@ export default function Account() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can perform any validation or submit the form data as needed
+    setSignedUp((prev)=> true)
     alert(`Form data submitted: ${JSON.stringify(formData)}`);
+    
   };
 
   return (
     <div>
-      <div className="account-content">Account</div>
+      <div className="account-content">Sign up</div>
       <form onSubmit={handleSubmit}>
         <label>
           Email:
@@ -47,7 +49,7 @@ export default function Account() {
           />
         </label>
         <br />
-        <button type="submit">Submit</button>
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   );
