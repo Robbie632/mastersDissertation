@@ -1,5 +1,4 @@
-FROM node:hydrogen-slim
-
+FROM node
 
 WORKDIR /app
 

@@ -34,5 +34,4 @@ services:
       - "3000:3000"
     volumes:
       - "./frontend/src:/app/src"
-      - "/root/.npm/_logs/:/root/.npm/_logs/"
 
