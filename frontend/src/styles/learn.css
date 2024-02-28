@@ -1,4 +1,4 @@
-.learn-content {
+#category-tiles {
   height:400px;
   color: white;
   display: flex;
@@ -7,4 +7,13 @@
   border-radius: 5px;
   justify-content: flex-start;
   align-items: center;
+}
+#create-category {
+  width:20%;
+  height:100px;
+  background-color: bisque;
+  align-items: center;
+}
+#category-container-1 {
+  width:100%;
 }
