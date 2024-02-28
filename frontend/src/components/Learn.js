@@ -13,23 +13,30 @@ export default function Learn() {
     "introductions",
     "museums",
   ];
-  if (edit === "") {
-  }
+
+  const createCategoryElement = (
+    <div id="create-category">"create category ..."</div>
+  );
+
+  const categoryElements = (
+    <div id="category-tiles">
+      {categories.map((v) => (
+        <Category name={v} setEdit={setEdit} setLesson={setLesson}></Category>
+      ))}
+    </div>
+  );
+
+  const editCategoryElement = (
+    <div>
+      <EditCategory name={edit}></EditCategory>
+    </div>
+  );
 
   return (
     <div id="category-container-1">
-      {edit === "" && <div id="create-category">"create category ..."</div>}
-      <div id="category-tiles">
-        {edit === "" &&
-          categories.map((v) => (
-            <Category
-              name={v}
-              setEdit={setEdit}
-              setLesson={setLesson}
-            ></Category>
-          ))}
-      </div>
-      <div>{edit !== "" && <EditCategory name={edit}></EditCategory>}</div>
+      {edit === "" && createCategoryElement}
+      {edit === "" && categoryElements}
+      {edit !== "" && editCategoryElement}
     </div>
   );
 }

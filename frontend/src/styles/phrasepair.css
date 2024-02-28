@@ -1,0 +1,6 @@
+#phrase-pair-container-1 {
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+  width:200px
+}

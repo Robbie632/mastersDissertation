@@ -1,4 +1,5 @@
 import "../styles/editcategory.css";
+import PhrasePair from "./PhrasePair";
 
 export default function EditCategory({ name }) {
   const phrases = [
@@ -13,7 +14,7 @@ export default function EditCategory({ name }) {
               <div>{name}
         </div>
       <div id="edit-category-container-2">
-        {phrases.map(({ l1, l2 }) => <div>{l1} {l2}</div>) }
+        {phrases.map(({ l1, l2 }) => <PhrasePair l1={l1} l2={l2}></PhrasePair>) }
       </div>
     </div>
   );
