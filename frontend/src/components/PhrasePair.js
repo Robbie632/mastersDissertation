@@ -1,9 +1,10 @@
 import "../styles/phrasepair.css";
 import { MdEdit } from "react-icons/md";
 import { FaRegSave } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 
-export default function PhrasePair({ l1, l2 }) {
+export default function PhrasePair({ l1, l2, allowEdit=true }) {
   const [mode, setMode] = useState("view");
 
   const [formData, setFormData] = useState({
@@ -49,7 +50,7 @@ export default function PhrasePair({ l1, l2 }) {
     <div className="phrase-pair-container-1">
       {mode === "view" && l1ElementView}
       {mode === "view" && l2ElementView}
-      {mode === "view" && (
+      {mode === "view" && allowEdit && (
         <div id="edit-phrase-pair">
           <MdEdit onClick={() => setMode("edit")} />
         </div>

@@ -12,11 +12,12 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(true);
   const [signedUp, setSignedUp] = useState(false);
   const [userDetails, setUserDetails] = useState({});
+  const [language, setLanguage] = useState("Swedish")
 
   return (
     <div className="App">
       <div>
-        <Menu setMenuSelection={setMenuSelection}></Menu>
+        <Menu setMenuSelection={setMenuSelection} setlanguage={setLanguage} language={language}></Menu>
       </div>
       {menuSelection === "learn" && loggedIn && <Learn></Learn>}
       {menuSelection === "browse" && loggedIn && <Browse></Browse>}

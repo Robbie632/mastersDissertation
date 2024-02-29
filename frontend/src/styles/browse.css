@@ -1,4 +1,10 @@
-.content {
-  height:400px;
-  color: white;
+#browse-container-1 {
+  width: 100%;
+}
+
+#browse-container-2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
