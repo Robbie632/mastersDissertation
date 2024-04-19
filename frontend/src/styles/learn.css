@@ -10,7 +10,10 @@
 #create-category {
   width:20%;
   height:100px;
-  background-color: rebeccapurple;
+  margin-top:50px;
+  border-radius: 10px;
+  padding-top:20px;
+  cursor: pointer;
   align-items: center;
 }
 #category-container-1 {

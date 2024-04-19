@@ -15,7 +15,7 @@ function App() {
   const [language, setLanguage] = useState("Swedish")
 
   return (
-    <div className="App">
+    <div className="App Holiday-Cheer-5-hex">
       <div>
         <Menu setMenuSelection={setMenuSelection} setlanguage={setLanguage} language={language}></Menu>
       </div>

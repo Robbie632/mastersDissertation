@@ -1,4 +1,5 @@
 import "../styles/learn.css";
+import "../App.css";
 import Category from "./Category";
 import EditCategory from "./EditCategory";
 import { useState } from "react";
@@ -15,7 +16,7 @@ export default function Learn() {
   ];
 
   const createCategoryElement = (
-    <div id="create-category">"create category ..."</div>
+    <div id="create-category" class="Holiday-Cheer-3-hex heading-2">create category</div>
   );
 
   const categoryElements = (
@@ -33,7 +34,7 @@ export default function Learn() {
   );
 
   return (
-    <div id="category-container-1">
+    <div id="category-container-1" class="Holiday-Cheer-5-hex">
       {edit === "" && createCategoryElement}
       {edit === "" && categoryElements}
       {edit !== "" && editCategoryElement}

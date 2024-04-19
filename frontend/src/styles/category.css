@@ -1,8 +1,11 @@
 .category{
   height: 200px;
   width: 200px;
-  color: white;
-  background-color: brown;
+  border-radius: 10px;
+  padding-top:20px;
+}
+.category:hover{
+  border:2px solid black;
 }
 #category-container-1 {
   display: flex;
@@ -21,4 +24,10 @@
   width:100%;
   gap:10px;
   margin-bottom:10px;
+}
+.delete-icon:hover {
+  cursor:pointer;
+}
+.edit-icon:hover {
+  cursor:pointer;
 }
