@@ -1,4 +1,5 @@
 import "../styles/browse.css";
+import "../App.css";
 import PhrasePair from "./PhrasePair";
 import { useState } from "react";
 

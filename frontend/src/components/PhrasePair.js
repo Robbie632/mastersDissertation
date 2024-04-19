@@ -43,8 +43,8 @@ export default function PhrasePair({ l1, l2, allowEdit=true }) {
       onChange={handleChange}
     ></input>
   );
-  const l1ElementView = <div id="l1">{formData.l1}</div>;
-  const l2ElementView = <div id="l2">{formData.l2}</div>;
+  const l1ElementView = <div id="l1" className="Holiday-Cheer-3-hex heading-2">{formData.l1}</div>;
+  const l2ElementView = <div id="l2" className="Holiday-Cheer-3-hex heading-2">{formData.l2}</div>;
 
   return (
     <div className="phrase-pair-container-1">

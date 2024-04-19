@@ -1,9 +1,16 @@
 .phrase-pair-container-1 {
   display: flex;
   flex-direction: row;
-  gap:10px;
-  width:200px;
+  gap:100px;
+  width:700px;
   color:white;
   align-items: center;
+  justify-content: space-around;
 }
 
+#l1 {
+  padding:20px 80px;
+}
+#l2{
+  padding:20px 80px;
+}
