@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import SignUp from "./components/Signup";
 import React, { useState } from "react";
 
+
 function App() {
   const [menuSelection, setMenuSelection] = useState("learn");
   const [loggedIn, setLoggedIn] = useState(true);
@@ -21,8 +22,8 @@ function App() {
       </div>
       {menuSelection === "learn" && loggedIn && <Learn></Learn>}
       {menuSelection === "browse" && loggedIn && <Browse></Browse>}
-      {menuSelection === "login" && <Login></Login>}
-      {menuSelection === "signup" && <SignUp></SignUp>}
+      {menuSelection === "login" && <Login setloggedIn={setLoggedIn}></Login>}
+      {menuSelection === "signup" && <SignUp setSignedUp={ setSignedUp}></SignUp>}
     </div>
   );
 }

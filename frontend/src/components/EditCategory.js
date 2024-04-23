@@ -2,6 +2,7 @@ import "../styles/editcategory.css";
 import PhrasePair from "./PhrasePair";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
+import { IconContext } from "react-icons";
 
 export default function EditCategory({ name }) {
   const phrasePairs = [
@@ -13,18 +14,26 @@ export default function EditCategory({ name }) {
 
   const [phrases, setPhrases] = useState(phrasePairs);
 
-
   return (
     <div className="edit-category-container-1">
-      <div>{name}</div>
-      <div id="edit-category-container-2">
-        {phrases.map(({ l1, l2, phraseid }) => (
-          <div id="phrase-pair-container">
-            <PhrasePair l1={l1} l2={l2}></PhrasePair>
-            <FaRegTrashAlt id={phraseid}/>
-          </div>
-        ))}
-      </div>
+      <IconContext.Provider
+        value={{
+          size: 32,
+          color: "#024554",
+          className: "global-class-name",
+        }}
+      >
+        <div id="edit-category-container-2">
+          {phrases.map(({ l1, l2, phraseid }) => (
+            <div id="phrase-pair-container">
+              <PhrasePair l1={l1} l2={l2}></PhrasePair>
+              <div className="trash">
+                <FaRegTrashAlt id={phraseid} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </IconContext.Provider>
     </div>
   );
 }

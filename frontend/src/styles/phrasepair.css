@@ -14,3 +14,10 @@
 #l2{
   padding:20px 80px;
 }
+#save-phrase-pair:hover {
+  cursor: pointer;
+}
+
+#edit-phrase-pair:hover {
+  cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import "../styles/learn.css";
 import "../App.css";
 import Category from "./Category";
+import Lesson from "./Lesson";
 import EditCategory from "./EditCategory";
 import { useState } from "react";
 
@@ -32,12 +33,19 @@ export default function Learn() {
       <EditCategory name={edit}></EditCategory>
     </div>
   );
+  var body = <div></div>;
+  
+  if (lesson === "") {
+    body = <div id="category-container-1" class="Holiday-Cheer-5-hex">
+    {edit === "" && createCategoryElement}
+    {edit === "" && categoryElements}
+    {edit !== "" && editCategoryElement}
+    </div>
+  }  else {
+    body = <Lesson name={ lesson }></Lesson>;
+  }
 
   return (
-    <div id="category-container-1" class="Holiday-Cheer-5-hex">
-      {edit === "" && createCategoryElement}
-      {edit === "" && categoryElements}
-      {edit !== "" && editCategoryElement}
-    </div>
+    body
   );
 }

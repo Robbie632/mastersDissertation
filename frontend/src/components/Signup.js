@@ -1,4 +1,7 @@
+import "../App.css";
+import "../styles/account.css";
 import "../styles/signup.css";
+
 import { useState } from "react";
 
 export default function SignUp({ setSignedUp}) {
@@ -24,32 +27,28 @@ export default function SignUp({ setSignedUp}) {
   };
 
   return (
-    <div>
-      <div className="account-content">Sign up</div>
+    <div >
       <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
-        <button type="submit">Sign Up</button>
+        <div className="account-content heading-2">
+     
+          <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          <label>Password:</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          <button type="submit" class="Holiday-Cheer-3-hex">Sign Up</button>
+        </div>
       </form>
     </div>
   );
