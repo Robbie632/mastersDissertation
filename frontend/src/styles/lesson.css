@@ -80,13 +80,34 @@ border: 2px solid black;
 width: 40%;
 height: 20%;
 display: flex;
+font-size: 1.2em;
 flex-direction:row;
+align-items: center;
+justify-content: center;
 }
 
 .lesson-l2 {
   height:20%;
   border: 2px solid black;
+  text-align: center;
+  font-size: 1.2em;
   width: 40%;
   height: 40%;
   border-radius: 10px;
+  }
+
+  .progress-bar {
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+  .total {
+    width:80%;
+    height:30%;
+  }
+
+  .completed {
+    height:100%;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: green;
   }
