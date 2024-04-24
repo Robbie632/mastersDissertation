@@ -16,8 +16,13 @@ export default function Learn() {
     "museums",
   ];
 
+  function createCategory() {
+    alert("TODO: insert create category logic here")
+
+  }
+
   const createCategoryElement = (
-    <div id="create-category" class="Holiday-Cheer-3-hex heading-2">create category</div>
+    <div onClick={() => createCategory()} id="create-category" class="Holiday-Cheer-3-hex heading-2 create-category-button">create category</div>
   );
 
   const categoryElements = (

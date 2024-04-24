@@ -12,9 +12,15 @@
   height:100px;
   margin-top:50px;
   border-radius: 10px;
-  padding-top:20px;
   cursor: pointer;
   align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#create-category:hover{
+  border: 1px solid black;
 }
 #category-container-1 {
   width:100%;
