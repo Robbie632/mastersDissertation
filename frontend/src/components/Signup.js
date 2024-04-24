@@ -18,12 +18,22 @@ export default function SignUp({ setSignedUp}) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const  handleSubmit = async (e) => {
     e.preventDefault();
-    // You can perform any validation or submit the form data as needed
-    setSignedUp((prev)=> true)
-    alert(`Form data submitted: ${JSON.stringify(formData)}`);
-    
+
+    const response = await fetch("http://localhost:5000/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+    if (response.status === 201) {
+      alert("succesfully signed up");
+    }
+    const result = await response.json()
+    setSignedUp((prev) => true)
+
   };
 
   return (

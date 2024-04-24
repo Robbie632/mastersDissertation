@@ -35,8 +35,7 @@ def create_app(test=False):
     with app.app_context():
         db.create_all()
 
-    # CORS(app, resources={r"/doors": {"origins": "*"},
-    #      r"/state/toggle": {"origins": "*"}})
+    CORS(app, resources={r"/api/user": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -84,9 +83,9 @@ def create_app(test=False):
             status_code = 201
             return jsonify(response), status_code
 
-        except:
+        except Exception as e:
             status_code = 500
-            response["message"] = "Error creating user"
+            response["message"] = f"Error creating user: {e}"
             return jsonify(response), status_code
 
     @app.route('/api/user', methods=["DELETE"])
