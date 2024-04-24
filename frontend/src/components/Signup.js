@@ -1,10 +1,13 @@
 import "../App.css";
 import "../styles/account.css";
 import "../styles/signup.css";
+import { IconContext } from "react-icons";
+import { TiTick } from "react-icons/ti";
 
 import { useState } from "react";
 
-export default function SignUp({ setSignedUp}) {
+export default function SignUp({ setSignedUp }) {
+  const [successSigningIn, setSuccessSigningIn] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,27 +24,47 @@ export default function SignUp({ setSignedUp}) {
   const  handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-    if (response.status === 201) {
-      alert("succesfully signed up");
-    }
-    const result = await response.json()
-    setSignedUp((prev) => true)
+    // const response = await fetch("http://localhost:5000/api/user", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(formData)
+    // })
+
+    // if (response.status === 201) {
+    //   alert("succesfully signed up");
+    // }
+    // const result = await response.json()
+
+    setSignedUp((prev) => true);
+    setSuccessSigningIn((prev)=> true)
 
   };
+  const successSignedUpElement = <div className="success-signup-container">
+    <div className="success-signup Holiday-Cheer-3-hex">
+    <IconContext.Provider
+        value={{
+          size: 128,
+          color: "gold",
+          border: "black",
+          className: "global-class-name",
+        }}
+      >
+        <TiTick />
+      </IconContext.Provider>
+      please login to continue!
+    </div>
+    
+  </div>;
 
   return (
     <div >
-      <form onSubmit={handleSubmit}>
-        <div className="account-content heading-2">
+      {successSigningIn ? successSignedUpElement :
+        <form onSubmit={handleSubmit}>
+          <div className="account-content heading-2">
      
-          <label>Email:</label>
+            <label>Email:</label>
             <input
               type="email"
               name="email"
@@ -49,7 +72,7 @@ export default function SignUp({ setSignedUp}) {
               onChange={handleChange}
               required
             />
-          <label>Password:</label>
+            <label>Password:</label>
             <input
               type="password"
               name="password"
@@ -57,9 +80,9 @@ export default function SignUp({ setSignedUp}) {
               onChange={handleChange}
               required
             />
-          <button type="submit" class="Holiday-Cheer-3-hex">Sign Up</button>
-        </div>
-      </form>
+            <button type="submit" class="Holiday-Cheer-3-hex">Sign Up</button>
+          </div>
+        </form>}
     </div>
   );
 }
