@@ -42,7 +42,7 @@ export default function Learn() {
     {edit !== "" && editCategoryElement}
     </div>
   }  else {
-    body = <Lesson name={ lesson }></Lesson>;
+    body = <Lesson name={ lesson } setLesson={ setLesson }></Lesson>;
   }
 
   return (

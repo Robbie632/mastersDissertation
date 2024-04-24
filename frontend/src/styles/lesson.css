@@ -62,7 +62,6 @@
   align-items: center;
 }
 .lesson-button {
-  height:35%;
   width:10%;
   border-radius: 10px;
   border: none;
@@ -111,3 +110,24 @@ justify-content: center;
     border-radius: 10px;
     background-color: green;
   }
+
+  .lesson-check {
+      height:35%;
+  }
+
+  .lesson-skip {
+    height:35%;
+}
+
+.home {
+  height:50px;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.close-button:hover {
+  cursor: pointer;
+}
