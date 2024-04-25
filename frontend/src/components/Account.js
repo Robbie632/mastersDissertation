@@ -49,12 +49,11 @@ export default function Account({
 
   const logOutElement = (
     <div className="success-login-container">
-      <div className="success-login Holiday-Cheer-3-hex">
+      <div className="success-login Holiday-Cheer-3-hex" onClick={() => {
+            setLoggedIn(false);
+          }}>
         <div
           className="log-out"
-          onClick={() => {
-            setLoggedIn(false);
-          }}
         >
           LOG OUT
         </div>
@@ -89,11 +88,14 @@ export default function Account({
             <button type="submit" class="Holiday-Cheer-3-hex">
               Log In
             </button>
-          </div>
-        </form>
+            </div>
+            <div className="divider"></div>
+          </form>
+          
       )}
-      <div className="divider"></div>
-    { !loggedIn && <SignUp setSignedUp={setSignedUp}></SignUp>}
+      
+      {!loggedIn && 
+    <SignUp setSignedUp={setSignedUp}></SignUp>}
     </div>
   );
 }

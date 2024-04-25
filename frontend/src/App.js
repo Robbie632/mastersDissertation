@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App Holiday-Cheer-5-hex">
       <div>
-        <Menu setMenuSelection={setMenuSelection} language={language} loggedIn={loggedIn}></Menu>
+        <Menu setMenuSelection={setMenuSelection} menuSelection={menuSelection} language={language}></Menu>
       </div>
       {menuSelection === "learn" && loggedIn && <Learn userDetails={userDetails} language={ language}></Learn>}
       {menuSelection === "browse" && loggedIn && <Browse></Browse>}
