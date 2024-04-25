@@ -20,3 +20,18 @@
   cursor: pointer;
   border-radius:20px;
 }
+.divider{
+  width:90%;
+  height:1px;
+  border: 1px solid black;
+  background-color: black;
+  margin: auto;
+}
+
+.account-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 10px;
+  width: 100%;
+}

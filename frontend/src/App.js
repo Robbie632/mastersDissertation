@@ -3,7 +3,7 @@ import "./components/Menu";
 import Menu from "./components/Menu";
 import Learn from "./components/Learn";
 import Browse from "./components/Browse";
-import Login from "./components/Login";
+import Account from "./components/Account";
 import SignUp from "./components/Signup";
 import React, { useState } from "react";
 
@@ -21,11 +21,11 @@ function App() {
   return (
     <div className="App Holiday-Cheer-5-hex">
       <div>
-        <Menu setMenuSelection={setMenuSelection} setlanguage={setLanguage} language={language}></Menu>
+        <Menu setMenuSelection={setMenuSelection} language={language} loggedIn={loggedIn}></Menu>
       </div>
       {menuSelection === "learn" && loggedIn && <Learn userDetails={userDetails} language={ language}></Learn>}
       {menuSelection === "browse" && loggedIn && <Browse></Browse>}
-      {menuSelection === "login" && <Login setLoggedIn={setLoggedIn} loggedIn={ loggedIn} setUserDetails={setUserDetails}></Login>}
+      {menuSelection === "account" && <Account setLoggedIn={setLoggedIn} loggedIn={loggedIn} setSignedUp={setSignedUp} signedUp={signedUp} setUserDetails={setUserDetails} setMenuSelection={setMenuSelection}></Account>}
       {menuSelection === "signup" && <SignUp setSignedUp={ setSignedUp}></SignUp>}
     </div>
   );

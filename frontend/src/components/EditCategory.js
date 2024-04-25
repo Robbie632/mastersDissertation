@@ -6,8 +6,6 @@ import { IconContext } from "react-icons";
 
 export default function EditCategory({ category, userDetails, language }) {
   // https://react.dev/reference/react/useEffect#fetching-data-with-effects
-  // call endpoint /api/phraseselection/category?userid=<userid>&languageid=<languageid>&category=<category>
-  // then display the phrases
 
   useEffect(() => {
     const fetchData = async () => {
