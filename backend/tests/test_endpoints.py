@@ -374,6 +374,57 @@ class TestGetEndpoints(unittest.TestCase):
                          int(observed_data["phraseid"]))
         self.assertEqual(mock_phraseselection_data_1["userid"], int(
             observed_data["userid"]))
+        
+    def test_phraseselectioncategory_get(self):
+        """
+        test get phraseselection for specific useris and categoryid
+        """
+
+        mock_phraseselection_data_1 = {"userid": 1, "phraseid": 1}
+        mock_phraseselection_data_2 = {"userid": 1, "phraseid": 2}
+
+        mock_phrase_data_1 = {"languageid": 1, "userid": 1,
+                              "l1": "l1 phrase", "l2": "l2 phrase", "category": "restaurant"}
+        mock_phrase_data_2 = {"languageid": 2, "userid": 1,
+                              "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
+
+        mock_language_data_1 = {"name": "Swedish"}
+        mock_language_data_2 = {"name": "Spanish"}
+
+        with self.app.app_context():
+            db.session.add(PhraseSelection(userid=mock_phraseselection_data_1["userid"],
+                                           phraseid=mock_phraseselection_data_1["phraseid"]))
+            db.session.commit()
+            db.session.add(PhraseSelection(userid=mock_phraseselection_data_2["userid"],
+                                           phraseid=mock_phraseselection_data_2["phraseid"]))
+            db.session.commit()
+            db.session.add(Phrase(languageid=mock_phrase_data_1["languageid"],
+                                  userid=mock_phrase_data_1["userid"],
+                                  l1=mock_phrase_data_1["l1"],
+                                  l2=mock_phrase_data_1["l2"],
+                                  category=mock_phrase_data_1["category"]))
+            db.session.commit()
+            db.session.add(Phrase(languageid=mock_phrase_data_2["languageid"],
+                                  userid=mock_phrase_data_2["userid"],
+                                  l1=mock_phrase_data_2["l1"],
+                                  l2=mock_phrase_data_2["l2"],
+                                  category=mock_phrase_data_2["category"]))
+            db.session.commit()
+            db.session.add(Language(name=mock_language_data_1["name"]))
+            db.session.commit()
+            db.session.add(Language(name=mock_language_data_2["name"]))
+            db.session.commit()
+
+        response = self.test_client.get(
+            f"/api/phraseselection/category?userid={mock_phraseselection_data_1['userid']}&languageid={1}&category={mock_phrase_data_1['category']}", headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 200)
+        observed_data = response.json["data"]
+        self.assertEqual(1, len(observed_data))
+        observed_data = observed_data[0]
+        self.assertEqual(mock_phrase_data_1["category"],
+                         observed_data["category"])
+        self.assertEqual(mock_phraseselection_data_1["userid"], int(
+            observed_data["userid"]))
 
     def test_phraseselection_get_400(self):
         """

@@ -342,6 +342,35 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
+    
+    @app.route('/api/phraseselection/category', methods=["GET"])
+    def phraseselectioncategory_get():
+        status_code = 200
+        data = {"status": "success", "data": 0}
+        try:
+            user_id = request.args["userid"]
+            language_id = request.args["languageid"]
+            category = request.args["category"]
+        except KeyError as e:
+            status_code = 400
+            data["status"] = f"did not get expected arg: {e}"
+            return jsonify(data), status_code
+
+        try:
+            db_response = Phrase.query.filter_by(userid=user_id)\
+                .join(PhraseSelection, Phrase.phraseid == PhraseSelection.phraseid)\
+                .filter(Phrase.languageid==language_id)\
+                .filter(Phrase.category==category).all()
+
+            dicts = [c.toDict() for c in db_response]
+            data["data"] = dicts
+            data["status_code"] = status_code
+        except Exception as e:
+            status_code = 400
+            data["status"] = f"error: {e}"
+            data["status_code"] = status_code
+
+        return jsonify(data), status_code
 
     @app.route('/api/phraseselection', methods=["POST"])
     def phraseselection_post():
