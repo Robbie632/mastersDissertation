@@ -22,7 +22,7 @@ export default function Learn() {
   }
 
   const createCategoryElement = (
-    <div onClick={() => createCategory()} id="create-category" class="Holiday-Cheer-3-hex heading-2 create-category-button">create category</div>
+    <div onClick={() => createCategory()} id="create-category" class="Holiday-Cheer-3-hex heading-2 create-category-button">CREATE CATEGORY</div>
   );
 
   const categoryElements = (

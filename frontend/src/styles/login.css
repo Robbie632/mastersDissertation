@@ -8,7 +8,7 @@
   height:50vh;
 }
 .success-login {
-  height: 200px;
+  height: 100px;
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -17,9 +17,6 @@
   padding:20px;
   font-size: 1.5em;
   color: white;
-}
-.log-out {
-  padding:50px;
   cursor: pointer;
-  border: solid 1px black;
+  border-radius:20px;
 }
