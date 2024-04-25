@@ -5,7 +5,7 @@ import Lesson from "./Lesson";
 import EditCategory from "./EditCategory";
 import { useState } from "react";
 
-export default function Learn() {
+export default function Learn({ userDetails, language }) {
   const [lesson, setLesson] = useState("");
   const [edit, setEdit] = useState("");
   const categories = [
@@ -35,7 +35,7 @@ export default function Learn() {
 
   const editCategoryElement = (
     <div>
-      <EditCategory name={edit}></EditCategory>
+      <EditCategory category={edit} userDetails={userDetails} language={language}></EditCategory>
     </div>
   );
   var body = <div></div>;

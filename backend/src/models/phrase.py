@@ -10,7 +10,7 @@ class Phrase(db.Model):
     """
     __tablename__ = 'phrases'
     phraseid = db.Column(db.Integer, primary_key=True, unique=True)
-    userid = db.Column(db.Integer, nullable=False)
+    userid = db.Column(db.String, nullable=False)
     languageid = db.Column(db.Integer, nullable=False)
     l1 = db.Column(db.String, nullable=False)
     l2 = db.Column(db.String, nullable=False)

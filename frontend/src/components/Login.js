@@ -32,7 +32,8 @@ export default function Login({ setLoggedIn, loggedIn, setUserDetails }) {
     if (response.status === 200) {
       const result = await response.json();
       setUserDetails(() => ({
-        token: result["token"]
+        token: result["token"],
+        userid: result["userid"]
       }));
       setLoggedIn((prev) => true);
     } else if(response.status === 400) {

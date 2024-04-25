@@ -1,16 +1,40 @@
 import "../styles/editcategory.css";
 import PhrasePair from "./PhrasePair";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 
-export default function EditCategory({ name }) {
-
+export default function EditCategory({ category, userDetails, language }) {
   // https://react.dev/reference/react/useEffect#fetching-data-with-effects
-  // I need to the userid and languageid to call the api/phraseselection endpoint
-  // I then need to either filter for relevant category here or add new endpoint in backend
-  // that takes userid, languageid and categoryid, probs best to do this
-  // then dipslay the phrases
+  // call endpoint /api/phraseselection/category?userid=<userid>&languageid=<languageid>&category=<category>
+  // then display the phrases
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url =
+        "http://localhost:5000/api/phraseselection/category?" +
+        new URLSearchParams({
+          userid: userDetails["userid"],
+          languageid: language["id"],
+          category: category,
+        }).toString();
+      
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status == 200) {
+        const result = await response.json();
+        setPhrases(result.data);
+      } else {
+        alert("problem calling backend api");
+      }
+    };
+    fetchData();
+  }, [userDetails["userid"]]);
+
   const phrasePairs = [
     { l1: "phrase 1a", l2: "phrase 1b", phraseid: "0" },
     { l1: "phrase 2a", l2: "phrase 2b", phraseid: "1" },

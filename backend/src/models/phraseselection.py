@@ -12,7 +12,7 @@ class PhraseSelection(db.Model):
 
     phraseselectionid = db.Column(db.Integer, primary_key=True, unique=True)
     phraseid = db.Column(db.Integer, nullable=False)
-    userid = db.Column(db.Integer, nullable=False)
+    userid = db.Column(db.String, nullable=False)
 
     def toDict(self):
         """

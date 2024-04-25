@@ -7,7 +7,7 @@ export default function Menu({ setMenuSelection, setLanguage, language}) {
       <div className="menu-button" onClick={() => setMenuSelection("browse") }>Browse</div>
       <div className="menu-button" onClick={() => setMenuSelection("login")}>Login</div>
       <div className="menu-button" onClick={() => setMenuSelection("signup") }>Signup</div>
-      <div className="current-language">language: {language}</div>
+      <div className="current-language">language: {language["id"]}</div>
     </header>
   );
 }

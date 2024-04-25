@@ -36,7 +36,9 @@ def create_app(test=False):
         db.create_all()
 
     CORS(app, resources={r"/api/user": {"origins": "*"},
-                         r"/api/token": {"origins": "*"}})
+                         r"/api/token": {"origins": "*"},
+                         r"/api/phraseselection": {"origins": "*"},
+                         r"/api/phraseselection/category": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -134,10 +136,13 @@ def create_app(test=False):
             if not test:
                 user = pb.auth().sign_in_with_email_and_password(email, password)
                 jwt = user['idToken']
+                userid = user['localId']
             else:
                 jwt = "testtoken"
+                userid = "testid"
 
             response['token'] = jwt
+            response["userid"] = userid
             response["status"] = "successfully retieved JWT"
             status_code = 200
             return jsonify(response), status_code

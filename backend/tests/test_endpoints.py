@@ -68,7 +68,7 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test DELETE for user, should delete relevant phraseselection data and user data
         """
-        mock_data_user = {"userid": 1}
+        mock_data_user = {"userid": "1"}
 
         mock_phrases = [{"languageid": 2,
                          "userid": mock_data_user["userid"],
@@ -76,7 +76,7 @@ class TestGetEndpoints(unittest.TestCase):
                          "l2": "l2 phrase 1",
                          "category": "cafe"},
                         {"languageid": 2,
-                         "userid": 2,
+                         "userid": "2",
                          "l1": "l1 phrase 2",
                          "l2": "l2 phrase 2",
                          "category": "cafe"}]
@@ -84,7 +84,7 @@ class TestGetEndpoints(unittest.TestCase):
         mock_phraseselections = [{"userid": mock_data_user["userid"], "phraseid": 1},
                                  {"userid": mock_data_user["userid"],
                                      "phraseid": 2},
-                                 {"userid": 2, "phraseid": 2},]
+                                 {"userid": "2", "phraseid": 2},]
         with self.app.app_context():
             for phrase in mock_phrases:
                 db.session.add(Phrase(languageid=phrase["languageid"],
@@ -166,9 +166,9 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test GET for phrases
         """
-        mock_data_1 = {"languageid": 1, "userid": 1,
+        mock_data_1 = {"languageid": 1, "userid": "1",
                        "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
-        mock_data_2 = {"languageid": 2, "userid": 1,
+        mock_data_2 = {"languageid": 2, "userid": "1",
                        "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
         with self.app.app_context():
             db.session.add(Phrase(languageid=mock_data_1["languageid"],
@@ -207,7 +207,7 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test post where write phrase data
         """
-        mock_data = {"languageid": 1, "userid": 1,
+        mock_data = {"languageid": 1, "userid": "1",
                      "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
         response = self.test_client.post(
             "/api/phrase", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
@@ -219,7 +219,7 @@ class TestGetEndpoints(unittest.TestCase):
         first_observed = observed[0]
         self.assertEqual(mock_data["languageid"],
                          int(first_observed.languageid))
-        self.assertEqual(mock_data["userid"], int(first_observed.userid))
+        self.assertEqual(mock_data["userid"], first_observed.userid)
         self.assertEqual(mock_data["l1"], first_observed.l1)
         self.assertEqual(mock_data["l2"], first_observed.l2)
         self.assertEqual(mock_data["category"], first_observed.category)
@@ -228,7 +228,7 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test update of phrase
         """
-        mock_data = {"languageid": 1, "userid": 1,
+        mock_data = {"languageid": 1, "userid": "1",
                      "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
         new_l1 = "new l1 phrase"
         new_l2 = "new l2 phrase"
@@ -268,8 +268,8 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test get ratings for specific phraseid
         """
-        mock_data_1 = {"ratingid": 1, "phraseid": 1, "userid": 1, "rating": 3}
-        mock_data_2 = {"ratingid": 2, "phraseid": 2, "userid": 1, "rating": 3}
+        mock_data_1 = {"ratingid": 1, "phraseid": 1, "userid": "1", "rating": 3}
+        mock_data_2 = {"ratingid": 2, "phraseid": 2, "userid": "1", "rating": 3}
 
         with self.app.app_context():
             db.session.add(Rating(ratingid=mock_data_1["ratingid"],
@@ -293,14 +293,14 @@ class TestGetEndpoints(unittest.TestCase):
                          int(observed_data["ratingid"]))
         self.assertEqual(mock_data_1["phraseid"],
                          int(observed_data["phraseid"]))
-        self.assertEqual(mock_data_1["userid"], int(observed_data["userid"]))
-        self.assertEqual(mock_data_1["rating"], int(observed_data["rating"]))
+        self.assertEqual(mock_data_1["userid"], observed_data["userid"])
+        self.assertEqual(mock_data_1["rating"], observed_data["rating"])
 
     def test_rating_post(self):
         """
         test post rating for specific phraseid
         """
-        mock_data = {"phraseid": 1, "userid": 1,
+        mock_data = {"phraseid": 1, "userid": "1",
                      "rating": 4}
         response = self.test_client.post(
             "/api/rating", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
@@ -312,14 +312,14 @@ class TestGetEndpoints(unittest.TestCase):
         first_observed = observed[0]
         self.assertEqual(mock_data["phraseid"],
                          int(first_observed.phraseid))
-        self.assertEqual(mock_data["userid"], int(first_observed.userid))
+        self.assertEqual(mock_data["userid"], first_observed.userid)
         self.assertEqual(mock_data["rating"], int(first_observed.rating))
 
     def test_rating_post_400(self):
         """
         test post where write rating data and get 400 status code back
         """
-        mock_data = {"userid": 1, "rating": 4}
+        mock_data = {"userid": "1", "rating": 4}
         response = self.test_client.post(
             "/api/rating", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
@@ -329,12 +329,12 @@ class TestGetEndpoints(unittest.TestCase):
         test get phraseselection for specific phraseid
         """
 
-        mock_phraseselection_data_1 = {"userid": 1, "phraseid": 1}
-        mock_phraseselection_data_2 = {"userid": 2, "phraseid": 2}
+        mock_phraseselection_data_1 = {"userid": "1", "phraseid": 1}
+        mock_phraseselection_data_2 = {"userid": "2", "phraseid": 2}
 
-        mock_phrase_data_1 = {"languageid": 1, "userid": 1,
+        mock_phrase_data_1 = {"languageid": 1, "userid": "1",
                               "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
-        mock_phrase_data_2 = {"languageid": 2, "userid": 1,
+        mock_phrase_data_2 = {"languageid": 2, "userid": "1",
                               "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
 
         mock_language_data_1 = {"name": "Swedish"}
@@ -372,20 +372,20 @@ class TestGetEndpoints(unittest.TestCase):
         observed_data = observed_data[0]
         self.assertEqual(mock_phraseselection_data_1["phraseid"],
                          int(observed_data["phraseid"]))
-        self.assertEqual(mock_phraseselection_data_1["userid"], int(
-            observed_data["userid"]))
+        self.assertEqual(mock_phraseselection_data_1["userid"],
+            observed_data["userid"])
         
     def test_phraseselectioncategory_get(self):
         """
-        test get phraseselection for specific useris and categoryid
+        test get phraseselection for specific userid and categoryid
         """
 
-        mock_phraseselection_data_1 = {"userid": 1, "phraseid": 1}
-        mock_phraseselection_data_2 = {"userid": 1, "phraseid": 2}
+        mock_phraseselection_data_1 = {"userid": "1", "phraseid": 1}
+        mock_phraseselection_data_2 = {"userid": "1", "phraseid": 2}
 
-        mock_phrase_data_1 = {"languageid": 1, "userid": 1,
+        mock_phrase_data_1 = {"languageid": 1, "userid": "1",
                               "l1": "l1 phrase", "l2": "l2 phrase", "category": "restaurant"}
-        mock_phrase_data_2 = {"languageid": 2, "userid": 1,
+        mock_phrase_data_2 = {"languageid": 2, "userid": "1",
                               "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
 
         mock_language_data_1 = {"name": "Swedish"}
@@ -423,14 +423,14 @@ class TestGetEndpoints(unittest.TestCase):
         observed_data = observed_data[0]
         self.assertEqual(mock_phrase_data_1["category"],
                          observed_data["category"])
-        self.assertEqual(mock_phraseselection_data_1["userid"], int(
-            observed_data["userid"]))
+        self.assertEqual(mock_phraseselection_data_1["userid"], 
+            observed_data["userid"])
 
     def test_phraseselection_get_400(self):
         """
         test get phraseselection for specific phraseid when use bad arg name
         """
-        mock_data_1 = {"userid": 1, "phraseid": 1}
+        mock_data_1 = {"userid": "1", "phraseid": 1}
 
         response = self.test_client.get(
             f"/api/phraseselection?badargname={mock_data_1['userid']}", headers={"authorization": self.jwt})
@@ -440,7 +440,7 @@ class TestGetEndpoints(unittest.TestCase):
         """
         test post phraseselection
         """
-        mock_data = {"phraseid": 1, "userid": 1}
+        mock_data = {"phraseid": 1, "userid": "1"}
         response = self.test_client.post(
             "/api/phraseselection", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 201)
@@ -451,13 +451,13 @@ class TestGetEndpoints(unittest.TestCase):
         first_observed = observed[0]
         self.assertEqual(mock_data["phraseid"],
                          int(first_observed.phraseid))
-        self.assertEqual(mock_data["userid"], int(first_observed.userid))
+        self.assertEqual(mock_data["userid"], first_observed.userid)
 
     def test_phraseselection_post_400(self):
         """
         test post where write phraseselection data and get 400 status code back
         """
-        mock_data = {"userid": 1}
+        mock_data = {"userid": "1"}
         response = self.test_client.post(
             "/api/phraseselection", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
@@ -466,10 +466,10 @@ class TestGetEndpoints(unittest.TestCase):
         """
         Test deletion of phraseselection
         """
-        mock_phraseselection_data = [{"userid": 1, "phraseid": 1},
-                                     {"userid": 1, "phraseid": 3},
-                                     {"userid": 2, "phraseid": 2},
-                                     {"userid": 2, "phraseid": 4}]
+        mock_phraseselection_data = [{"userid": "1", "phraseid": 1},
+                                     {"userid": "1", "phraseid": 3},
+                                     {"userid": "2", "phraseid": 2},
+                                     {"userid": "2", "phraseid": 4}]
 
         with self.app.app_context():
             phrase_selection_ids = []
