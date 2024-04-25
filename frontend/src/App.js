@@ -10,7 +10,7 @@ import React, { useState } from "react";
 
 function App() {
   const [menuSelection, setMenuSelection] = useState("learn");
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [language, setLanguage] = useState("Swedish")
@@ -22,7 +22,7 @@ function App() {
       </div>
       {menuSelection === "learn" && loggedIn && <Learn></Learn>}
       {menuSelection === "browse" && loggedIn && <Browse></Browse>}
-      {menuSelection === "login" && <Login setloggedIn={setLoggedIn}></Login>}
+      {menuSelection === "login" && <Login setLoggedIn={setLoggedIn} loggedIn={ loggedIn} setUserDetails={setUserDetails}></Login>}
       {menuSelection === "signup" && <SignUp setSignedUp={ setSignedUp}></SignUp>}
     </div>
   );

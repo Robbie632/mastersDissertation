@@ -41,6 +41,7 @@ export default function SignUp({ setSignedUp }) {
     setSuccessSigningIn((prev)=> true)
 
   };
+
   const successSignedUpElement = <div className="success-signup-container">
     <div className="success-signup Holiday-Cheer-3-hex">
     <IconContext.Provider

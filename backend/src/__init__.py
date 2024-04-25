@@ -35,7 +35,8 @@ def create_app(test=False):
     with app.app_context():
         db.create_all()
 
-    CORS(app, resources={r"/api/user": {"origins": "*"}})
+    CORS(app, resources={r"/api/user": {"origins": "*"},
+                         r"/api/token": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -140,8 +141,8 @@ def create_app(test=False):
             response["status"] = "successfully retieved JWT"
             status_code = 200
             return jsonify(response), status_code
-        except:
-            response["status"] = "could not retrieve jwt"
+        except Exception as e:
+            response["status"] = f"could not retrieve jwt: {e}"
             status_code = 400
 
             return jsonify(response), status_code
