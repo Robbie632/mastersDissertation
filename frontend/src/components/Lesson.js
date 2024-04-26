@@ -2,18 +2,42 @@ import "../styles/lesson.css";
 import "../App.css";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
-export default function Lesson({ name, setLesson }) {
-  const phrasePairs = [
-    { l1: "phrase 1a", l2: "phrase 1b", phraseid: "0" },
-    { l1: "phrase 2a", l2: "phrase 2b", phraseid: "1" },
-  ];
-  const numQuestions = phrasePairs.length;
+export default function Lesson({ category, setLesson, userDetails, language }) {
 
+  const [phrases, setPhrases] = useState({});
+  const numQuestions = phrases.length;
   const [progress, setProgress] = useState(0);
   const [l1Input, setl1Input] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url =
+        "http://localhost:5000/api/phraseselection/category?" +
+        new URLSearchParams({
+          userid: userDetails["userid"],
+          languageid: language["id"],
+          category: category,
+        }).toString();
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status == 200) {
+        const result = await response.json();
+        setPhrases(result.data);
+      } else {
+        alert("problem calling backend api");
+      }
+    };
+    fetchData();
+  }, [userDetails["userid"]]);
+
 
   function getPercentageCompleted() {
     const percent = 100 * (progress / numQuestions);
@@ -32,7 +56,7 @@ export default function Lesson({ name, setLesson }) {
 
   function getNextPhrase() {
     if (progress < numQuestions) {
-      return phrasePairs[progress]["l1"];
+      return phrases[progress]["l1"];
     } else {
       return "";
     }
@@ -40,7 +64,7 @@ export default function Lesson({ name, setLesson }) {
 
   function checkAnswer(answer) {
     if (progress < numQuestions) {
-      const l2 = phrasePairs[progress]["l2"];
+      const l2 = phrases[progress]["l2"];
       if (answer === l2) {
         setl1Input("");
         safeProgressIncrement();
@@ -97,7 +121,7 @@ export default function Lesson({ name, setLesson }) {
           </div>
         </div>
         <div class="lesson-container-1ac Holiday-Cheer-5-hex">
-          <div class="heading-2">{name.toUpperCase()}</div>
+          <div class="heading-2">{category.toUpperCase()}</div>
         </div>
       </div>
       <div class="lesson-container-1b Holiday-Cheer-5-hex">

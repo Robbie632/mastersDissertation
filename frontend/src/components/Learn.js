@@ -47,7 +47,7 @@ export default function Learn({ userDetails, language }) {
     {edit !== "" && editCategoryElement}
     </div>
   }  else {
-    body = <Lesson name={ lesson } setLesson={ setLesson }></Lesson>;
+    body = <Lesson category={ lesson } setLesson={ setLesson } userDetails={userDetails} language={language}></Lesson>;
   }
 
   return (
