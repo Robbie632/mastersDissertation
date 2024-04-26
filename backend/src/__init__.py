@@ -38,7 +38,8 @@ def create_app(test=False):
     CORS(app, resources={r"/api/user": {"origins": "*"},
                          r"/api/token": {"origins": "*"},
                          r"/api/phraseselection": {"origins": "*"},
-                         r"/api/phraseselection/category": {"origins": "*"}})
+                         r"/api/phraseselection/category": {"origins": "*"},
+                         r"/api/phrase": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)

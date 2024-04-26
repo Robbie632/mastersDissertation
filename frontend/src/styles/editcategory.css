@@ -11,3 +11,36 @@
 .trash:hover {
   cursor: pointer;
 }
+
+.add-category{
+  cursor: pointer;
+}
+
+.add-phrase-widget-container {
+  display:flex;
+  flex-direction: row;
+  gap:20px;
+  align-items: center;
+  justify-content: center;
+  width:100%
+}
+
+.add-phrase-widget {
+  border: 1px solid black;
+  height: 100px;
+  border-radius: 5px;
+  flex:2;
+}
+
+.add-phrase-widget-submit {
+  border: 1px solid black;
+  flex:1;
+  color: white;
+  height: 50px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
