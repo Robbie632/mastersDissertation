@@ -88,7 +88,15 @@ export default function EditCategory({ category, userDetails, language }) {
       });
       if (response.status == 200) {
         const result = await response.json();
-        setPhrases(result.data);
+        const new_phrases = result.data.map(({ Phrase, PhraseSelection }) => {
+          return {
+            l1: Phrase.l1,
+            l2: Phrase.l2,
+            phraseid: Phrase.phraseid,
+            phraseselectionid: PhraseSelection.phraseselectionid,
+          };
+        });
+        setPhrases(() => new_phrases);
       } else {
         alert("problem calling backend api");
       }
@@ -137,21 +145,27 @@ export default function EditCategory({ category, userDetails, language }) {
           </div>
           {addPhraseWidgetDisplayed && addPhraseWidget}
         </IconContext.Provider>
-        {phrases.map(({ l1, l2, phraseid }) => (
-          <IconContext.Provider
-            value={{
-              size: 32,
-              color: "#024554",
-              className: "global-class-name",
-            }}
-          >
-            <div id="phrase-pair-container">
-              <PhrasePair l1={l1} l2={l2}></PhrasePair>
-              <div className="trash">
-                <FaRegTrashAlt id={phraseid} />
+        {phrases.map(({ l1, l2, phraseid, phraseselectionid }) => (
+          <div key={ phraseselectionid}>
+            <IconContext.Provider
+              value={{
+                size: 32,
+                color: "#024554",
+                className: "global-class-name",
+              }}
+            >
+              <div id="phrase-pair-container">
+                <PhrasePair
+                  l1={l1}
+                  l2={l2}
+                  userDetails={userDetails}
+                  phraseId={phraseid}
+                  phraseselectionid={phraseselectionid}
+                  togglePhrasesChangedIndicator={togglePhrasesChangedIndicator}
+                ></PhrasePair>
               </div>
-            </div>
-          </IconContext.Provider>
+            </IconContext.Provider>
+          </div>
         ))}
       </div>
     </div>

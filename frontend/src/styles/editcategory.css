@@ -8,10 +8,6 @@
   margin-top:50px;
 }
 
-.trash:hover {
-  cursor: pointer;
-}
-
 .add-category{
   cursor: pointer;
 }
@@ -43,4 +39,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+}
+.edit-category-container-1 {
+  width: 100%;
+  display: flex;
 }

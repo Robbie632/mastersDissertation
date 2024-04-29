@@ -419,12 +419,14 @@ class TestGetEndpoints(unittest.TestCase):
             f"/api/phraseselection/category?userid={mock_phraseselection_data_1['userid']}&languageid={1}&category={mock_phrase_data_1['category']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
+        
         self.assertEqual(1, len(observed_data))
         observed_data = observed_data[0]
         self.assertEqual(mock_phrase_data_1["category"],
-                         observed_data["category"])
+                         observed_data["Phrase"]["category"])
         self.assertEqual(mock_phraseselection_data_1["userid"], 
-            observed_data["userid"])
+            observed_data["Phrase"]["userid"])
+
 
     def test_phraseselection_get_400(self):
         """

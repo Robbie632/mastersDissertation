@@ -363,13 +363,18 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            db_response = Phrase.query.filter_by(userid=user_id)\
-                .join(PhraseSelection, Phrase.phraseid == PhraseSelection.phraseid)\
-                .filter(Phrase.languageid==language_id)\
-                .filter(Phrase.category==category).all()
-
-            dicts = [c.toDict() for c in db_response]
+            db_response =db.session.query(PhraseSelection, Phrase).join(PhraseSelection, Phrase.phraseid == PhraseSelection.phraseid)\
+                            .filter(Phrase.languageid==language_id)\
+                            .filter(Phrase.category==category).filter(Phrase.userid==user_id).all()
+            dicts  = []
+            for i in db_response:
+              t = i.tuple()
+              phrase_selection_data = t[0].toDict()
+              phrase_data = t[1].toDict()
+              dicts.append({"PhraseSelection": phrase_selection_data, "Phrase": phrase_data})
+            
             data["data"] = dicts
+
             data["status_code"] = status_code
         except Exception as e:
             status_code = 400

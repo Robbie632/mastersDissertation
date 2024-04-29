@@ -30,7 +30,13 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       });
       if (response.status == 200) {
         const result = await response.json();
-        setPhrases(result.data);
+        const new_phrases = result.data.map(({ Phrase, PhraseSelection }) => {
+          return ({
+            l1: Phrase.l1,
+            l2: Phrase.l2
+          })
+        }) 
+        setPhrases(new_phrases);
       } else {
         alert("problem calling backend api");
       }

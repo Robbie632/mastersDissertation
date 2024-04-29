@@ -4,8 +4,9 @@ import { FaRegSave } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 
-export default function PhrasePair({ l1, l2, allowEdit=true }) {
+export default function PhrasePair({ l1, l2, allowEdit=true, phraseselectionid, togglePhrasesChangedIndicator }) {
   const [mode, setMode] = useState("view");
+
 
   const [formData, setFormData] = useState({
     l1: l1,
@@ -19,9 +20,26 @@ export default function PhrasePair({ l1, l2, allowEdit=true }) {
       [name]: value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // You can perform any validation or submit the form data as needed
+    // do DELETE call to /api/phraseselection
+    //with phraseselectionid
+    const response = await fetch("http://localhost:5000/api/phraseselection", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phraseselectionid: phraseselectionid, 
+      }),
+    });
+
+    if (response.status == 200) {
+      alert("successful delete")
+      togglePhrasesChangedIndicator();
+    } else {
+      alert("problem trying to delete")
+    }
+
     setMode((v) => "view");
   };
 
@@ -59,8 +77,8 @@ export default function PhrasePair({ l1, l2, allowEdit=true }) {
         <form onSubmit={handleSubmit} className="phrase-pair-container-1">
           {l1ElementEdit}
           {l2ElementEdit}
-          <button type="submit" id="save-phrase-pair">
-            <FaRegSave />
+          <button type="submit" id="delete-phrase-pair">
+            <FaRegTrashAlt />
           </button>
         </form>
       )}
