@@ -108,6 +108,9 @@ export default function PhrasePair({
         <form onSubmit={handleSubmit} className="phrase-pair-container-1">
           {l1ElementEdit}
           {l2ElementEdit}
+          <div id="edit-phrase-pair">
+            <MdEdit onClick={() => setMode("view")} />
+          </div>
           <div id="save-phrase-pair" onClick={handleSave}>
             <FaRegSave />
           </div>
