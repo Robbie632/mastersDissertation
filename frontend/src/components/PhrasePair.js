@@ -4,9 +4,14 @@ import { FaRegSave } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 
-export default function PhrasePair({ l1, l2, allowEdit=true, phraseselectionid, togglePhrasesChangedIndicator }) {
+export default function PhrasePair({
+  l1,
+  l2,
+  allowEdit = true,
+  phraseselectionid,
+  togglePhrasesChangedIndicator,
+}) {
   const [mode, setMode] = useState("view");
-
 
   const [formData, setFormData] = useState({
     l1: l1,
@@ -20,49 +25,58 @@ export default function PhrasePair({ l1, l2, allowEdit=true, phraseselectionid, 
       [name]: value,
     });
   };
+  const handleSave = async (e) => {
+    alert("insert save logic here, just do fetch call to /api/phrases and return to view mode for phrase pair")
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can perform any validation or submit the form data as needed
-    // do DELETE call to /api/phraseselection
-    //with phraseselectionid
     const response = await fetch("http://localhost:5000/api/phraseselection", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        phraseselectionid: phraseselectionid, 
+        phraseselectionid: phraseselectionid,
       }),
     });
 
     if (response.status == 200) {
-      alert("successful delete")
+      alert("successful delete");
       togglePhrasesChangedIndicator();
     } else {
-      alert("problem trying to delete")
+      alert("problem trying to delete");
     }
 
     setMode((v) => "view");
   };
 
   const l1ElementEdit = (
-    <input
-      type="test"
-      id="l1"
+    <textarea
       name="l1"
+      rows="4"
+      cols="20"
       value={formData.l1}
       onChange={handleChange}
-    ></input>
+    ></textarea>
   );
   const l2ElementEdit = (
-    <input
-      type="text"
-      id="l2"
+    <textarea
       name="l2"
+      rows="1"
+      cols="10"
       value={formData.l2}
       onChange={handleChange}
-    ></input>
+    ></textarea>
   );
-  const l1ElementView = <div id="l1" className="Holiday-Cheer-3-hex heading-2">{formData.l1}</div>;
-  const l2ElementView = <div id="l2" className="Holiday-Cheer-3-hex heading-2">{formData.l2}</div>;
+  const l1ElementView = (
+    <div id="l1" className="l-view Holiday-Cheer-3-hex heading-2">
+      {formData.l1}
+    </div>
+  );
+  const l2ElementView = (
+    <div id="l2" className="l-view Holiday-Cheer-3-hex heading-2">
+      {formData.l2}
+    </div>
+  );
 
   return (
     <div className="phrase-pair-container-1">
@@ -74,13 +88,18 @@ export default function PhrasePair({ l1, l2, allowEdit=true, phraseselectionid, 
         </div>
       )}
       {mode == "edit" && (
-        <form onSubmit={handleSubmit} className="phrase-pair-container-1">
-          {l1ElementEdit}
-          {l2ElementEdit}
-          <button type="submit" id="delete-phrase-pair">
-            <FaRegTrashAlt />
-          </button>
-        </form>
+        <div>
+          <form onSubmit={handleSubmit} className="phrase-pair-container-1">
+            {l1ElementEdit}
+            {l2ElementEdit}
+            <div id="save-phrase-pair" onClick={handleSave}>
+              <FaRegSave />
+            </div>
+            <button className="Holiday-Cheer-5-hex" type="submit" id="delete-phrase-pair">
+              <FaRegTrashAlt />
+            </button>
+          </form>
+        </div>
       )}
     </div>
   );

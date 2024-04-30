@@ -2,20 +2,27 @@
   display: flex;
   flex-direction: row;
   gap:100px;
-  width:700px;
+  width:100%;
   color:white;
   align-items: center;
   justify-content: space-around;
 }
 
-#l1 {
-  padding:20px 80px;
+.l-view {
+  width:500px;
+  height:80px;
 }
-#l2{
-  padding:20px 80px;
-}
+
+
 #save-phrase-pair:hover {
   cursor: pointer;
+}
+#delete-phrase-pair:hover {
+  cursor: pointer;
+  background-color:none;
+}
+#delete-phrase-pair {
+  border: none;
 }
 
 #edit-phrase-pair:hover {
