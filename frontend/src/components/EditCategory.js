@@ -128,6 +128,8 @@ export default function EditCategory({ category, userDetails, language }) {
   return (
     <div className="edit-category-container-1">
       <div id="edit-category-container-2">
+        <div className={"category-status"}>{category.toUpperCase()}
+        </div>
         <IconContext.Provider
           value={{
             size: 72,

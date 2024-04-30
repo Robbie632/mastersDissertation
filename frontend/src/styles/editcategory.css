@@ -44,3 +44,11 @@
   width: 100%;
   display: flex;
 }
+
+.category-status {
+  align-self: flex-end;
+  font-size: 1.8em;
+  width:200px;
+  padding:10px;
+  border: 2px black dashed;
+}

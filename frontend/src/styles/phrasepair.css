@@ -11,6 +11,10 @@
 .l-view {
   width:500px;
   height:80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .l-edit {
   width:500px;
@@ -30,5 +34,19 @@
 }
 
 #edit-phrase-pair:hover {
+  cursor: pointer;
+}
+
+.get-phrase-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.get-phrase-button:hover {
   cursor: pointer;
 }

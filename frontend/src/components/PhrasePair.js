@@ -8,6 +8,7 @@ export default function PhrasePair({
   l1,
   l2,
   allowEdit = true,
+  allowAddToPhraseSelection = false,
   phraseid,
   phraseselectionid,
   togglePhrasesChangedIndicator,
@@ -26,6 +27,10 @@ export default function PhrasePair({
       [name]: value,
     });
   };
+  const handleGetPhrase = async () => {
+    alert("implement logic for getting phrase here")
+  }
+  
   const handleSave = async (e) => {
     //alert("insert save logic here, just do fetch call to /api/phrases and return to view mode for phrase pair")
     const response = await fetch("http://localhost:5000/api/phrase", {
@@ -86,7 +91,7 @@ export default function PhrasePair({
   );
   const l1ElementView = (
     <div id="l1" className="l-view Holiday-Cheer-3-hex heading-2">
-      {formData.l1}
+      <div>{formData.l1}</div>
     </div>
   );
   const l2ElementView = (
@@ -94,11 +99,22 @@ export default function PhrasePair({
       {formData.l2}
     </div>
   );
+  const addToPhraseSelectionElement = (
+    <div className="Holiday-Cheer-2-hex get-phrase-button" onClick={handleGetPhrase}>
+      <div>GET PHRASE</div>
+    </div>
+  );
+  function renderAddToPhraseSelectionElement() {
+    if ((mode === "view") & allowAddToPhraseSelection) {
+      return addToPhraseSelectionElement;
+    }
+  }
 
   return (
     <div className="phrase-pair-container-1">
       {mode === "view" && l1ElementView}
       {mode === "view" && l2ElementView}
+      {renderAddToPhraseSelectionElement()}
       {mode === "view" && allowEdit && (
         <div id="edit-phrase-pair">
           <MdEdit onClick={() => setMode("edit")} />

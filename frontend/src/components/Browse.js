@@ -74,9 +74,9 @@ export default function Browse() {
         <div id="browse-container-2">
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
-              <PhrasePair l1={l1} l2={l2} allowEdit={false} phraseid={phraseid}></PhrasePair>
+              <PhrasePair l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true}></PhrasePair>
 
-              <IconContext.Provider
+              {/* <IconContext.Provider
                 value={{
                   size: 32,
                   color: "#024554",
@@ -89,7 +89,7 @@ export default function Browse() {
                 {Array.from({ length: 5 - stars }, (value, index) => (
                   <CiStar />
                 ))}
-              </IconContext.Provider>
+              </IconContext.Provider> */}
             </div>
           ))}
         </div>
