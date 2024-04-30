@@ -55,7 +55,6 @@ export default function EditCategory({ category, userDetails, language }) {
       }
     }
 
-    //replace phrase data with input data, need to set up controlled input for this
     togglePhrasesChangedIndicator();
     setAddPhraseWidgetDisplayed(() => false);
     setL1input("");
@@ -159,7 +158,7 @@ export default function EditCategory({ category, userDetails, language }) {
                   l1={l1}
                   l2={l2}
                   userDetails={userDetails}
-                  phraseId={phraseid}
+                  phraseid={phraseid}
                   phraseselectionid={phraseselectionid}
                   togglePhrasesChangedIndicator={togglePhrasesChangedIndicator}
                 ></PhrasePair>

@@ -8,6 +8,7 @@ export default function PhrasePair({
   l1,
   l2,
   allowEdit = true,
+  phraseid,
   phraseselectionid,
   togglePhrasesChangedIndicator,
 }) {
@@ -26,8 +27,24 @@ export default function PhrasePair({
     });
   };
   const handleSave = async (e) => {
-    alert("insert save logic here, just do fetch call to /api/phrases and return to view mode for phrase pair")
-  }
+    //alert("insert save logic here, just do fetch call to /api/phrases and return to view mode for phrase pair")
+    const response = await fetch("http://localhost:5000/api/phrase", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        l1: formData["l1"],
+        l2: formData["l2"],
+        phraseid: phraseid,
+      }),
+    });
+    if (response.status === 200) {
+      const data = await response.json();
+      setMode("view");
+      alert("updated phrase");
+    } else {
+      alert("problem updating phrase");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,22 +67,22 @@ export default function PhrasePair({
   };
 
   const l1ElementEdit = (
-    <textarea
+    <input
+      className="l-edit"
+      type="text"
       name="l1"
-      rows="4"
-      cols="20"
       value={formData.l1}
       onChange={handleChange}
-    ></textarea>
+    ></input>
   );
   const l2ElementEdit = (
-    <textarea
+    <input
+      className="l-edit"
+      type="text"
       name="l2"
-      rows="1"
-      cols="10"
       value={formData.l2}
       onChange={handleChange}
-    ></textarea>
+    ></input>
   );
   const l1ElementView = (
     <div id="l1" className="l-view Holiday-Cheer-3-hex heading-2">
@@ -88,18 +105,20 @@ export default function PhrasePair({
         </div>
       )}
       {mode == "edit" && (
-        <div>
-          <form onSubmit={handleSubmit} className="phrase-pair-container-1">
-            {l1ElementEdit}
-            {l2ElementEdit}
-            <div id="save-phrase-pair" onClick={handleSave}>
-              <FaRegSave />
-            </div>
-            <button className="Holiday-Cheer-5-hex" type="submit" id="delete-phrase-pair">
-              <FaRegTrashAlt />
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit} className="phrase-pair-container-1">
+          {l1ElementEdit}
+          {l2ElementEdit}
+          <div id="save-phrase-pair" onClick={handleSave}>
+            <FaRegSave />
+          </div>
+          <button
+            className="Holiday-Cheer-5-hex"
+            type="submit"
+            id="delete-phrase-pair"
+          >
+            <FaRegTrashAlt />
+          </button>
+        </form>
       )}
     </div>
   );
