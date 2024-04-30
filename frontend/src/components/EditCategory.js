@@ -1,8 +1,7 @@
 import "../App.css";
 import "../styles/editcategory.css";
 import PhrasePair from "./PhrasePair";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { CiCirclePlus } from "react-icons/ci";
+import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 
@@ -62,7 +61,7 @@ export default function EditCategory({ category, userDetails, language }) {
   };
 
   const displayAddPhraseWidget = async () => {
-    setAddPhraseWidgetDisplayed(() => true);
+    setAddPhraseWidgetDisplayed((prev) => ~prev);
   };
 
   function togglePhrasesChangedIndicator() {
@@ -140,12 +139,12 @@ export default function EditCategory({ category, userDetails, language }) {
             className="add-category"
             onClick={() => displayAddPhraseWidget()}
           >
-            <CiCirclePlus />
+            {addPhraseWidgetDisplayed ? <CiCircleMinus /> : <CiCirclePlus />}
           </div>
-          {addPhraseWidgetDisplayed && addPhraseWidget}
+          {addPhraseWidgetDisplayed ? addPhraseWidget : null}
         </IconContext.Provider>
         {phrases.map(({ l1, l2, phraseid, phraseselectionid }) => (
-          <div key={ phraseselectionid}>
+          <div key={phraseselectionid}>
             <IconContext.Provider
               value={{
                 size: 32,
