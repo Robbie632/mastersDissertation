@@ -203,6 +203,46 @@ class TestGetEndpoints(unittest.TestCase):
                 self.assertEqual(observed[0]["l2"], expected["l2"])
                 self.assertEqual(observed[0]["category"], expected["category"])
 
+
+    def test_phrases_category_get(self):
+        """
+        test GET for phrases for specific category
+        """
+        mock_data_1 = {"languageid": 1, "userid": "1",
+                       "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
+        mock_data_2 = {"languageid": 2, "userid": "1",
+                       "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
+        with self.app.app_context():
+            db.session.add(Phrase(languageid=mock_data_1["languageid"],
+                                  userid=mock_data_1["userid"],
+                                  l1=mock_data_1["l1"],
+                                  l2=mock_data_1["l2"],
+                                  category=mock_data_1["category"]))
+            db.session.commit()
+            db.session.add(Phrase(languageid=mock_data_2["languageid"],
+                                  userid=mock_data_2["userid"],
+                                  l1=mock_data_2["l1"],
+                                  l2=mock_data_2["l2"],
+                                  category=mock_data_2["category"]))
+            db.session.commit()
+
+        response = self.test_client.get(
+            f"/api/phrases/category?category={mock_data_1['category']}", headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 200)
+        observed_data = response.json["data"]
+        self.assertEqual(1, len(observed_data))
+        observed_data_1 = [
+            c for c in observed_data if c["languageid"] == mock_data_1["languageid"]]
+
+        for (observed, expected, test_name) in [(observed_data_1, mock_data_1, "mock_data_1")]:
+            with self.subTest(test_name):
+                self.assertEqual(
+                    observed[0]["languageid"], expected["languageid"])
+                self.assertEqual(observed[0]["userid"], expected["userid"])
+                self.assertEqual(observed[0]["l1"], expected["l1"])
+                self.assertEqual(observed[0]["l2"], expected["l2"])
+                self.assertEqual(observed[0]["category"], expected["category"])
+
     def test_phrase_post(self):
         """
         test post where write phrase data
