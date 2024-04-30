@@ -1,7 +1,6 @@
 import "../styles/category.css";
 import "../App.css";
 import { MdEdit } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function Category({ name, setLesson, setEdit }) {
   return (
@@ -14,10 +13,6 @@ export default function Category({ name, setLesson, setEdit }) {
           }}>
             <MdEdit/>
           </div>
-          <div className="delete-icon">
-            <FaRegTrashAlt/>
-          </div>
-          
         </div>
       </div>
     </div>

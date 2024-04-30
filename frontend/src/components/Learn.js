@@ -16,14 +16,6 @@ export default function Learn({ userDetails, language }) {
     "museums",
   ];
 
-  function createCategory() {
-    alert("TODO: insert create category logic here")
-
-  }
-
-  const createCategoryElement = (
-    <div onClick={() => createCategory()} id="create-category" class="Holiday-Cheer-3-hex heading-2 create-category-button">CREATE CATEGORY</div>
-  );
 
   const categoryElements = (
     <div id="category-tiles">
@@ -42,7 +34,6 @@ export default function Learn({ userDetails, language }) {
   
   if (lesson === "") {
     body = <div id="category-container-1" class="Holiday-Cheer-5-hex">
-    {edit === "" && createCategoryElement}
     {edit === "" && categoryElements}
     {edit !== "" && editCategoryElement}
     </div>

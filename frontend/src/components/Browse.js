@@ -1,44 +1,98 @@
 import "../styles/browse.css";
 import "../App.css";
 import PhrasePair from "./PhrasePair";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { FaStar } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 
 export default function Browse() {
-  const phrasePairs = [
-    { l1: "phrase 1a", l2: "phrase 1b", phraseid: "0", stars: 3 },
-    { l1: "phrase 2a", l2: "phrase 2b", phraseid: "1", stars: 3 },
-    { l1: "phrase 3a", l2: "phrase 3b", phraseid: "2", stars: 3 },
-    { l1: "phrase 4a", l2: "phrase 4b", phraseid: "3", stars: 3 },
-  ];
+  const [phrases, setPhrases] = useState([]);
+  const [category, setCategory] = useState("introductions");
 
-  const [phrases, setPhrases] = useState(phrasePairs);
+  useEffect(() => {
+    const fetchData = async () => {
+      const url =
+        "http://localhost:5000/api/phrases/category?" +
+        new URLSearchParams({
+          category: category,
+        }).toString();
 
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status == 200) {
+        const result = await response.json();
+        const new_phrases = result.data.map((Phrase) => {
+          return {
+            l1: Phrase.l1,
+            l2: Phrase.l2,
+            phraseid: Phrase.phraseid,
+            stars: 3
+          };
+        });
+        setPhrases(() => new_phrases);
+      } else {
+        alert("problem calling backend api");
+      }
+    };
+    fetchData();
+  }, [category]);
+
+    const handleChange = (event) => {
+      setCategory(event.target.value);
+    };
   return (
-    <div className="browse-container-1">
-      <div id="browse-container-2">
-        {phrases.map(({ l1, l2, phraseid, stars }) => (
-          <div id="phrase-pair-container">
-            <PhrasePair l1={l1} l2={l2} allowEdit={false}></PhrasePair>
+    <div>
+      <div className="dropdown">
+        <label for="categories" className="heading-1">
+          Category:
+        </label>
+        <select onChange={handleChange} className="heading-2" name="categories" id="categories">
+          <option className="heading-3" value="cafe">
+            Cafe
+          </option>
+          <option className="heading-3" value="restaurant">
+            Restaurant
+          </option>
+          <option className="heading-3" value="family">
+            Family
+          </option>
+          <option className="heading-3" value="introductions" selected="selected">
+            Introductions
+          </option>
+          <option className="heading-3" value="museums">
+            Museums
+          </option>
+        </select>
+      </div>
 
-            <IconContext.Provider
-              value={{
-                size: 32,
-                color: "#024554",
-                className: "global-class-name",
-              }}
-            >
-              {Array.from({ length: stars }, (value, index) => (
-                <FaStar style={{ size: "48" }} />
-              ))}
-              {Array.from({ length: 5 - stars }, (value, index) => (
-                <CiStar />
-              ))}
-            </IconContext.Provider>
-          </div>
-        ))}
+      <div className="browse-container-1">
+        <div id="browse-container-2">
+          {phrases.map(({ l1, l2, phraseid, stars }) => (
+            <div id="phrase-pair-container">
+              <PhrasePair l1={l1} l2={l2} allowEdit={false} phraseid={phraseid}></PhrasePair>
+
+              <IconContext.Provider
+                value={{
+                  size: 32,
+                  color: "#024554",
+                  className: "global-class-name",
+                }}
+              >
+                {Array.from({ length: stars }, (value, index) => (
+                  <FaStar style={{ size: "48" }} />
+                ))}
+                {Array.from({ length: 5 - stars }, (value, index) => (
+                  <CiStar />
+                ))}
+              </IconContext.Provider>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -39,7 +39,8 @@ def create_app(test=False):
                          r"/api/token": {"origins": "*"},
                          r"/api/phraseselection": {"origins": "*"},
                          r"/api/phraseselection/category": {"origins": "*"},
-                         r"/api/phrase": {"origins": "*"}})
+                         r"/api/phrase": {"origins": "*"},
+                         r"/api/phrases/category": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
