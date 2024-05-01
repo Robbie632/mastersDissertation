@@ -206,9 +206,8 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            # TODO put in logic here to filter for userid and category
-
             db_response =db.session.query(Phrase).\
+            filter(Phrase.category == category).\
               filter(Phrase.userid.not_in(PhraseSelection.query.with_entities(PhraseSelection.userid).\
                                           filter(PhraseSelection.userid ==userid))).all()
             
