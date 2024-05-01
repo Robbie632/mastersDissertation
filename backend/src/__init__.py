@@ -192,6 +192,36 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
+    
+    @app.route('/api/phrases/category/user', methods=["GET"])
+    def phrasescategoryuser_get():
+        status_code = 200
+        data = {"status": "success", "data": 0}
+        try:
+            category = request.args["category"]
+            userid = request.args["userid"]
+        except KeyError as e:
+            status_code = 400
+            data["status"] = f"did not get expected arg: {e}"
+            return jsonify(data), status_code
+
+        try:
+            # TODO put in logic here to filter for userid and category
+
+            db_response =db.session.query(Phrase).\
+              join(PhraseSelection, Phrase.phraseid==PhraseSelection.phraseid).\
+                filter(PhraseSelection.userid == userid).\
+                  filter(Phrase.category == category).all()
+            
+            dicts = [c.toDict() for c in db_response]
+            data["data"] = dicts
+            data["status_code"] = status_code
+        except Exception as e:
+            status_code = 400
+            data["status"] = f"error: {e}"
+            data["status_code"] = status_code
+
+        return jsonify(data), status_code
 
     @app.route('/api/phrase', methods=["POST"])
     def phrase_post():
