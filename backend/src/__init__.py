@@ -209,9 +209,8 @@ def create_app(test=False):
             # TODO put in logic here to filter for userid and category
 
             db_response =db.session.query(Phrase).\
-              join(PhraseSelection, Phrase.phraseid==PhraseSelection.phraseid).\
-                filter(PhraseSelection.userid == userid).\
-                  filter(Phrase.category == category).all()
+              filter(Phrase.userid.not_in(PhraseSelection.query.with_entities(PhraseSelection.userid).\
+                                          filter(PhraseSelection.userid ==userid))).all()
             
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts

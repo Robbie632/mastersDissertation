@@ -249,14 +249,14 @@ class TestGetEndpoints(unittest.TestCase):
         """
         mock_phraseselection_data_1 = {"userid": "1", "phraseid": 1}
         mock_phraseselection_data_2 = {"userid": "1", "phraseid": 2}
-        mock_phraseselection_data_3 = {"userid": "2", "phraseid": 2}
+        mock_phraseselection_data_3 = {"userid": "2", "phraseid": 3}
 
         mock_phrase_data_1 = {"languageid": 2, "userid": "1",
                               "l1": "l1 phrase", "l2": "l2 phrase", "category": "restaurant"}
         mock_phrase_data_2 = {"languageid": 2, "userid": "1",
                               "l1": "l1 phrase", "l2": "l2 phrase", "category": "restaurant"}
         mock_phrase_data_3 = {"languageid": 2, "userid": "2",
-                              "l1": "l1 phrase", "l2": "l2 phrase", "category": "cafe"}
+                              "l1": "l1 phrase", "l2": "l2 phrase", "category": "restaurant"}
 
         mock_language_data_1 = {"name": "Swedish"}
         mock_language_data_2 = {"name": "Spanish"}
@@ -300,10 +300,10 @@ class TestGetEndpoints(unittest.TestCase):
             f"/api/phrases/category/user?category={mock_phrase_data_1['category']}&userid={mock_phraseselection_data_1['userid']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
-        self.assertEqual(2, len(observed_data))
+        self.assertEqual(1, len(observed_data))
         for observed_row in observed_data:
-            self.assertEqual(observed_row["category"], mock_phrase_data_1["category"]) 
-            self.assertEqual(observed_row["userid"], mock_phraseselection_data_1["userid"]) 
+            self.assertEqual(observed_row["phraseid"], mock_phraseselection_data_3["phraseid"]) 
+
 
 
 
