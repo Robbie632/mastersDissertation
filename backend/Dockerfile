@@ -40,7 +40,11 @@ COPY ./src /app/src
 
 COPY ./tests /app/tests
 
+# COPY ./explore.ipynb /app/explore.ipynb
+
 EXPOSE 5000
+
+EXPOSE 8888
 
 CMD ["flask", "--app", "src", "run", "--debug", "--host", "0.0.0.0", "--port", "5000"]
 
