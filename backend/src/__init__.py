@@ -96,7 +96,7 @@ def create_app(test=False):
 
     @app.route('/api/user', methods=["DELETE"])
     def user_delete():
-        response = {"status":""}
+        response = {"status": ""}
         status_code = 200
         data = request.json
         userid = data.get('userid')
@@ -113,9 +113,9 @@ def create_app(test=False):
                 pass
             PhraseSelection.query.filter_by(userid=userid).delete()
             db.session.commit()
-            
+
             response['status'] = f'Successfully deleted user {userid}'
-            
+
             return jsonify(response), status_code
         except Exception as e:
             response["status"] = f'Error deleting user: {e}'
@@ -154,7 +154,7 @@ def create_app(test=False):
             status_code = 400
 
             return jsonify(response), status_code
-        
+
     @app.route('/api/phrases', methods=["GET"])
     def phrases_get():
         status_code = 200
@@ -170,7 +170,7 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
-    
+
     @app.route('/api/phrases/category', methods=["GET"])
     def phrasescategory_get():
         status_code = 200
@@ -183,7 +183,8 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            db_response =db.session.query(Phrase).filter(Phrase.category==category)
+            db_response = db.session.query(Phrase).filter(
+                Phrase.category == category)
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts
             data["status_code"] = status_code
@@ -193,10 +194,10 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
-    
+
     @app.route('/api/phrases/category/user', methods=["GET"])
     def phrasescategoryuser_get():
-        
+
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
@@ -208,14 +209,15 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            # TODO problem here, one of the tests fails so see that for details the notin isnt working
-            # because the list passed to not in is list of tuples
-            phrase_selections_of_user = PhraseSelection.query.filter(PhraseSelection.userid ==userid).all()
-            phrase_selection_phraseids = [p.phraseid for p in phrase_selections_of_user]
-            db_response =db.session.query(Phrase).\
+            phrase_selections_of_user = PhraseSelection.query.filter(
+                PhraseSelection.userid == userid).all()
+            phrase_selection_phraseids = [
+                p.phraseid for p in phrase_selections_of_user]
+            db_response = db.session.query(Phrase).\
                 filter(Phrase.category == category).\
-                  filter(Phrase.phraseid.not_in(phrase_selection_phraseids)).all()
-            
+                filter(Phrase.phraseid.not_in(
+                    phrase_selection_phraseids)).all()
+
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts
             data["status_code"] = status_code
@@ -255,7 +257,7 @@ def create_app(test=False):
             response["status"] = "received unexpected data format"
 
         return jsonify(response), status_code
-    
+
     @app.route('/api/phrase', methods=["PATCH"])
     def phrase_patch():
         status_code = 200
@@ -405,7 +407,7 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
-    
+
     @app.route('/api/phraseselection/category', methods=["GET"])
     def phraseselectioncategory_get():
         status_code = 200
@@ -420,16 +422,17 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            db_response =db.session.query(PhraseSelection, Phrase).join(PhraseSelection, Phrase.phraseid == PhraseSelection.phraseid)\
-                            .filter(Phrase.languageid==language_id)\
-                            .filter(Phrase.category==category).filter(Phrase.userid==user_id).all()
-            dicts  = []
+            db_response = db.session.query(PhraseSelection, Phrase).join(PhraseSelection, Phrase.phraseid == PhraseSelection.phraseid)\
+                            .filter(Phrase.languageid == language_id)\
+                            .filter(Phrase.category == category).filter(Phrase.userid == user_id).all()
+            dicts = []
             for i in db_response:
-              t = i.tuple()
-              phrase_selection_data = t[0].toDict()
-              phrase_data = t[1].toDict()
-              dicts.append({"PhraseSelection": phrase_selection_data, "Phrase": phrase_data})
-            
+                t = i.tuple()
+                phrase_selection_data = t[0].toDict()
+                phrase_data = t[1].toDict()
+                dicts.append(
+                    {"PhraseSelection": phrase_selection_data, "Phrase": phrase_data})
+
             data["data"] = dicts
 
             data["status_code"] = status_code
@@ -468,10 +471,10 @@ def create_app(test=False):
             response["status"] = "received unexpected data format"
 
         return jsonify(response), status_code
-    
+
     @app.route('/api/phraseselection', methods=["DELETE"])
     def phraseselection_delete():
-        response = {"status":""}
+        response = {"status": ""}
         status_code = 200
         data = request.json
         phraseselectionid = data.get('phraseselectionid')
@@ -482,14 +485,14 @@ def create_app(test=False):
             return jsonify(response), status_code
         try:
 
-            PhraseSelection.query.filter_by(phraseselectionid=phraseselectionid).delete()
+            PhraseSelection.query.filter_by(
+                phraseselectionid=phraseselectionid).delete()
             db.session.commit()
             response['status'] = f'Successfully deleted phraselection {phraseselectionid}'
-            
+
             return jsonify(response), status_code
         except Exception as e:
             response["status"] = f'Error deleting phraseselection: {e}'
             return jsonify(response), 500
-
 
     return app
