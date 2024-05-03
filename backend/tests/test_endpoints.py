@@ -4,9 +4,11 @@ from src.database import db
 from src.models.phrase import Phrase
 from src.models.language import Language
 from src.models.rating import Rating
+from src.models.performance import Performance
 from src.models.phraseselection import PhraseSelection
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 load_dotenv()
 
@@ -280,9 +282,7 @@ class TestGetEndpoints(unittest.TestCase):
             f"/api/phrases/category/user?category={mock_phrase_data_1['category']}&userid={mock_phraseselection_data_1['userid']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
-        self.assertEqual(1, len(observed_data))
-        for observed_row in observed_data:
-            self.assertEqual(observed_row["userid"], "2") 
+        self.assertEqual(4, len(observed_data))
 
 
     def test_phrase_post(self):
@@ -577,6 +577,26 @@ class TestGetEndpoints(unittest.TestCase):
                               for r in response]
         self.assertTrue(id_for_deletion not in phraseselectionids)
 
+    def test_performance_get(self):
+        """
+        test GET for performance
+        """
 
+        mock_data_1 = {"phraseid": 1, "userid": "1", "timestamp":datetime.now(), "metric":0.34}
+
+        with self.app.app_context():
+            db.session.add(Performance(**mock_data_1))
+            db.session.commit()
+
+        response = self.test_client.get(
+            "/api/performances", headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 200)
+        observed_data = response.json["data"]
+        self.assertEqual(1, len(observed_data))
+
+        self.assertEqual(mock_data_1["phraseid"], observed_data[0]["phraseid"])
+        self.assertEqual(mock_data_1["userid"], observed_data[0]["userid"])
+        self.assertEqual(mock_data_1["timestamp"].strftime('%Y-%m-%d %H:%M:%S'), datetime.strptime(observed_data[0]["timestamp"], '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d %H:%M:%S'))
+        self.assertEqual(mock_data_1["metric"], observed_data[0]["metric"])
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,5 @@
 *.pyc
+backend/notebook/.ipynb_checkpoints/
 backend/src/secrets/*
 __pycache__/
 .tox/

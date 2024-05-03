@@ -5,6 +5,7 @@ from src.models.phrase import Phrase
 from src.models.language import Language
 from src.models.rating import Rating
 from src.models.phraseselection import PhraseSelection
+from src.models.performance import Performance
 from flask_cors import CORS
 from functools import wraps
 import firebase_admin
@@ -41,7 +42,8 @@ def create_app(test=False):
                          r"/api/phraseselection/category": {"origins": "*"},
                          r"/api/phrase": {"origins": "*"},
                          r"/api/phrases/category": {"origins": "*"},
-                         r"/api/phrases/category/user": {"origins": "*"}})
+                         r"/api/phrases/category/user": {"origins": "*"},
+                         r"/api/performances": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -495,4 +497,22 @@ def create_app(test=False):
             response["status"] = f'Error deleting phraseselection: {e}'
             return jsonify(response), 500
 
+
+    @app.route('/api/performances', methods=["GET"])
+    def performances_get():
+        status_code = 200
+        data = {"status": "success", "data": 0}
+
+        try:
+            db_response = db.session.query(Performance).all()
+            dicts = [c.toDict() for c in db_response]
+            data["data"] = dicts
+            data["status_code"] = status_code
+        except Exception as e:
+            status_code = 400
+            data["status"] = f"error: {e}"
+            data["status_code"] = status_code
+
+        return jsonify(data), status_code
+    
     return app
