@@ -40,7 +40,8 @@ def create_app(test=False):
                          r"/api/phraseselection": {"origins": "*"},
                          r"/api/phraseselection/category": {"origins": "*"},
                          r"/api/phrase": {"origins": "*"},
-                         r"/api/phrases/category": {"origins": "*"}})
+                         r"/api/phrases/category": {"origins": "*"},
+                         r"/api/phrases/category/user": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -195,6 +196,7 @@ def create_app(test=False):
     
     @app.route('/api/phrases/category/user', methods=["GET"])
     def phrasescategoryuser_get():
+        
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
@@ -206,10 +208,13 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
+            # TODO problem here, one of the tests fails so see that for details the notin isnt working
+            # because the list passed to not in is list of tuples
+            phrase_selections_of_user = PhraseSelection.query.filter(PhraseSelection.userid ==userid).all()
+            phrase_selection_phraseids = [p.phraseid for p in phrase_selections_of_user]
             db_response =db.session.query(Phrase).\
-            filter(Phrase.category == category).\
-              filter(Phrase.userid.not_in(PhraseSelection.query.with_entities(PhraseSelection.userid).\
-                                          filter(PhraseSelection.userid ==userid))).all()
+                filter(Phrase.category == category).\
+                  filter(Phrase.phraseid.not_in(phrase_selection_phraseids)).all()
             
             dicts = [c.toDict() for c in db_response]
             data["data"] = dicts

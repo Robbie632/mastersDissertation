@@ -6,16 +6,17 @@ import { IconContext } from "react-icons";
 import { FaStar } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 
-export default function Browse() {
+export default function Browse({userDetails}) {
   const [phrases, setPhrases] = useState([]);
   const [category, setCategory] = useState("introductions");
 
   useEffect(() => {
     const fetchData = async () => {
       const url =
-        "http://localhost:5000/api/phrases/category?" +
+        "http://localhost:5000/api/phrases/category/user?" +
         new URLSearchParams({
           category: category,
+          userid: userDetails.userid
         }).toString();
 
       const response = await fetch(url, {

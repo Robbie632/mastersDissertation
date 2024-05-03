@@ -1,51 +1,35 @@
-# Services
-
-All services are run using docker-compose, they can be started by running
-
-```
-docker-compose up --build -d
-```
-
-## `backend/`
-
-### REST API that interacts with Postgres database
-
-#### API Documentation
-
-**GET Endpoints:**
-
-- `/api/rating`: Gets all ratings for a specific phrase.
-- `/api/phrase`: Get all phrases.
-- `/api/language`: Get all languages.
-- `/api/phraseselection`: Get all phrases associated with a user and language.
-
-**POST Endpoints:**
-
-- `/api/rating`: Write a new rating to the database.
-- `/api/phrase`: Write a new phrase to the database.
-- `/api/language`: Write a new language to the database.
-- `/api/phraseselection`: Write a new phrase to the phrase selection for a given user.
-
-## `frontend/`
-
 ## Database
 
-docker exec -it <containerid> bash
-connect
-psql -U languageapp
+To access the database container, run:
 
-connect to dabase
-\c <databasename>
-list tables
-\d 
-list phrases
-select * from phrases
+``` docker exec -it <containerid> bash```
 
-for exploring database uncomment
-command: jupyter-notebook --ip 0.0.0.0 --no-browser
-in docker-compose.yml file
-then build the containers with
-docker-compose docker-compose up --build languageapp languageapp-db
-then navigate to the url logged in the languageapp container
-because the folder the notebook is in is volume mapped any changes you make in the browser will update dyour local copy of the notebook
-you can now interact with the database
+Connect to PostgreSQL:
+
+```psql -U languageapp```
+
+Once connected, select the desired database:
+
+`\c <databasename>`
+
+To list tables:
+
+`\d`
+
+To list phrases:
+
+```select * from phrases```
+
+For exploring the database interactively, follow these steps:
+
+1. Uncomment the following line in `docker-compose.yml`:
+
+```# command: jupyter-notebook --ip 0.0.0.0 --no-browser```
+
+2. Build the containers:
+
+```docker-compose up --build languageapp languageapp-db-test```
+
+3. Navigate to the URL logged in the languageapp container.
+
+Since the notebook's folder is volume mapped, any changes made in the browser will update your local copy of the notebook. Now you can interact with the database.

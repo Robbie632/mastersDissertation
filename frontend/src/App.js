@@ -24,7 +24,7 @@ function App() {
         <Menu setMenuSelection={setMenuSelection} menuSelection={menuSelection} language={language}></Menu>
       </div>
       {menuSelection === "learn" && loggedIn && <Learn userDetails={userDetails} language={ language}></Learn>}
-      {menuSelection === "browse" && loggedIn && <Browse></Browse>}
+      {menuSelection === "browse" && loggedIn && <Browse userDetails={userDetails}></Browse>}
       {menuSelection === "account" && <Account setLoggedIn={setLoggedIn} loggedIn={loggedIn} setSignedUp={setSignedUp} signedUp={signedUp} setUserDetails={setUserDetails} setMenuSelection={setMenuSelection}></Account>}
       {menuSelection === "signup" && <SignUp setSignedUp={ setSignedUp}></SignUp>}
     </div>
