@@ -12,6 +12,8 @@ export default function PhrasePair({
   phraseid,
   phraseselectionid,
   togglePhrasesChangedIndicator,
+  userDetails,
+  setUpdatePhrasesIndicator
 }) {
   const [mode, setMode] = useState("view");
 
@@ -28,11 +30,29 @@ export default function PhrasePair({
     });
   };
   const handleGetPhrase = async () => {
-    alert("implement logic for getting phrase here")
+
+    const response = await fetch(
+      "http://localhost:5000/api/phraseselection",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phraseid: phraseid,
+          userid: userDetails["userid"],
+        }),
+      }
+    );
+    if (response.status !== 201) {
+      alert("problem getting phrase")
+    }
+    if (response.status === 201) {
+      setUpdatePhrasesIndicator((prev) => ~prev);
+      const data = await response.json();
+      const phraseselectionid = response["id"];
+    }
   }
   
   const handleSave = async (e) => {
-    //alert("insert save logic here, just do fetch call to /api/phrases and return to view mode for phrase pair")
     const response = await fetch("http://localhost:5000/api/phrase", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

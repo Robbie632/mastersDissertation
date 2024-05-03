@@ -9,6 +9,7 @@ import { CiStar } from "react-icons/ci";
 export default function Browse({userDetails}) {
   const [phrases, setPhrases] = useState([]);
   const [category, setCategory] = useState("introductions");
+  const [updatePhrasesIndicator, setUpdatePhrasesIndicator] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +42,7 @@ export default function Browse({userDetails}) {
       }
     };
     fetchData();
-  }, [category]);
+  }, [category, updatePhrasesIndicator]);
 
     const handleChange = (event) => {
       setCategory(event.target.value);
@@ -75,7 +76,7 @@ export default function Browse({userDetails}) {
         <div id="browse-container-2">
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
-              <PhrasePair l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true}></PhrasePair>
+              <PhrasePair l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator}></PhrasePair>
 
               {/* <IconContext.Provider
                 value={{
