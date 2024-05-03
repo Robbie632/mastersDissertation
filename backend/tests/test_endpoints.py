@@ -598,5 +598,25 @@ class TestGetEndpoints(unittest.TestCase):
         self.assertEqual(mock_data_1["userid"], observed_data[0]["userid"])
         self.assertEqual(mock_data_1["timestamp"].strftime('%Y-%m-%d %H:%M:%S'), datetime.strptime(observed_data[0]["timestamp"], '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d %H:%M:%S'))
         self.assertEqual(mock_data_1["metric"], observed_data[0]["metric"])
+
+    def test_performance_post(self):
+        """
+        test post to performance endpoint
+        """
+        mock_data = {"phraseid": 1, "userid": "1",
+                     "timestamp": datetime.now(), "metric": 0.56,}
+        response = self.test_client.post(
+            "/api/performance", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 201)
+        self.assertIsNotNone(response.json.get("id"))
+        with self.app.app_context():
+            observed = Performance.query.all()
+        self.assertEqual(1, len(observed))
+        first_observed = observed[0]
+        self.assertEqual(mock_data["phraseid"],
+                         int(first_observed.phraseid))
+        self.assertEqual(mock_data["userid"], first_observed.userid)
+        self.assertEqual(mock_data["timestamp"].strftime('%Y-%m-%d %H:%M:%S'), first_observed.timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+        self.assertEqual(mock_data["metric"], first_observed.metric)
 if __name__ == '__main__':
     unittest.main()

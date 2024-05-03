@@ -43,7 +43,8 @@ def create_app(test=False):
                          r"/api/phrase": {"origins": "*"},
                          r"/api/phrases/category": {"origins": "*"},
                          r"/api/phrases/category/user": {"origins": "*"},
-                         r"/api/performances": {"origins": "*"}})
+                         r"/api/performances": {"origins": "*"},
+                         r"/api/performance": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -514,5 +515,38 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
+    
+    @app.route('/api/performance', methods=["POST"])
+    def performance_post():
+        status_code = 201
+        response = {
+            "status": "",
+            "id": ""
+        }
+        try:
+            data = request.json
+            phraseid = data["phraseid"]
+            userid = data["userid"]
+            timestamp = data["timestamp"]
+            metric = data["metric"]
+
+            try:
+                performance = Performance(phraseid=phraseid,
+                                                  userid=userid,
+                                                  timestamp=timestamp,
+                                                  metric=metric)
+                db.session.add(performance)
+                db.session.commit()
+                response["id"] = performance.performanceid
+            except Exception as e:
+                db.session.rollback()
+                status_code = 500
+                response[
+                    "status"] = f"problem writing new performance data to database: {str(e)}"
+        except KeyError:
+            status_code = 400
+            response["status"] = "received unexpected data format"
+
+        return jsonify(response), status_code
     
     return app
