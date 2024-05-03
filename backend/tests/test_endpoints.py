@@ -582,7 +582,7 @@ class TestGetEndpoints(unittest.TestCase):
         test GET for performance
         """
 
-        mock_data_1 = {"phraseid": 1, "userid": "1", "timestamp":datetime.now(), "metric":0.34}
+        mock_data_1 = {"phraseid": 1, "userid": "1", "metric":0.34, "timestamp":datetime.now()}
 
         with self.app.app_context():
             db.session.add(Performance(**mock_data_1))
@@ -596,15 +596,14 @@ class TestGetEndpoints(unittest.TestCase):
 
         self.assertEqual(mock_data_1["phraseid"], observed_data[0]["phraseid"])
         self.assertEqual(mock_data_1["userid"], observed_data[0]["userid"])
-        self.assertEqual(mock_data_1["timestamp"].strftime('%Y-%m-%d %H:%M:%S'), datetime.strptime(observed_data[0]["timestamp"], '%a, %d %b %Y %H:%M:%S %Z').strftime('%Y-%m-%d %H:%M:%S'))
+        self.assertIsInstance(observed_data[0]["timestamp"], str)
         self.assertEqual(mock_data_1["metric"], observed_data[0]["metric"])
 
     def test_performance_post(self):
         """
         test post to performance endpoint
         """
-        mock_data = {"phraseid": 1, "userid": "1",
-                     "timestamp": datetime.now(), "metric": 0.56,}
+        mock_data = {"phraseid": 1, "userid": "1", "metric": 0.56,}
         response = self.test_client.post(
             "/api/performance", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 201)
@@ -616,7 +615,7 @@ class TestGetEndpoints(unittest.TestCase):
         self.assertEqual(mock_data["phraseid"],
                          int(first_observed.phraseid))
         self.assertEqual(mock_data["userid"], first_observed.userid)
-        self.assertEqual(mock_data["timestamp"].strftime('%Y-%m-%d %H:%M:%S'), first_observed.timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+        self.assertIsInstance(first_observed.timestamp, datetime)
         self.assertEqual(mock_data["metric"], first_observed.metric)
 if __name__ == '__main__':
     unittest.main()

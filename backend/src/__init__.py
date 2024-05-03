@@ -13,6 +13,7 @@ import pyrebase
 import json
 from firebase_admin import credentials, auth
 from dotenv import load_dotenv
+from datetime import datetime
 import requests as r
 
 load_dotenv()
@@ -527,7 +528,7 @@ def create_app(test=False):
             data = request.json
             phraseid = data["phraseid"]
             userid = data["userid"]
-            timestamp = data["timestamp"]
+            timestamp = datetime.now()
             metric = data["metric"]
 
             try:

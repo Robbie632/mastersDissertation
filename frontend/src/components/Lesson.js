@@ -33,7 +33,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         const new_phrases = result.data.map(({ Phrase, PhraseSelection }) => {
           return ({
             l1: Phrase.l1,
-            l2: Phrase.l2
+            l2: Phrase.l2,
+            phraseid: Phrase.phraseid
           })
         }) 
         setPhrases(new_phrases);
@@ -68,14 +69,37 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     }
   }
 
-  function checkAnswer(answer) {
+  function calculate_similarity(a, b) {
+    if (a === b) {
+      return 1
+    } else {
+      return 0
+    }
+  }
+
+  const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
       const l2 = phrases[progress]["l2"];
-      if (answer === l2) {
+      const phraseid = phrases[progress]["phraseid"];
+      const similarity = calculate_similarity(answer, l2)
+      if (similarity ===1) {
         setl1Input("");
         safeProgressIncrement();
       } else {
         alert("incorrect: please try again");
+      }
+
+      const response = await fetch("http://localhost:5000/api/performance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userid: userDetails["userid"],
+          phraseid: phraseid,
+          metric: similarity
+        }),
+      });
+      if (response.status !== 201) {
+        alert("problem writing result to database")
       }
     }
   }

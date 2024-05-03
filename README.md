@@ -8,6 +8,10 @@ Connect to PostgreSQL:
 
 ```psql -U languageapp```
 
+to list databases
+
+`\l`
+
 Once connected, select the desired database:
 
 `\c <databasename>`
