@@ -17,6 +17,20 @@ services:
     depends_on:
       - languageapp-db
       - languageapp-db-test
+  ml:
+    environment:
+    - PYTHONUNBUFFERED=1 # this is so that print statements are shown in docker container logs
+    build:
+      context: ./ml
+    ports: 
+      - "8888:8888"
+    volumes:
+      - "./ml/notebook:/ml/notebook"
+    command: pytest
+    #command: jupyter-notebook --ip 0.0.0.0 --no-browser --allow-root
+    depends_on:
+      - languageapp-db
+      - languageapp-db-test
   languageapp-db:
     build: 
       context: ./db
