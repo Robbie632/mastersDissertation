@@ -11,6 +11,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const numQuestions = phrases.length;
   const [progress, setProgress] = useState(0);
   const [l1Input, setl1Input] = useState("");
+  const [similarity, setSimilarity] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,6 +95,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
       const similarity = await calculate_similarity(answer, l2);
+      setSimilarity(() => similarity.toFixed(2))
       if (similarity >0.85) {
         setl1Input("");
         safeProgressIncrement();
@@ -188,6 +190,11 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         >
           <div>SKIP</div>
         </button>
+        <div className="lesson-similarity Holiday-Cheer-5-hex"> 
+          <div>
+            { similarity*100 } % match
+          </div>
+        </div>
         <button
           class="lesson-check lesson-button Holiday-Cheer-4-hex"
           onClick={() => checkAnswer(l1Input)}
