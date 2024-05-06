@@ -69,20 +69,32 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     }
   }
 
-  function calculate_similarity(a, b) {
-    if (a === b) {
-      return 1
+  const calculate_similarity = async (a, b) => {
+
+    const response = await fetch("http://localhost:5000/api/metric", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phrasea: a,
+        phraseb: b
+      }),
+    });
+    if (response.status !== 200) {
+      alert("problem getting similarity metric")
     } else {
-      return 0
+      const metric = await response.json();
+      const metric_list = metric["metric"];
+      return metric_list[0]
     }
+    
   }
 
   const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
-      const similarity = calculate_similarity(answer, l2)
-      if (similarity ===1) {
+      const similarity = await calculate_similarity(answer, l2);
+      if (similarity >0.85) {
         setl1Input("");
         safeProgressIncrement();
       } else {
