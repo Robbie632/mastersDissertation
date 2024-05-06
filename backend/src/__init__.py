@@ -14,12 +14,15 @@ import json
 from firebase_admin import credentials, auth
 from dotenv import load_dotenv
 from datetime import datetime
-import requests as r
+import requests
+
 
 load_dotenv()
 
 
 def create_app(test=False):
+    
+    metric_model_api = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
     # Connect to firebase
     cred = credentials.Certificate('./src/secrets/fbAdminConfig.json')
     firebase = firebase_admin.initialize_app(cred)
@@ -45,7 +48,8 @@ def create_app(test=False):
                          r"/api/phrases/category": {"origins": "*"},
                          r"/api/phrases/category/user": {"origins": "*"},
                          r"/api/performances": {"origins": "*"},
-                         r"/api/performance": {"origins": "*"}})
+                         r"/api/performance": {"origins": "*"},
+                         r"/api/metric": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -499,7 +503,6 @@ def create_app(test=False):
             response["status"] = f'Error deleting phraseselection: {e}'
             return jsonify(response), 500
 
-
     @app.route('/api/performances', methods=["GET"])
     def performances_get():
         status_code = 200
@@ -516,7 +519,7 @@ def create_app(test=False):
             data["status_code"] = status_code
 
         return jsonify(data), status_code
-    
+
     @app.route('/api/performance', methods=["POST"])
     def performance_post():
         status_code = 201
@@ -533,9 +536,9 @@ def create_app(test=False):
 
             try:
                 performance = Performance(phraseid=phraseid,
-                                                  userid=userid,
-                                                  timestamp=timestamp,
-                                                  metric=metric)
+                                          userid=userid,
+                                          timestamp=timestamp,
+                                          metric=metric)
                 db.session.add(performance)
                 db.session.commit()
                 response["id"] = performance.performanceid
@@ -549,5 +552,42 @@ def create_app(test=False):
             response["status"] = "received unexpected data format"
 
         return jsonify(response), status_code
-    
+
+    @app.route('/api/metric', methods=["POST"])
+    def metric_post():
+        status_code = 200
+        response = {
+            "status": "",
+            "metric": ""
+        }
+        try:
+            data = request.json
+            phrasea = data["phrasea"]
+            phraseb = data["phraseb"]
+
+        except KeyError:
+            status_code = 400
+            response["status"] = "received unexpected data format"
+        
+        api_token = "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"
+        headers = {"Authorization": f"Bearer {api_token}"}
+        
+        payload = {
+            "inputs": {
+                "source_sentence": phrasea,
+                "sentences": [phraseb]
+            }
+        }
+        try:
+          huggingface_response = requests.post(metric_model_api, headers=headers, json=payload, timeout=5)
+          response["metric"] = huggingface_response.json()
+        except requests.exceptions.Timeout:
+            status_code=400
+            response["status"] = "api call to hugging faces model timed out"
+        except requests.exceptions.RequestException:
+            status_code = 400
+            response["status"] = "api call to hugging faces model raised RequestException"
+
+        return jsonify(response), status_code
+
     return app

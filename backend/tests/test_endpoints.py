@@ -617,5 +617,25 @@ class TestGetEndpoints(unittest.TestCase):
         self.assertEqual(mock_data["userid"], first_observed.userid)
         self.assertIsInstance(first_observed.timestamp, datetime)
         self.assertEqual(mock_data["metric"], first_observed.metric)
+
+    def test_metric_post(self):
+        """
+        test post to metric endpoint
+        """
+        mock_data_1 = {"phrasea": "I like cats", "phraseb": "I love cats"}
+        mock_data_2 = {"phrasea": "I like cats", "phraseb": "I hate buildings"}
+
+        response = self.test_client.post(
+            "/api/metric", json=mock_data_1, content_type='application/json', headers={"authorization": self.jwt})
+        self.assertEqual(response.status_code, 200)
+        observed = response.json.get("metric")
+        self.assertGreater(observed[0], 0.85)
+
+        response2 = self.test_client.post(
+            "/api/metric", json=mock_data_2, content_type='application/json', headers={"authorization": self.jwt})
+        self.assertEqual(response2.status_code, 200)
+        observed = response2.json.get("metric")
+        self.assertLess(observed[0], 0.5)
+
 if __name__ == '__main__':
     unittest.main()
