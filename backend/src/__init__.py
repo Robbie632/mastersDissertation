@@ -372,14 +372,22 @@ def create_app(test=False):
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
-            phrase_id = request.args["phraseid"]
+            category = request.args["category"]
         except KeyError as e:
             status_code = 400
             data["status"] = f"did not get expected arg: {e}"
             return jsonify(data), status_code
         try:
-            db_response = Rating.query.filter_by(phraseid=phrase_id).all()
-            dicts = [c.toDict() for c in db_response]
+            # TODO problem error raised with this query
+            db_response = db.session.query(Rating, Phrase).join(Rating, Phrase.phraseid == Rating.phraseid)\
+                            .filter(Phrase.category == category).all()
+            dicts = []
+            for i in db_response:
+                t = i.tuple()
+                rating_data = t[0].toDict()
+                phrase_data = t[1].toDict()
+                dicts.append(
+                    {"Rating": rating_data, "Phrase": phrase_data})
             data["data"] = dicts
             data["status_code"] = status_code
         except Exception as e:
@@ -589,5 +597,5 @@ def create_app(test=False):
             response["status"] = "api call to hugging faces model raised RequestException"
 
         return jsonify(response), status_code
-
+    
     return app

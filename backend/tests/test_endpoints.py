@@ -346,13 +346,16 @@ class TestGetEndpoints(unittest.TestCase):
             "/api/phrase", json=mock_data, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 400)
 
-    def test_rating_get(self):
+    def test_ratings_get(self):
         """
-        test get ratings for specific phraseid
+        test get ratings for specific category
         """
         mock_data_1 = {"ratingid": 1, "phraseid": 1, "userid": "1", "rating": 3}
-        mock_data_2 = {"ratingid": 2, "phraseid": 2, "userid": "1", "rating": 3}
-
+        mock_data_2 = {"ratingid": 2, "phraseid": 2, "userid": "1", "rating": 4}
+        mock_phrasedata_1 = {"languageid": 1, "userid": "1",
+                       "l1": "l1 phrase 1", "l2": "l2 phrase 1", "category": "restaurant"}
+        mock_phrasedata_2 = {"languageid": 2, "userid": "1",
+                       "l1": "l1 phrase 2", "l2": "l2 phrase 2", "category": "cafe"}
         with self.app.app_context():
             db.session.add(Rating(ratingid=mock_data_1["ratingid"],
                                   phraseid=mock_data_1["phraseid"],
@@ -364,19 +367,19 @@ class TestGetEndpoints(unittest.TestCase):
                                   userid=mock_data_2["userid"],
                                   rating=mock_data_2["rating"]))
             db.session.commit()
+            db.session.add(Phrase(**mock_phrasedata_1))
+            db.session.commit()
+            db.session.add(Phrase(**mock_phrasedata_2))
+            db.session.commit()
 
         response = self.test_client.get(
-            f"/api/rating?phraseid={mock_data_1['phraseid']}", headers={"authorization": self.jwt})
+            f"/api/rating?category={mock_phrasedata_1['category']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
-        observed_data = response.json["data"]
-        self.assertEqual(1, len(observed_data))
-        observed_data = observed_data[0]
-        self.assertEqual(mock_data_1["ratingid"],
-                         int(observed_data["ratingid"]))
-        self.assertEqual(mock_data_1["phraseid"],
-                         int(observed_data["phraseid"]))
-        self.assertEqual(mock_data_1["userid"], observed_data["userid"])
-        self.assertEqual(mock_data_1["rating"], observed_data["rating"])
+        observed_phrase = response.json["data"][0]["Phrase"]
+        observed_rating = response.json["data"][0]["Rating"]
+        self.assertEqual(mock_phrasedata_1["category"], observed_phrase["category"])
+        self.assertEqual(mock_data_1["rating"], observed_rating["rating"])
+
 
     def test_rating_post(self):
         """
