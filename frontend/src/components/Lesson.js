@@ -1,5 +1,6 @@
 import "../styles/lesson.css";
 import "../App.css";
+import StarRating from "./StarRating";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
 import React, { useEffect,useState } from "react";
@@ -202,6 +203,9 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
           <div>CHECK</div>
         </button>
       </div>
+      <div>
+          <StarRating></StarRating>
+        </div>
     </div>
   );
 }
