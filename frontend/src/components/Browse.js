@@ -76,8 +76,7 @@ export default function Browse({userDetails}) {
         <div id="browse-container-2">
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
-              <PhrasePair l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator}></PhrasePair>
-
+              <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator}></PhrasePair>
               {/* <IconContext.Provider
                 value={{
                   size: 32,
