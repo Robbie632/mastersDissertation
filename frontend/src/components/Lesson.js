@@ -8,7 +8,7 @@ import { IoCloseSharp } from "react-icons/io5";
 
 export default function Lesson({ category, setLesson, userDetails, language }) {
 
-  const [phrases, setPhrases] = useState({});
+  const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
   const [progress, setProgress] = useState(0);
   const [l1Input, setl1Input] = useState("");
@@ -193,7 +193,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         </button>
         <div className="lesson-similarity Holiday-Cheer-5-hex"> 
           <div>
-            { similarity*100 } % match
+            { similarity*100 } %
           </div>
         </div>
         <button
@@ -204,7 +204,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         </button>
       </div>
       <div>
-          <StarRating></StarRating>
+        <StarRating phraseid={(phrases && phrases.length != 0 && progress < phrases.length) ? phrases[progress]["phraseid"] : -1} userid={userDetails["userid"]}></StarRating>
         </div>
     </div>
   );
