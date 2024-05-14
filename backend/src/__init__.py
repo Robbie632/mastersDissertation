@@ -6,6 +6,7 @@ from src.models.language import Language
 from src.models.rating import Rating
 from src.models.phraseselection import PhraseSelection
 from src.models.performance import Performance
+from src.utils import query
 from flask_cors import CORS
 from functools import wraps
 import firebase_admin
@@ -205,7 +206,7 @@ def create_app(test=False):
 
     @app.route('/api/phrases/category/user', methods=["GET"])
     def phrasescategoryuser_get():
-
+        # TODO modify to include ratings
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
@@ -217,17 +218,21 @@ def create_app(test=False):
             return jsonify(data), status_code
 
         try:
-            phrase_selections_of_user = PhraseSelection.query.filter(
-                PhraseSelection.userid == userid).all()
-            phrase_selection_phraseids = [
-                p.phraseid for p in phrase_selections_of_user]
-            db_response = db.session.query(Phrase).\
-                filter(Phrase.category == category).\
-                filter(Phrase.phraseid.not_in(
-                    phrase_selection_phraseids)).all()
+            db_response = query(f"""
+                SELECT phrases.phraseid, phrases.l1, phrases.l2, ROUND(AVG(ratings.rating), 0)
+                FROM phrases 
+                LEFT JOIN ratings
+                ON ratings.phraseid = phrases.phraseid
+                WHERE phrases.phraseid 
+                NOT IN (SELECT DISTINCT(phraseid)
+                        FROM phraseselections
+                        WHERE userid = '{userid}')
+                AND phrases.category = '{category}'
+                GROUP BY phrases.phraseid
+                ORDER BY AVG(ratings.rating) DESC
+                """, db)
 
-            dicts = [c.toDict() for c in db_response]
-            data["data"] = dicts
+            data["data"] = db_response
             data["status_code"] = status_code
         except Exception as e:
             status_code = 400
@@ -378,7 +383,6 @@ def create_app(test=False):
             data["status"] = f"did not get expected arg: {e}"
             return jsonify(data), status_code
         try:
-            # TODO problem error raised with this query
             db_response = db.session.query(Rating, Phrase).join(Rating, Phrase.phraseid == Rating.phraseid)\
                             .filter(Phrase.category == category).all()
             dicts = []
