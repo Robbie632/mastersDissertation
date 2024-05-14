@@ -22,10 +22,20 @@ export default function StarRating({ phraseid, userid}) {
     setHoverValue(undefined);
   };
 
-  const handleClickStar = (value) => {
+  const handleClickStar = async (value) => {
     setRating(value);
-    // TODO insert POST request here
-    alert("POST rating to /api/rating here")
+    const response = await fetch("http://localhost:5000/api/rating", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        phraseid: phraseid,
+        userid: userid,
+        rating: value,
+      }),
+    });
+    if (response.status !== 201) {
+      alert("problem sending rating");
+    }
   };
 
   const starElements = stars.map((_, index) => {

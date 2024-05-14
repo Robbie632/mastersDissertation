@@ -50,7 +50,8 @@ def create_app(test=False):
                          r"/api/phrases/category/user": {"origins": "*"},
                          r"/api/performances": {"origins": "*"},
                          r"/api/performance": {"origins": "*"},
-                         r"/api/metric": {"origins": "*"}})
+                         r"/api/metric": {"origins": "*"},
+                         r"/api/rating": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
