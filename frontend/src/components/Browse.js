@@ -33,7 +33,7 @@ export default function Browse({userDetails}) {
             l1: Phrase.l1,
             l2: Phrase.l2,
             phraseid: Phrase.phraseid,
-            stars: 3
+            stars: Phrase.average_rating
           };
         });
         setPhrases(() => new_phrases);
@@ -77,7 +77,7 @@ export default function Browse({userDetails}) {
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
               <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator}></PhrasePair>
-              {/* <IconContext.Provider
+              <IconContext.Provider
                 value={{
                   size: 32,
                   color: "#024554",
@@ -90,7 +90,7 @@ export default function Browse({userDetails}) {
                 {Array.from({ length: 5 - stars }, (value, index) => (
                   <CiStar />
                 ))}
-              </IconContext.Provider> */}
+              </IconContext.Provider>
             </div>
           ))}
         </div>

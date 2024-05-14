@@ -24,6 +24,7 @@ export default function StarRating({ phraseid, userid}) {
 
   const handleClickStar = (value) => {
     setRating(value);
+    // TODO insert POST request here
     alert("POST rating to /api/rating here")
   };
 

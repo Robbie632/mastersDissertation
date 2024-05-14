@@ -206,7 +206,6 @@ def create_app(test=False):
 
     @app.route('/api/phrases/category/user', methods=["GET"])
     def phrasescategoryuser_get():
-        # TODO modify to include ratings
         status_code = 200
         data = {"status": "success", "data": 0}
         try:
@@ -219,7 +218,7 @@ def create_app(test=False):
 
         try:
             db_response = query(f"""
-                SELECT phrases.phraseid, phrases.l1, phrases.l2, ROUND(AVG(ratings.rating), 0)
+                SELECT phrases.phraseid, phrases.l1, phrases.l2, ROUND(AVG(ratings.rating), 0) AS average_rating
                 FROM phrases 
                 LEFT JOIN ratings
                 ON ratings.phraseid = phrases.phraseid

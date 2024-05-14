@@ -282,6 +282,9 @@ class TestGetEndpoints(unittest.TestCase):
             f"/api/phrases/category/user?category={mock_phrase_data_1['category']}&userid={mock_phraseselection_data_1['userid']}", headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         observed_data = response.json["data"]
+        observed_keys = list(observed_data[0].keys())
+        for i in ["l1", "l2", "phraseid", "average_rating"]:
+            self.assertTrue(i in observed_keys)
         self.assertEqual(4, len(observed_data))
 
 
