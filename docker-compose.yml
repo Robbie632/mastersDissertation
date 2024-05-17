@@ -1,4 +1,3 @@
-version: "3"
 services:
   languageapp:
     environment:
@@ -10,23 +9,13 @@ services:
       - "5678:5678"
       - "8888:8888"
     volumes:
-      - "./backend/notebook:/app/notebook"
+       - "./backend/notebook:/app/notebook"
     #command: python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m pytest
     #command: pytest
     #command: jupyter-notebook --ip 0.0.0.0 --no-browser --allow-root
     depends_on:
       - languageapp-db
       - languageapp-db-test
-  # ml:
-  #   environment:
-  #   - PYTHONUNBUFFERED=1 # this is so that print statements are shown in docker container logs
-  #   build:
-  #     context: ./ml
-  #   ports: 
-  #     - "8888:8888"
-  #   volumes:
-  #     - "./ml/notebook:/ml/notebook"
-    #command: pytest
   languageapp-db:
     build: 
       context: ./db
@@ -35,7 +24,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: languageapp
     volumes:
-      - /home/medaphor/languageappdata:/var/lib/postgresql/data
+      - ${HOME}/languageappdata:/var/lib/postgresql/data
   languageapp-db-test:
     build: 
       context: ./db
