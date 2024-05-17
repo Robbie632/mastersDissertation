@@ -65,26 +65,36 @@ These commands are from:
 
 https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 
-* set up ssh key
+* Set up ssh key
 
 `https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent`
 
-* clone repo
-
-### firewall
-
-```sudo apt install ufw```
-```sudo ufw allow 22```
-```sudo ufw allow 9000```
-```sudo ufw show added```
-```sudo ufw enable```
-
-* Run software with 
-
-`docker compose up --build -d`
+* Clone repo
 
 * Add secrets to directory
 
 `mastersDissertation/backend/secrets`
 
-* Make sur emapped volumes are specific to raspberry pi file system
+* create directory `languageappdata` in home directory, this is where database data is stored on the host (via volume mapping between docker environment and host environment as defined in docker-compose file/)
+
+```cd```
+```mkdir languageappdata```
+
+* Navigate to root of repository, then run software with 
+
+`docker compose up --build -d`
+
+* The web application will then be accessible on 
+
+`<rpi ipaddress>:3000`
+
+### firewall (optional but good idea)
+
+```sudo apt install ufw```
+
+```sudo ufw allow 22```
+
+```sudo ufw allow 9000```
+
+```sudo ufw show added```
+```sudo ufw enable```
