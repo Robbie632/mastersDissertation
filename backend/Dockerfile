@@ -1,38 +1,20 @@
-FROM python:alpine3.19
+FROM python:3
 
 WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt 
 
-RUN python -m pip install --upgrade pip
+RUN apt-get update
 
-# rust is dependency for python library cryptography so need to install it
-RUN apk add --update \
-  build-base \
-  cairo \
-  cairo-dev \
-  cargo \
-  freetype-dev \
-  gcc \
-  gdk-pixbuf-dev \
-  gettext \
-  jpeg-dev \
-  lcms2-dev \
-  libffi-dev \
-  musl-dev \
-  openjpeg-dev \
-  openssl-dev \
-  pango-dev \
-  poppler-utils \
-  postgresql-client \
-  postgresql-dev \
-  py-cffi \
-  python3-dev \
-  rust \
-  tcl-dev \
-  tiff-dev \
-  tk-dev \
-  zlib-dev
+RUN apt-get install -y \
+    build-essential \
+    curl
+#python package crypotgraphy requires rus so need to install Rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+
+ENV PATH="/root/.cargo/bin:$PATH"
+
+RUN python3 -m pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
@@ -40,11 +22,10 @@ COPY ./src /app/src
 
 COPY ./tests /app/tests
 
-# COPY ./explore.ipynb /app/explore.ipynb
+#COPY ./explore.ipynb /app/explore.ipynb
 
 EXPOSE 5000
 
-EXPOSE 8888
+#EXPOSE 8888
 
 CMD ["flask", "--app", "src", "run", "--debug", "--host", "0.0.0.0", "--port", "5000"]
-

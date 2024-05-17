@@ -10,4 +10,3 @@ Pyrebase4
 firebase-admin
 jupyterlab
 notebook
-pandas
