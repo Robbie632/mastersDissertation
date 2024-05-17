@@ -1,3 +1,5 @@
+# README
+
 ## Database
 
 To access the database container, run:
@@ -40,20 +42,23 @@ Since the notebook's folder is volume mapped, any changes made in the browser wi
 
 ## Deployment on raspberry pi
 
-* put image on raspberry pi with imager software
-* during set up add wifi credentials and enable ssh
+* put image on raspberry pi with imager software 
+`https://www.raspberrypi.com/software/`
+* During set up, add wifi credentials and enable ssh
 * Insert formatted SD card containing OS into raspberry pi and turn on raspberry pi
-* wait, check wifi homepage to see connected and make note of ip address
+* Wait, check wifi homepage to see connected and make note of ip address
 * ssh in with username@<ipaddress>
-* install docker using below instructions
+* Install docker using below instructions
 
 briefly:
+* update apt repositories
 ```sudo apt-get update && sudo apt-get upgrade```
-
+* fetch script for installing docker
 ```curl -fsSL https://get.docker.com -o get-docker.sh```
+* install docker
 
 ```sudo sh get-docker.sh```
-
+* Give user docker privelages
 ```sudo usermod -aG docker <username>```
 
 These commands are from:
@@ -62,7 +67,7 @@ https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 
 * set up ssh key
 
-https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+`https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent`
 
 * clone repo
 
@@ -74,11 +79,12 @@ https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generati
 ```sudo ufw show added```
 ```sudo ufw enable```
 
+* Run software with 
 
-* run software with docker compose up --build -d
+`docker compose up --build -d`
 
-* add secretes to
+* Add secrets to directory
 
-```
-mastersDissertation/backend/secrets
-```
+`mastersDissertation/backend/secrets`
+
+* Make sur emapped volumes are specific to raspberry pi file system
