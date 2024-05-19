@@ -12,6 +12,7 @@ export default function StarRating({ phraseid, userid}) {
   const stars = Array(5).fill(0);
   const [rating, setRating] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
+  const [hide, setHide] = useState(false);
 
 
   const handleMouseOverStar = (value) => {
@@ -35,6 +36,8 @@ export default function StarRating({ phraseid, userid}) {
     });
     if (response.status !== 201) {
       alert("problem sending rating");
+    } else {
+      setHide(true);
     }
   };
 
@@ -53,9 +56,16 @@ export default function StarRating({ phraseid, userid}) {
     );
   });
 
+  if (hide) {
+    var element = <div>
+      rating submitted
+    </div>;
+  } else {
+    var element = <div className="star-rating">
+      {phraseid == -1 ? "" : starElements}
+    </div>;
+  }
   return (
-    <div className="star-rating">
-      { phraseid==-1 ? "" : starElements}
-    </div>
+    element
   );
 }
