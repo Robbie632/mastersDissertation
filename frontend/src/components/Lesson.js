@@ -3,17 +3,17 @@ import "../App.css";
 import StarRating from "./StarRating";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
 export default function Lesson({ category, setLesson, userDetails, language }) {
-
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
   const [progress, setProgress] = useState(0);
   const [l1Input, setl1Input] = useState("");
   const [similarity, setSimilarity] = useState("");
-
+  const [displayFeedback, setDisplayFeedback] = useState(false);
+  const [buttonSet, setButtonSet] = useState("check"); // or continue
   useEffect(() => {
     const fetchData = async () => {
       const url =
@@ -33,12 +33,12 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       if (response.status == 200) {
         const result = await response.json();
         const new_phrases = result.data.map(({ Phrase, PhraseSelection }) => {
-          return ({
+          return {
             l1: Phrase.l1,
             l2: Phrase.l2,
-            phraseid: Phrase.phraseid
-          })
-        }) 
+            phraseid: Phrase.phraseid,
+          };
+        });
         setPhrases(new_phrases);
       } else {
         alert("problem calling backend api");
@@ -46,7 +46,6 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     };
     fetchData();
   }, [userDetails["userid"]]);
-
 
   function getPercentageCompleted() {
     const percent = 100 * (progress / numQuestions);
@@ -61,6 +60,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   }
   function safeProgressIncrement() {
     setProgress((prev) => Math.min(numQuestions, prev + 1));
+    setDisplayFeedback(false);
   }
 
   function getNextPhrase() {
@@ -70,54 +70,72 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       return "";
     }
   }
+  const getFeedbackColor = (similarity) => {
+    if (similarity > 0.85) {
+      return "#79A637";
+    } else if ((similarity < 0.85) & (similarity > 0.4)) {
+      return "#F2A922";
+    } else {
+      return "#BF0413";
+    }
+  };
+  const getFeedbackPhrase = (similarity) => {
+    if (similarity > 0.85) {
+      return "Great job pooping!";
+    } else if ((similarity < 0.85) & (similarity > 0.4)) {
+      return "You're close!";
+    } else {
+      return "not quite right, keep trying";
+    }
+  };
 
   const calculate_similarity = async (a, b) => {
-
     const response = await fetch("http://localhost:5000/api/metric", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         phrasea: a,
-        phraseb: b
+        phraseb: b,
       }),
     });
     if (response.status !== 200) {
-      alert("problem getting similarity metric")
+      alert("problem getting similarity metric");
     } else {
       const metric = await response.json();
       const metric_list = metric["metric"];
-      return metric_list[0]
+      return metric_list[0];
     }
-    
-  }
+  };
+
+  const onContinue = () => {
+    setl1Input("");
+    safeProgressIncrement();
+  };
 
   const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
       const similarity = await calculate_similarity(answer, l2);
-      setSimilarity(() => similarity.toFixed(2))
-      if (similarity >0.85) {
-        setl1Input("");
-        safeProgressIncrement();
-      } else {
-        alert("incorrect: please try again");
+      setSimilarity(() => similarity.toFixed(2));
+      if (similarity > 0.85) {
+        setButtonSet("continue");
       }
-
       const response = await fetch("http://localhost:5000/api/performance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userid: userDetails["userid"],
           phraseid: phraseid,
-          metric: similarity
+          metric: similarity,
         }),
       });
       if (response.status !== 201) {
-        alert("problem writing result to database")
+        alert("problem writing result to database");
       }
+      setDisplayFeedback(true);
     }
-  }
+  };
 
   const finishedElement = (
     <div class="lesson-container-1ba Holiday-Cheer-5-hex">
@@ -136,6 +154,37 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       >
         HOME
       </div>
+    </div>
+  );
+
+  const feedback = (
+    <div className="lesson-similarity Holiday-Cheer-5-hex">
+      {displayFeedback ? (
+        <div
+          style={{
+            background: getFeedbackColor(similarity),
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <div className="feedback">
+            <div>{getFeedbackPhrase(similarity)}</div>
+            {similarity > 0.85 ? (
+              <div>
+                rate phrase:
+                <StarRating
+                  phraseid={
+                    phrases && phrases.length != 0 && progress < phrases.length
+                      ? phrases[progress]["phraseid"]
+                      : -1
+                  }
+                  userid={userDetails["userid"]}
+                ></StarRating>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 
@@ -185,27 +234,37 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         )}
       </div>
       <div class="lesson-container-1c Holiday-Cheer-5-hex">
-        <button
-          class="lesson-skip lesson-button Holiday-Cheer-4-hex"
-          onClick={() => safeProgressIncrement()}
-        >
-          <div>SKIP</div>
-        </button>
-        <div className="lesson-similarity Holiday-Cheer-5-hex"> 
-          <div>
-            { similarity*100 } %
-          </div>
-        </div>
-        <button
-          class="lesson-check lesson-button Holiday-Cheer-4-hex"
-          onClick={() => checkAnswer(l1Input)}
-        >
-          <div>CHECK</div>
-        </button>
+        {buttonSet === "check" ? (
+          <button
+            class="lesson-skip lesson-button Holiday-Cheer-4-hex"
+            onClick={() => safeProgressIncrement()}
+          >
+            <div>SKIP</div>
+          </button>
+        ) :
+        <div
+        class="lesson-button-placeholder"
+      >
       </div>
-      <div>
-        <StarRating phraseid={(phrases && phrases.length != 0 && progress < phrases.length) ? phrases[progress]["phraseid"] : -1} userid={userDetails["userid"]}></StarRating>
-        </div>
+        }
+
+        {feedback}
+        {buttonSet === "check" ? (
+          <button
+            class="lesson-check lesson-button Holiday-Cheer-4-hex"
+            onClick={() => checkAnswer(l1Input)}
+          >
+            <div>CHECK</div>
+          </button>
+        ) : (
+          <button
+            class="lesson-check lesson-button Holiday-Cheer-4-hex"
+            onClick={() => onContinue()}
+          >
+            <div>CONTINUE</div>
+          </button>
+        )}
+      </div>
     </div>
   );
 }

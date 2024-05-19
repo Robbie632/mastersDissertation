@@ -52,17 +52,23 @@
   flex:3;
   display: flex;
   flex-direction: row;
-  gap:20%;
+  gap:10%;
   justify-content: center;
   align-items: center;
 }
 .lesson-button {
-  width:10%;
+  width:15%;
   border-radius: 10px;
   border: none;
   border: 2px solid grey;
   color: white;
   font-size: 1.2em;
+}
+
+.lesson-button-placeholder {
+  width:15%;
+  border: none;
+  background-color: none;
 }
 .lesson-button:hover {
   cursor: pointer;
@@ -115,12 +121,14 @@ justify-content: center;
 }
 
 .lesson-similarity {
-  height:35%;
+  height:100%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 2em;
+  border: black solid 1px;
 
 }
 
@@ -135,4 +143,11 @@ justify-content: center;
 
 .close-button:hover {
   cursor: pointer;
+}
+
+.feedback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

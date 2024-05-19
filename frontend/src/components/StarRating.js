@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../styles/starrating.css";
 import { FaStar } from "react-icons/fa";
-import { useEffect } from "react";
+import { TiTick } from "react-icons/ti";
+import { IconContext } from "react-icons";
 
 export default function StarRating({ phraseid, userid}) {
   const colors = {
@@ -58,7 +59,15 @@ export default function StarRating({ phraseid, userid}) {
 
   if (hide) {
     var element = <div>
-      rating submitted
+      <IconContext.Provider
+        value={{
+          size: 52,
+          color: "gold",
+          className: "global-class-name",
+        }}
+      >
+        <TiTick />
+      </IconContext.Provider>
     </div>;
   } else {
     var element = <div className="star-rating">
