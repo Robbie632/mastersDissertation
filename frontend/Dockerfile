@@ -12,6 +12,4 @@ COPY ./public /app/public
 
 COPY ./src /app/src
 
-COPY ./.env /app/.env
-
 CMD ["npm", "start"]

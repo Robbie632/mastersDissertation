@@ -108,4 +108,4 @@ defined in
 because these arent supported in raspberry pi
 
 ## update ip address used for API calls in frontend 
-update `REACT_APP_SERVER_IP` in `backend/src/env.js`
+update `REACT_APP_SERVER_IP` in `frontend/src/env.js`
