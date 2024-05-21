@@ -14,6 +14,9 @@ export default function Menu({ setMenuSelection, menuSelection, language }) {
       <div className="menu-button" style={highlightBorder("account")} onClick={() => setMenuSelection("account")}>
         ACCOUNT
       </div>
+      <div className="menu-button" style={highlightBorder("about")} onClick={() => setMenuSelection("about")}>
+        ABOUT
+      </div>
       <div className="current-language">language: {language["name"]}</div>
     </header>
   );

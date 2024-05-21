@@ -12,7 +12,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const [progress, setProgress] = useState(0);
   const [l1Input, setl1Input] = useState("");
   const [similarity, setSimilarity] = useState("");
-  const [displayFeedback, setDisplayFeedback] = useState(false);
+  //displayFeedback {0, 1, 2} 0: no feedback displayed, 1:display feedback, 2: display buffering
+  const [displayFeedback, setDisplayFeedback] = useState(0); 
   const [buttonSet, setButtonSet] = useState("check"); // or continue
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +61,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   }
   function safeProgressIncrement() {
     setProgress((prev) => Math.min(numQuestions, prev + 1));
-    setDisplayFeedback(false);
+    setDisplayFeedback(0);
   }
 
   function getNextPhrase() {
@@ -110,10 +111,22 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const onContinue = () => {
     setl1Input("");
     safeProgressIncrement();
+    setButtonSet("check");
   };
+
+  function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  
+  async function example() {
+      await sleep(4000);
+      return 1;
+  }
 
   const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
+      setDisplayFeedback(() => 2);
+      await example();
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
       const similarity = await calculate_similarity(answer, l2);
@@ -133,7 +146,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       if (response.status !== 201) {
         alert("problem writing result to database");
       }
-      setDisplayFeedback(true);
+      setDisplayFeedback(1);
     }
   };
 
@@ -159,7 +172,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
 
   const feedback = (
     <div className="lesson-similarity Holiday-Cheer-5-hex">
-      {displayFeedback ? (
+      {displayFeedback ===1 ? (
         <div
           style={{
             background: getFeedbackColor(similarity),
@@ -184,7 +197,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
             ) : null}
           </div>
         </div>
-      ) : null}
+      ) : displayFeedback === 0 ? null
+        : displayFeedback === 2 ? "checking answer..." : null}
     </div>
   );
 

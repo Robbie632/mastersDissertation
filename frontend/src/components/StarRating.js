@@ -13,7 +13,8 @@ export default function StarRating({ phraseid, userid}) {
   const stars = Array(5).fill(0);
   const [rating, setRating] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
-  const [hide, setHide] = useState(false);
+  // {0, 1, 2} 0: display stars 1: display tick showing rating sent, 2: loading symbol for when sent rating
+  const [displayStars, setDisplayStars] = useState(0);
 
 
   const handleMouseOverStar = (value) => {
@@ -26,6 +27,8 @@ export default function StarRating({ phraseid, userid}) {
 
   const handleClickStar = async (value) => {
     setRating(value);
+    setDisplayStars(2);
+    await example();
     const response = await fetch("http://localhost:5000/api/rating", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,9 +41,18 @@ export default function StarRating({ phraseid, userid}) {
     if (response.status !== 201) {
       alert("problem sending rating");
     } else {
-      setHide(true);
+      setDisplayStars(1);
     }
   };
+
+  function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  
+  async function example() {
+      await sleep(4000);
+      return 1;
+  }
 
   const starElements = stars.map((_, index) => {
     return (
@@ -57,7 +69,7 @@ export default function StarRating({ phraseid, userid}) {
     );
   });
 
-  if (hide) {
+  if (displayStars === 1) {
     var element = <div>
       <IconContext.Provider
         value={{
@@ -69,10 +81,15 @@ export default function StarRating({ phraseid, userid}) {
         <TiTick />
       </IconContext.Provider>
     </div>;
-  } else {
+  } else if (displayStars === 0) {
     var element = <div className="star-rating">
       {phraseid == -1 ? "" : starElements}
     </div>;
+  } else if (displayStars === 2) {
+    var element = <div className="star-rating">
+    sending rating...
+  </div>;
+
   }
   return (
     element

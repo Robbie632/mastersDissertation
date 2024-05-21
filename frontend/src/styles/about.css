@@ -1,0 +1,14 @@
+.about-text {
+  margin: 5% 20%;
+  font-size: 1.5em;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap:50px;
+}
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+
+}
