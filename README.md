@@ -73,7 +73,7 @@ https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 
 * Add secrets to directory
 
-`mastersDissertation/backend/secrets`
+`mastersDissertation/backend/src/secrets`
 
 * create directory `languageappdata` in home directory, this is where database data is stored on the host (via volume mapping between docker environment and host environment as defined in docker-compose file/)
 
