@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/starrating.css";
+import { ENV_VARS } from "../env";
 import { FaStar } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
@@ -29,7 +30,7 @@ export default function StarRating({ phraseid, userid}) {
     setRating(value);
     setDisplayStars(2);
     await example();
-    const response = await fetch("http://localhost:5000/api/rating", {
+    const response = await fetch(`http://{${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/rating`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

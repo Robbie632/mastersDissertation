@@ -1,6 +1,7 @@
 import "../App.css";
 import "../styles/editcategory.css";
 import PhrasePair from "./PhrasePair";
+import { ENV_VARS } from "../env";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
@@ -21,7 +22,7 @@ export default function EditCategory({ category, userDetails, language }) {
   }
   const onAddPhrasePair = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/phrase", {
+    const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phrase`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -37,7 +38,7 @@ export default function EditCategory({ category, userDetails, language }) {
       const data = await response.json();
       const phraseid = data["id"];
       const response2 = await fetch(
-        "http://localhost:5000/api/phraseselection",
+        `http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -71,7 +72,7 @@ export default function EditCategory({ category, userDetails, language }) {
   useEffect(() => {
     const fetchData = async () => {
       const url =
-        "http://localhost:5000/api/phraseselection/category?" +
+        `http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection/category?` +
         new URLSearchParams({
           userid: userDetails["userid"],
           languageid: language["id"],

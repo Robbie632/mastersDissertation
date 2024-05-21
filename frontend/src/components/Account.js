@@ -1,8 +1,11 @@
 import "../App.css";
 import "../styles/account.css";
 import "../styles/login.css";
+import { ENV_VARS } from "../env";
+
 import SignUp from "./Signup";
 import { useState } from "react";
+
 
 export default function Account({
   setLoggedIn,
@@ -27,7 +30,7 @@ export default function Account({
   const handleSubmit = async (e) => {
     e.preventDefault();
     // You can perform any validation or submit the form data as needed
-    const response = await fetch("http://localhost:5000/api/token", {
+    const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +66,6 @@ export default function Account({
 
   return (
     <div className="account-container">
-
       {loggedIn ? (
         logOutElement
       ) : (

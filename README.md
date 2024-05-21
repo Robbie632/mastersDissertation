@@ -98,3 +98,14 @@ https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 
 ```sudo ufw show added```
 ```sudo ufw enable```
+
+## comment out unsupported packages
+comment out packages
+`jupyterlab`
+`notebook`
+defined in 
+`backend/requirements.txt`
+because these arent supported in raspberry pi
+
+## update ip address used for API calls in frontend 
+update `REACT_APP_SERVER_IP` in `backend/src/env.js`

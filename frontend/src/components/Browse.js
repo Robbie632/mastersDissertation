@@ -1,6 +1,8 @@
 import "../styles/browse.css";
 import "../App.css";
 import PhrasePair from "./PhrasePair";
+import { ENV_VARS } from "../env";
+
 import { useState, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { FaStar } from "react-icons/fa";
@@ -14,7 +16,7 @@ export default function Browse({userDetails}) {
   useEffect(() => {
     const fetchData = async () => {
       const url =
-        "http://localhost:5000/api/phrases/category/user?" +
+        `http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phrases/category/user?` +
         new URLSearchParams({
           category: category,
           userid: userDetails.userid

@@ -29,7 +29,9 @@ function App() {
       {menuSelection === "account" && <Account setLoggedIn={setLoggedIn} loggedIn={loggedIn} setSignedUp={setSignedUp} signedUp={signedUp} setUserDetails={setUserDetails} setMenuSelection={setMenuSelection}></Account>}
       {menuSelection === "signup" && <SignUp setSignedUp={setSignedUp}></SignUp>}
       {menuSelection === "about" && <About></About>}
+
     </div>
+    
   );
 }
 

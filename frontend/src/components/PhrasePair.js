@@ -1,4 +1,5 @@
 import "../styles/phrasepair.css";
+import { ENV_VARS } from "../env";
 import { MdEdit } from "react-icons/md";
 import { FaRegSave } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -32,7 +33,7 @@ export default function PhrasePair({
   const handleGetPhrase = async () => {
 
     const response = await fetch(
-      "http://localhost:5000/api/phraseselection",
+      `http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,7 +54,7 @@ export default function PhrasePair({
   }
   
   const handleSave = async (e) => {
-    const response = await fetch("http://localhost:5000/api/phrase", {
+    const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phrase`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -73,7 +74,7 @@ export default function PhrasePair({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/phraseselection", {
+    const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -28,4 +28,4 @@ EXPOSE 5000
 
 #EXPOSE 8888
 
-CMD ["flask", "--app", "src", "run", "--debug", "--host", "localhost", "--port", "5000"]
+CMD ["flask", "--app", "src", "run", "--debug", "--host", "0.0.0.0", "--port", "5000"]
