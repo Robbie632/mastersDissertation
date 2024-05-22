@@ -1,0 +1,25 @@
+FROM python:3
+
+WORKDIR /app
+
+COPY ./requirements.prod.txt /app/requirements.prod.txt 
+
+RUN apt-get update
+
+RUN apt-get install -y \
+    build-essential \
+    curl
+#python package crypotgraphy requires rus so need to install Rust
+RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+
+ENV PATH="/root/.cargo/bin:$PATH"
+
+RUN python3 -m pip install --upgrade pip
+
+RUN pip install -r requirements.prod.txt
+
+COPY ./src /app/src
+
+EXPOSE 5000
+
+CMD ["gunicorn", "src:create_app()", "--bind", "0.0.0.0:5000"]

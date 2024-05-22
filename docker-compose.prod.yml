@@ -1,0 +1,36 @@
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - 1337:80
+    depends_on:
+      - languageapp
+  languageapp:
+    environment:
+    - PYTHONUNBUFFERED=1 # this is so that print statements are shown in docker container logs
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile.prod
+    expose: 
+      - 5000
+    depends_on:
+      - languageapp-db
+  languageapp-db:
+    build: 
+      context: ./db
+    environment:
+      POSTGRES_USER: languageapp
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: languageapp
+    volumes:
+      - ${HOME}/languageappdata:/var/lib/postgresql/data
+  languageapp-frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./frontend/src:/app/src"
+

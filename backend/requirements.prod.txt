@@ -1,0 +1,9 @@
+Flask
+psycopg2-binary
+flask-sqlalchemy
+flask-cors
+python-dotenv
+requests
+Pyrebase4
+firebase-admin
+gunicorn
