@@ -47,7 +47,7 @@ Since the notebook's folder is volume mapped, any changes made in the browser wi
 * During set up, add wifi credentials and enable ssh
 * Insert formatted SD card containing OS into raspberry pi and turn on raspberry pi
 * Wait, check wifi homepage to see connected and make note of ip address
-* ssh in with username@<ipaddress>
+* ssh in with username@\<ipaddress>
 * Install docker using below instructions
 
 briefly:
@@ -78,11 +78,12 @@ https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 * create directory `languageappdata` in home directory, this is where database data is stored on the host (via volume mapping between docker environment and host environment as defined in docker-compose file/)
 
 ```cd```
+
 ```mkdir languageappdata```
 
 * Navigate to root of repository, then run software with 
 
-`docker compose up --build -d`
+`bash ./launch_prod_services.sh`
 
 * The web application will then be accessible on 
 
@@ -97,15 +98,9 @@ https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 ```sudo ufw allow 9000```
 
 ```sudo ufw show added```
+
 ```sudo ufw enable```
 
-## comment out unsupported packages
-comment out packages
-`jupyterlab`
-`notebook`
-defined in 
-`backend/requirements.txt`
-because these arent supported in raspberry pi
 
 ## update ip address used for API calls in frontend 
 update `REACT_APP_SERVER_IP` in `frontend/src/env.js`
