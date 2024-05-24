@@ -25,7 +25,7 @@ export default function SignUp({ setSignedUp }) {
   const  handleSubmit = async (e) => {
     e.preventDefault();
 
-    // const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/user`, {
+    // const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/user`, {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json"

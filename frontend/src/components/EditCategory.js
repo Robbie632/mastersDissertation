@@ -22,7 +22,7 @@ export default function EditCategory({ category, userDetails, language }) {
   }
   const onAddPhrasePair = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phrase`, {
+    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phrase`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -38,7 +38,7 @@ export default function EditCategory({ category, userDetails, language }) {
       const data = await response.json();
       const phraseid = data["id"];
       const response2 = await fetch(
-        `${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection`,
+        `${ENV_VARS.REACT_APP_SERVER_IP}/api/phraseselection`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -72,7 +72,7 @@ export default function EditCategory({ category, userDetails, language }) {
   useEffect(() => {
     const fetchData = async () => {
       const url =
-        `${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection/category?` +
+        `${ENV_VARS.REACT_APP_SERVER_IP}/api/phraseselection/category?` +
         new URLSearchParams({
           userid: userDetails["userid"],
           languageid: language["id"],

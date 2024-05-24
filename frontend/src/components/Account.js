@@ -30,7 +30,7 @@ export default function Account({
   const handleSubmit = async (e) => {
     e.preventDefault();
     // You can perform any validation or submit the form data as needed
-    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/token`, {
+    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:/api/token`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
