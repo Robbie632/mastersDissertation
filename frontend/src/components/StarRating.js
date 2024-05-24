@@ -30,7 +30,7 @@ export default function StarRating({ phraseid, userid}) {
     setRating(value);
     setDisplayStars(2);
     await example();
-    const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/rating`, {
+    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/rating`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

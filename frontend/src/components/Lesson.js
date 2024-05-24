@@ -19,7 +19,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   useEffect(() => {
     const fetchData = async () => {
       const url =
-        `http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection/category?` +
+        `${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phraseselection/category?` +
         new URLSearchParams({
           userid: userDetails["userid"],
           languageid: language["id"],
@@ -92,7 +92,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   };
 
   const calculate_similarity = async (a, b) => {
-    const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/metric`, {
+    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/metric`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -135,7 +135,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       if (similarity > 0.85) {
         setButtonSet("continue");
       }
-      const response = await fetch(`http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/performance`, {
+      const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/performance`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

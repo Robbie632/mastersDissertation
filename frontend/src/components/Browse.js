@@ -16,7 +16,7 @@ export default function Browse({userDetails}) {
   useEffect(() => {
     const fetchData = async () => {
       const url =
-        `http://${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phrases/category/user?` +
+        `${ENV_VARS.REACT_APP_SERVER_IP}:5000/api/phrases/category/user?` +
         new URLSearchParams({
           category: category,
           userid: userDetails.userid

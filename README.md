@@ -104,3 +104,10 @@ https://www.simplilearn.com/tutorials/docker-tutorial/raspberry-pi-docker
 
 ## update ip address used for API calls in frontend 
 update `REACT_APP_SERVER_IP` in `frontend/src/env.js`
+
+# hosting
+* connect the rpi to a guest network seperate to your main network 
+* buy a domain name with a registrar, I used cheapname
+* Implement tunneling with cloudflare, this is required because on vodafone guest network port forwarding isn't possible, so instead tunnel needs to be used
+* Need to make cloudfare your authoratative DNS 
+* add public hostname on cloudfare
