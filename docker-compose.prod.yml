@@ -7,6 +7,18 @@ services:
       - 1337:80
     depends_on:
       - languageapp
+    networks:
+      - backend
+  nginx-frontend:
+    build:
+      context: ./nginx_frontend
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - 1336:80
+    depends_on:
+      - languageapp
+    networks:
+      - frontend
   languageapp:
     environment:
     - PYTHONUNBUFFERED=1 # this is so that print statements are shown in docker container logs
@@ -15,6 +27,8 @@ services:
       dockerfile: ./Dockerfile.prod
     expose: 
       - 5000
+    networks:
+      - backend
     depends_on:
       - languageapp-db
   languageapp-db:
@@ -26,6 +40,8 @@ services:
       POSTGRES_DB: languageapp
     volumes:
       - ${HOME}/languageappdata:/var/lib/postgresql/data
+    networks:
+      - backend
   languageapp-frontend:
     build:
       context: ./frontend
@@ -33,4 +49,11 @@ services:
       - "3000:3000"
     volumes:
       - "./frontend/src:/app/src"
+    networks:
+      - frontend
+
+networks:
+  backend:
+  frontend:
+
 

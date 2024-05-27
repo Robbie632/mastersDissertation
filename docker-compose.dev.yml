@@ -13,6 +13,8 @@ services:
     #command: python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m pytest
     #command: pytest
     #command: jupyter-notebook --ip 0.0.0.0 --no-browser --allow-root
+    networks:
+      - backend
     depends_on:
       - languageapp-db
       - languageapp-db-test
@@ -25,6 +27,8 @@ services:
       POSTGRES_DB: languageapp
     volumes:
       - ${HOME}/languageappdata:/var/lib/postgresql/data
+    networks:
+      - backend
   languageapp-db-test:
     build: 
       context: ./db
@@ -32,6 +36,8 @@ services:
       POSTGRES_USER: languageapptest
       POSTGRES_PASSWORD: passwordtest
       POSTGRES_DB: languageapptest
+    networks:
+      - backend
   languageapp-frontend:
     build:
       context: ./frontend
@@ -39,4 +45,9 @@ services:
       - "3000:3000"
     volumes:
       - "./frontend/src:/app/src"
+    networks:
+      - frontend
+networks:
+  frontend:
+  backend:
 
