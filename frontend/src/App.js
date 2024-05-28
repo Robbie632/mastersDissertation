@@ -10,7 +10,7 @@ import React, { useState } from "react";
 
 
 function App() {
-  const [menuSelection, setMenuSelection] = useState("learn");
+  const [menuSelection, setMenuSelection] = useState("account");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
   const [userDetails, setUserDetails] = useState({});

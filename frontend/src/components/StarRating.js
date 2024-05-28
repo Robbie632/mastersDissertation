@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/starrating.css";
 import { ENV_VARS } from "../env";
 import { FaStar } from "react-icons/fa";
+import { AiOutlineLoading } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
 
@@ -29,7 +30,6 @@ export default function StarRating({ phraseid, userid}) {
   const handleClickStar = async (value) => {
     setRating(value);
     setDisplayStars(2);
-    await example();
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/rating`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -88,7 +88,7 @@ export default function StarRating({ phraseid, userid}) {
     </div>;
   } else if (displayStars === 2) {
     var element = <div className="star-rating">
-    sending rating...
+    <AiOutlineLoading className="loading"/>
   </div>;
 
   }

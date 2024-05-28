@@ -12,3 +12,15 @@
 .heading-3 {font-size: 1.3em}
 .text-1 {font-size: 1.2em}
 
+.loading{
+  color: #53736A;
+  animation: spin 1s infinite linear;
+}
+@keyframes spin {
+  from {
+      transform: scale(1.7) rotate(0deg);
+  }
+  to {
+      transform: scale(1.7) rotate(360deg);
+  }
+}

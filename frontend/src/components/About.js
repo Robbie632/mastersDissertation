@@ -24,7 +24,7 @@ export default function About() {
         <div>
           Users can then do lessons that test they're vocabulary
           for a specific category. The hope is for a more
-          personalised learning journey that can be updated to personal goals
+          personalised learning journey that can be aligned with personal goals
         </div>
       </div>
     </div>

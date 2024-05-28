@@ -4,6 +4,7 @@ import StarRating from "./StarRating";
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
+import { AiOutlineLoading } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
@@ -77,17 +78,15 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       return "#79A637";
     } else if ((similarity < 0.85) & (similarity > 0.4)) {
       return "#F2A922";
-    } else {
-      return "#BF0413";
-    }
+    } 
   };
   const getFeedbackPhrase = (similarity) => {
     if (similarity > 0.85) {
-      return "Great job pooping!";
+      return "Great job!";
     } else if ((similarity < 0.85) & (similarity > 0.4)) {
       return "You're close!";
     } else {
-      return "not quite right, keep trying";
+      return "not quite right, keep trying ...";
     }
   };
 
@@ -127,7 +126,6 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
       setDisplayFeedback(() => 2);
-      await example();
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
       const similarity = await calculate_similarity(answer, l2);
@@ -185,7 +183,6 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
             <div>{getFeedbackPhrase(similarity)}</div>
             {similarity > 0.85 ? (
               <div>
-                rate phrase:
                 <StarRating
                   phraseid={
                     phrases && phrases.length != 0 && progress < phrases.length
@@ -199,7 +196,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
           </div>
         </div>
       ) : displayFeedback === 0 ? null
-        : displayFeedback === 2 ? "checking answer..." : null}
+        : displayFeedback === 2 ? <AiOutlineLoading className="loading"/> : null}
     </div>
   );
 
