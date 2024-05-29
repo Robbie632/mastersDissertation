@@ -13,7 +13,7 @@ export default function Learn({ userDetails, language }) {
     "restaurant",
     "family",
     "introductions",
-    "museums",
+    "hobbies",
   ];
 
 

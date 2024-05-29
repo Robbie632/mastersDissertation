@@ -68,8 +68,8 @@ export default function Browse({userDetails}) {
           <option className="heading-3" value="introductions" selected="selected">
             Introductions
           </option>
-          <option className="heading-3" value="museums">
-            Museums
+          <option className="heading-3" value="hobbies">
+            Hobbies
           </option>
         </select>
       </div>
