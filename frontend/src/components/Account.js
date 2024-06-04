@@ -59,7 +59,7 @@ export default function Account({
   const logOutElement = (
     <div className="success-login-container">
       <div
-        className="success-login Holiday-Cheer-3-hex"
+        className="success-login Holiday-Cheer-3-hex default-button"
         onClick={() => {
           setLoggedIn(false);
         }}
@@ -92,7 +92,7 @@ export default function Account({
               onChange={handleChange}
               required
             />
-            <button type="submit" class="Holiday-Cheer-3-hex">
+            <button type="submit" class="Holiday-Cheer-3-hex default-button">
               Log In
             </button>
           </div>
@@ -104,7 +104,7 @@ export default function Account({
     </div>
   ) : (
     <div>
-      <AiOutlineLoading className="loading" />
+      <AiOutlineLoading className="account-loading" />
     </div>
   );
 }

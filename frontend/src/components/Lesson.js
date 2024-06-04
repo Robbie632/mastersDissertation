@@ -130,7 +130,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       setDisplayFeedback(() => 2);
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
-      const similarity = await calculate_similarity(answer, l2);
+      var similarity = await calculate_similarity(answer, l2);
+      similarity = similarity || 0;
       setSimilarity(() => similarity.toFixed(2));
       if (similarity > 0.85) {
         setButtonSet("continue");
@@ -261,7 +262,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       <div class="lesson-container-1c Holiday-Cheer-5-hex">
         {buttonSet === "check" ? (
           <button
-            class="lesson-skip lesson-button Holiday-Cheer-4-hex"
+            class="lesson-skip lesson-button Holiday-Cheer-4-hex default-button"
             onClick={() => safeProgressIncrement()}
           >
             <div>SKIP</div>
@@ -273,7 +274,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         {feedback}
         {buttonSet === "check" ? (
           <button
-            class="lesson-check lesson-button Holiday-Cheer-4-hex"
+            class="lesson-check lesson-button Holiday-Cheer-4-hex default-button"
             onClick={() => checkAnswer(l1Input)}
           >
             <div>CHECK</div>

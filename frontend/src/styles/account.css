@@ -26,13 +26,13 @@
   cursor: pointer;
 }
 
-.loading{
+.account-loading{
   color: #53736A;
-  animation: spin 1s infinite linear;
+  animation: spin-account-loading 1s infinite linear;
   margin-top:200px;
 
 }
-@keyframes spin {
+@keyframes spin-account-loading {
   from {
       transform: scale(4) rotate(0deg);
   }

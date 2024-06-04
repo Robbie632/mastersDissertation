@@ -87,7 +87,7 @@ export default function SignUp({ setSignedUp, setIsWaiting }) {
               onChange={handleChange}
               required
             />
-            <button type="submit" class="Holiday-Cheer-3-hex">Sign Up</button>
+            <button type="submit" class="Holiday-Cheer-3-hex default-button">Sign Up</button>
           </div>
         </form>}
     </div>

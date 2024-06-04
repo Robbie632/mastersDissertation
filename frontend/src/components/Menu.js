@@ -9,12 +9,12 @@ export default function Menu({ setMenuSelection, menuSelection, language }) {
 
   return (
     <header className="App-header Holiday-Cheer-1-hex heading-1">
-      <div className="menu-button" style={highlightBorder("learn")} onClick={() => setMenuSelection("learn") } >LEARN</div>
-      <div className="menu-button" style={highlightBorder("browse")} onClick={() => setMenuSelection("browse") }>BROWSE</div>
-      <div className="menu-button" style={highlightBorder("account")} onClick={() => setMenuSelection("account")}>
+      <div className="menu-button default-button" style={highlightBorder("learn")} onClick={() => setMenuSelection("learn") } >LEARN</div>
+      <div className="menu-button default-button" style={highlightBorder("browse")} onClick={() => setMenuSelection("browse") }>BROWSE</div>
+      <div className="menu-button default-button" style={highlightBorder("account")} onClick={() => setMenuSelection("account")}>
         ACCOUNT
       </div>
-      <div className="menu-button" style={highlightBorder("about")} onClick={() => setMenuSelection("about")}>
+      <div className="menu-button default-button" style={highlightBorder("about")} onClick={() => setMenuSelection("about")}>
         ABOUT
       </div>
       <div className="current-language">language: {language["name"]}</div>
