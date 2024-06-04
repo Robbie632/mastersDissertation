@@ -1,5 +1,3 @@
-import "../styles/lesson.css";
-import "../App.css";
 import StarRating from "./StarRating";
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
@@ -8,6 +6,9 @@ import { AiOutlineLoading } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 
+import "../styles/lesson.css";
+import "../App.css";
+
 export default function Lesson({ category, setLesson, userDetails, language }) {
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
@@ -15,7 +16,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const [l1Input, setl1Input] = useState("");
   const [similarity, setSimilarity] = useState("");
   //displayFeedback {0, 1, 2} 0: no feedback displayed, 1:display feedback, 2: display buffering
-  const [displayFeedback, setDisplayFeedback] = useState(0); 
+  const [displayFeedback, setDisplayFeedback] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +79,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       return "#79A637";
     } else if ((similarity < 0.85) & (similarity > 0.4)) {
       return "#F2A922";
-    } 
+    }
   };
   const getFeedbackPhrase = (similarity) => {
     if (similarity > 0.85) {
@@ -114,13 +115,14 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     setButtonSet("check");
   };
 
-  function sleep (time) {
+
+  function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
-  
+
   async function example() {
-      await sleep(4000);
-      return 1;
+    await sleep(4000);
+    return 1;
   }
 
   const checkAnswer = async (answer) => {
@@ -133,15 +135,18 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       if (similarity > 0.85) {
         setButtonSet("continue");
       }
-      const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/performance`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userid: userDetails["userid"],
-          phraseid: phraseid,
-          metric: similarity,
-        }),
-      });
+      const response = await fetch(
+        `${ENV_VARS.REACT_APP_SERVER_IP}/api/performance`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userid: userDetails["userid"],
+            phraseid: phraseid,
+            metric: similarity,
+          }),
+        }
+      );
       if (response.status !== 201) {
         alert("problem writing result to database");
       }
@@ -171,7 +176,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
 
   const feedback = (
     <div className="lesson-similarity Holiday-Cheer-5-hex">
-      {displayFeedback ===1 ? (
+      {displayFeedback === 1 ? (
         <div
           style={{
             background: getFeedbackColor(similarity),
@@ -195,12 +200,20 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
             ) : null}
           </div>
         </div>
-      ) : displayFeedback === 0 ? null
-        : displayFeedback === 2 ? <AiOutlineLoading className="loading"/> : null}
+      ) : displayFeedback === 0 ? null : displayFeedback === 2 ? (
+        <AiOutlineLoading className="loading" />
+      ) : null}
     </div>
   );
 
-  return (
+  const noPhrasesElement = (
+    <div className="add-phrases-content">
+      <div class="heading-2 category-name">{category.toUpperCase()}</div>
+      <div className="add-phrases">No phrases yet, head to LEARN or BROWSE to add some ...</div>
+    </div>
+  );
+
+  return numQuestions !== 0 ? (
     <div class="lesson-container-1 Holiday-Cheer-5-hex">
       <div class="lesson-container-1a Holiday-Cheer-3-hex">
         <div class="lesson-container-1aa Holiday-Cheer-5-hex"></div>
@@ -253,12 +266,9 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
           >
             <div>SKIP</div>
           </button>
-        ) :
-        <div
-        class="lesson-button-placeholder"
-      >
-      </div>
-        }
+        ) : (
+          <div class="lesson-button-placeholder"></div>
+        )}
 
         {feedback}
         {buttonSet === "check" ? (
@@ -278,5 +288,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         )}
       </div>
     </div>
+  ) : (
+    noPhrasesElement
   );
 }
