@@ -7,7 +7,7 @@ import { TiTick } from "react-icons/ti";
 
 import { useState } from "react";
 
-export default function SignUp({ setSignedUp }) {
+export default function SignUp({ setSignedUp, setIsWaiting }) {
   const [successSigningIn, setSuccessSigningIn] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -24,19 +24,24 @@ export default function SignUp({ setSignedUp }) {
 
   const  handleSubmit = async (e) => {
     e.preventDefault();
+    setIsWaiting(true);
 
-    // const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/user`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(formData)
-    // })
+    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
 
-    // if (response.status === 201) {
-    //   alert("succesfully signed up");
-    // }
-    // const result = await response.json()
+    if (response.status === 201) {
+      alert("succesfully signed up");
+      setIsWaiting(false);
+    } else {
+      setIsWaiting(false);
+      alert("problem signing up");
+    }
+    const result = await response.json()
 
     setSignedUp((prev) => true);
     setSuccessSigningIn((prev)=> true)

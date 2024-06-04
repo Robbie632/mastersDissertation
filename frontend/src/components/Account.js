@@ -100,7 +100,7 @@ export default function Account({
         </form>
       )}
 
-      {!loggedIn && <SignUp setSignedUp={setSignedUp}></SignUp>}
+      {!loggedIn && <SignUp setSignedUp={setSignedUp} setIsWaiting={setIsWaiting}></SignUp>}
     </div>
   ) : (
     <div>
