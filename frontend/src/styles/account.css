@@ -25,3 +25,20 @@
   font-size: 1em;
   cursor: pointer;
 }
+
+.loading{
+  color: #53736A;
+  animation: spin 1s infinite linear;
+  margin-top:200px;
+
+}
+@keyframes spin {
+  from {
+      transform: scale(4) rotate(0deg);
+  }
+  to {
+      transform: scale(4) rotate(360deg);
+  }
+}
+
+

@@ -1,3 +1,5 @@
+import { AiOutlineLoading } from "react-icons/ai";
+
 import "../App.css";
 import "../styles/account.css";
 import "../styles/login.css";
@@ -5,7 +7,6 @@ import { ENV_VARS } from "../env";
 
 import SignUp from "./Signup";
 import { useState } from "react";
-
 
 export default function Account({
   setLoggedIn,
@@ -19,6 +20,8 @@ export default function Account({
     password: "",
   });
 
+  const [isWaiting, setIsWaiting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -29,6 +32,7 @@ export default function Account({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsWaiting(1)
     // You can perform any validation or submit the form data as needed
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/token`, {
       method: "POST",
@@ -46,25 +50,26 @@ export default function Account({
       setLoggedIn((prev) => true);
       setMenuSelection(() => "learn");
     } else if (response.status === 400) {
+      setIsWaiting(false);
       alert("invalid credentials");
+
     }
   };
 
   const logOutElement = (
     <div className="success-login-container">
-      <div className="success-login Holiday-Cheer-3-hex" onClick={() => {
-            setLoggedIn(false);
-          }}>
-        <div
-          className="log-out"
-        >
-          LOG OUT
-        </div>
+      <div
+        className="success-login Holiday-Cheer-3-hex"
+        onClick={() => {
+          setLoggedIn(false);
+        }}
+      >
+        <div className="log-out">LOG OUT</div>
       </div>
     </div>
   );
 
-  return (
+  return !isWaiting ? (
     <div className="account-container">
       {loggedIn ? (
         logOutElement
@@ -90,14 +95,16 @@ export default function Account({
             <button type="submit" class="Holiday-Cheer-3-hex">
               Log In
             </button>
-            </div>
-            <div className="divider"></div>
-          </form>
-          
+          </div>
+          <div className="divider"></div>
+        </form>
       )}
-      
-      {!loggedIn && 
-    <SignUp setSignedUp={setSignedUp}></SignUp>}
+
+      {!loggedIn && <SignUp setSignedUp={setSignedUp}></SignUp>}
+    </div>
+  ) : (
+    <div>
+      <AiOutlineLoading className="loading" />
     </div>
   );
 }
