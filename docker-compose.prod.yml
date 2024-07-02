@@ -45,6 +45,7 @@ services:
   languageapp-frontend:
     build:
       context: ./frontend
+      dockerfile: ./Dockerfile.prod
     volumes:
       - "./frontend/src:/app/src"
     networks:

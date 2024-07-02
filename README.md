@@ -59,7 +59,9 @@ briefly:
 
 ```sudo sh get-docker.sh```
 * Give user docker privelages
-```sudo usermod -aG docker <username>```
+
+```sudo gpasswd -a <user> docker```
+```newgrp docker```
 
 These commands are from:
 
