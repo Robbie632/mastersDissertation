@@ -1,6 +1,6 @@
 import "../styles/menu.css";
 
-export default function Menu({ setMenuSelection, menuSelection, language }) {
+export default function Menu({loggedIn, setMenuSelection, menuSelection, language }) {
   
   function highlightBorder(menu) {
     const style = menuSelection === menu ? { "borderBottom": "2px solid white" } : {}
@@ -9,8 +9,8 @@ export default function Menu({ setMenuSelection, menuSelection, language }) {
 
   return (
     <header className="App-header Holiday-Cheer-1-hex heading-1">
-      <div className="menu-button default-button" style={highlightBorder("learn")} onClick={() => setMenuSelection("learn") } >LEARN</div>
-      <div className="menu-button default-button" style={highlightBorder("browse")} onClick={() => setMenuSelection("browse") }>BROWSE</div>
+      {loggedIn && <div className="menu-button default-button" style={highlightBorder("learn")} onClick={() => setMenuSelection("learn")} >LEARN</div>}
+      {loggedIn && <div className="menu-button default-button" style={highlightBorder("browse")} onClick={() => setMenuSelection("browse")}>BROWSE</div>}
       <div className="menu-button default-button" style={highlightBorder("account")} onClick={() => setMenuSelection("account")}>
         ACCOUNT
       </div>
