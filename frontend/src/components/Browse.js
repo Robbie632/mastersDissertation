@@ -73,7 +73,9 @@ export default function Browse({userDetails}) {
           </option>
         </select>
       </div>
-
+      <div>
+        Select "Get Phrase" to add the phrase to your lesson
+    </div>
       <div className="browse-container-1">
         <div id="browse-container-2">
           {phrases.map(({ l1, l2, phraseid, stars }) => (

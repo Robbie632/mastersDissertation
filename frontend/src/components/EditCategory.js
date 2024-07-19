@@ -5,8 +5,14 @@ import { ENV_VARS } from "../env";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
+import { IoCloseSharp } from "react-icons/io5";
 
-export default function EditCategory({ category, userDetails, language }) {
+export default function EditCategory({
+  category,
+  userDetails,
+  language,
+  setEdit,
+}) {
   const [l1input, setL1input] = useState("");
   const [l2input, setL2input] = useState("");
   const [phrases, setPhrases] = useState([]);
@@ -129,7 +135,19 @@ export default function EditCategory({ category, userDetails, language }) {
   return (
     <div className="edit-category-container-1">
       <div id="edit-category-container-2">
-        <div className={"category-status"}>{category.toUpperCase()}
+        <div className={"category-status"}>
+          {category.toUpperCase()}
+          <div onClick={() => setEdit("")}>
+            <IconContext.Provider
+              value={{
+                size: 48,
+                color: "black",
+                className: "global-class-name",
+              }}
+            >
+              <IoCloseSharp />
+            </IconContext.Provider>
+          </div>
         </div>
         <IconContext.Provider
           value={{
@@ -142,7 +160,14 @@ export default function EditCategory({ category, userDetails, language }) {
             className="add-category"
             onClick={() => displayAddPhraseWidget()}
           >
-            {addPhraseWidgetDisplayed ? <CiCircleMinus /> : <CiCirclePlus />}
+            {addPhraseWidgetDisplayed ? (
+              <CiCircleMinus />
+            ) : (
+              <div className="add-phrase-symbol-container">
+                {" "}
+                <CiCirclePlus /> Add Phrase
+              </div>
+            )}
           </div>
           {addPhraseWidgetDisplayed ? addPhraseWidget : null}
         </IconContext.Provider>

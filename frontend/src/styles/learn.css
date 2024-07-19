@@ -6,6 +6,14 @@
   gap:10px;
   justify-content: flex-start;
   align-items: center;
+  flex-wrap: wrap;
+}
+.category-tiles-container {
+  width:80%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
 }
 #create-category {
   width:20%;

@@ -18,16 +18,20 @@ export default function Learn({ userDetails, language }) {
 
 
   const categoryElements = (
-    <div id="category-tiles">
+    <div className="category-tiles-container">
+          <div id="category-tiles">
       {categories.map((v) => (
         <Category name={v} setEdit={setEdit} setLesson={setLesson}></Category>
       ))}
     </div>
+
+    </div>
+
   );
 
   const editCategoryElement = (
     <div>
-      <EditCategory category={edit} userDetails={userDetails} language={language}></EditCategory>
+      <EditCategory category={edit} userDetails={userDetails} language={language} setEdit={setEdit}></EditCategory>
     </div>
   );
   var body = <div></div>;

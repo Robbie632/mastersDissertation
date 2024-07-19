@@ -7,6 +7,10 @@
   align-items: center;
   margin-top:50px;
 }
+.add-phrase-symbol-container {
+  display: flex;
+  flex-direction: column
+}
 
 .add-category{
   cursor: pointer;
@@ -46,6 +50,8 @@
 }
 
 .category-status {
+  display: flex;
+  flex-direction: row;
   align-self: flex-end;
   font-size: 1.8em;
   width:200px;

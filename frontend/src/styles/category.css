@@ -35,4 +35,12 @@
 }
 .edit-icon:hover {
   cursor:pointer;
+  border: 2px solid black;
+
+
+}
+.edit-icon {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding:10px;
 }

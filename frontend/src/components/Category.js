@@ -11,7 +11,7 @@ export default function Category({ name, setLesson, setEdit }) {
           <div className="edit-icon" onClick={() => {
             setEdit(name);
           }}>
-            <MdEdit/>
+            <MdEdit/> edit phrases
           </div>
         </div>
       </div>
