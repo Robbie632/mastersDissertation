@@ -15,6 +15,9 @@
 .add-category{
   cursor: pointer;
 }
+.close{
+  cursor: pointer;
+}
 
 .add-phrase-widget-container {
   display:flex;

@@ -144,7 +144,7 @@ export default function EditCategory({
       <div id="edit-category-container-2">
         <div className={"category-status"}>
           {category.toUpperCase()}
-          <div onClick={() => setEdit("")}>
+          <div className="close" onClick={() => setEdit("")}>
             <IconContext.Provider
               value={{
                 size: 48,

@@ -6,7 +6,6 @@ import Browse from "./components/Browse";
 import Account from "./components/Account";
 import SignUp from "./components/Signup";
 import About from "./components/About";
-import Example from "./reddit";
 import React, { useState, useEffect } from "react";
 
 function App() {
