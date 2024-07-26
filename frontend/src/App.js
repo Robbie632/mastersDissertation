@@ -7,6 +7,7 @@ import Account from "./components/Account";
 import SignUp from "./components/Signup";
 import About from "./components/About";
 import React, { useState, useEffect } from "react";
+import { ENV_VARS } from "./env";
 
 function App() {
   const [menuSelection, setMenuSelection] = useState("account");
@@ -21,15 +22,17 @@ function App() {
   const cachedUserid = localStorage.getItem("userid");
   useEffect(() => {
     if (cachedJWT !== null && cachedUserid !== null) {
-      setUserDetails(
-        () => ({ token: cachedJWT, userid: cachedUserid }),
-        setLoggedIn(() => true, setMenuSelection("learn"))
-      );
+      fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/checkjwt`)
+        .then((response) => {
+          if (response.status === 200) {
+            setUserDetails(() => ({ token: cachedJWT, userid: cachedUserid }));
+            setLoggedIn(() => true, setMenuSelection("learn"))
+          } 
+        })
     }
   }, []);
 
   return (
-    
     <div className="App Holiday-Cheer-5-hex">
       <div>
         <Menu

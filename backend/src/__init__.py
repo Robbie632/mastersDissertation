@@ -51,7 +51,8 @@ def create_app(test=False):
                          r"/api/performances": {"origins": "*"},
                          r"/api/performance": {"origins": "*"},
                          r"/api/metric": {"origins": "*"},
-                         r"/api/rating": {"origins": "*"}})
+                         r"/api/rating": {"origins": "*"},
+                         r"/api/checkjwt": {"origins": "*"}})
 
     def check_token(f):
         @wraps(f)
@@ -69,6 +70,11 @@ def create_app(test=False):
                 return {'message': 'Invalid token provided.'}, 400
             return f(*args, **kwargs)
         return wrap
+    
+    @app.route('/api/checkjwt', methods=["GET"])
+    @check_token
+    def checkjwt():
+        return jsonify({}), 200
 
     @app.route('/api/user', methods=["POST"])
     def user_post():
