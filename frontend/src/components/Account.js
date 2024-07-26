@@ -47,6 +47,8 @@ export default function Account({
         token: result["token"],
         userid: result["userid"],
       }));
+      localStorage.setItem("JWT", result["token"])
+      localStorage.setItem("userid", result["userid"])
       setLoggedIn((prev) => true);
       setMenuSelection(() => "learn");
     } else if (response.status === 400) {
