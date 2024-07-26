@@ -30,7 +30,10 @@ export default function EditCategory({
     e.preventDefault();
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phrase`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": userDetails["token"]
+       },
       body: JSON.stringify({
         l1: l1input,
         l2: l2input,
@@ -47,7 +50,10 @@ export default function EditCategory({
         `${ENV_VARS.REACT_APP_SERVER_IP}/api/phraseselection`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": userDetails["token"]
+           },
           body: JSON.stringify({
             phraseid: phraseid,
             userid: userDetails["userid"],
@@ -89,6 +95,7 @@ export default function EditCategory({
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "authorization": userDetails["token"]
         },
       });
       if (response.status == 200) {

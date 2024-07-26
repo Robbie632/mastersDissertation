@@ -6,7 +6,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
 
-export default function StarRating({ phraseid, userid}) {
+export default function StarRating({ phraseid, userDetails}) {
   const colors = {
     orange: "#F2C265",
     grey: "a9a9a9",
@@ -32,10 +32,13 @@ export default function StarRating({ phraseid, userid}) {
     setDisplayStars(2);
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/rating`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": userDetails["token"]
+       },
       body: JSON.stringify({
         phraseid: phraseid,
-        userid: userid,
+        userid: userDetails["userid"],
         rating: value,
       }),
     });

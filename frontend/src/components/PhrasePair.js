@@ -36,7 +36,10 @@ export default function PhrasePair({
       `${ENV_VARS.REACT_APP_SERVER_IP}/api/phraseselection`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": userDetails["token"]
+         },
         body: JSON.stringify({
           phraseid: phraseid,
           userid: userDetails["userid"],
@@ -56,7 +59,10 @@ export default function PhrasePair({
   const handleSave = async (e) => {
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phrase`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": userDetails["token"]
+       },
       body: JSON.stringify({
         l1: formData["l1"],
         l2: formData["l2"],
@@ -76,7 +82,10 @@ export default function PhrasePair({
     e.preventDefault();
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phraseselection`, {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": userDetails["token"]
+       },
       body: JSON.stringify({
         phraseselectionid: phraseselectionid,
       }),

@@ -6,7 +6,7 @@ import "../styles/login.css";
 import { ENV_VARS } from "../env";
 
 import SignUp from "./Signup";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 
 export default function Account({
   setLoggedIn,
@@ -37,7 +37,7 @@ export default function Account({
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/token`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(formData),
     });

@@ -26,6 +26,7 @@ export default function Browse({userDetails}) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "authorization": userDetails["token"]
         },
       });
       if (response.status == 200) {

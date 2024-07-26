@@ -105,6 +105,7 @@ def create_app(test=False):
             return jsonify(response), status_code
 
     @app.route('/api/user', methods=["DELETE"])
+    @check_token
     def user_delete():
         response = {"status": ""}
         status_code = 200
@@ -164,8 +165,9 @@ def create_app(test=False):
             status_code = 400
 
             return jsonify(response), status_code
-
+    
     @app.route('/api/phrases', methods=["GET"])
+    @check_token
     def phrases_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -182,6 +184,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/phrases/category', methods=["GET"])
+    @check_token
     def phrasescategory_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -206,6 +209,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/phrases/category/user', methods=["GET"])
+    @check_token
     def phrasescategoryuser_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -242,6 +246,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/phrase', methods=["POST"])
+    @check_token
     def phrase_post():
         status_code = 201
         response = {
@@ -272,6 +277,7 @@ def create_app(test=False):
         return jsonify(response), status_code
 
     @app.route('/api/phrase', methods=["PATCH"])
+    @check_token
     def phrase_patch():
         status_code = 200
         response = {
@@ -301,6 +307,7 @@ def create_app(test=False):
         return jsonify(response), status_code
 
     @app.route('/api/language', methods=["POST"])
+    @check_token
     def language_post():
         status_code = 201
         response = {
@@ -327,6 +334,7 @@ def create_app(test=False):
         return jsonify(response), status_code
 
     @app.route('/api/languages', methods=["GET"])
+    @check_token
     def languages_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -343,6 +351,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/rating', methods=["POST"])
+    @check_token
     def rating_post():
         status_code = 201
         response = {
@@ -373,6 +382,7 @@ def create_app(test=False):
         return jsonify(response), status_code
 
     @app.route('/api/rating', methods=["GET"])
+    @check_token
     def ratings_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -402,6 +412,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/phraseselection', methods=["GET"])
+    @check_token
     def phraseselection_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -429,6 +440,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/phraseselection/category', methods=["GET"])
+    @check_token
     def phraseselectioncategory_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -464,6 +476,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/phraseselection', methods=["POST"])
+    @check_token
     def phraseselection_post():
         status_code = 201
         response = {
@@ -493,6 +506,7 @@ def create_app(test=False):
         return jsonify(response), status_code
 
     @app.route('/api/phraseselection', methods=["DELETE"])
+    @check_token
     def phraseselection_delete():
         response = {"status": ""}
         status_code = 200
@@ -516,6 +530,7 @@ def create_app(test=False):
             return jsonify(response), 500
 
     @app.route('/api/performances', methods=["GET"])
+    @check_token
     def performances_get():
         status_code = 200
         data = {"status": "success", "data": 0}
@@ -533,6 +548,7 @@ def create_app(test=False):
         return jsonify(data), status_code
 
     @app.route('/api/performance', methods=["POST"])
+    @check_token
     def performance_post():
         status_code = 201
         response = {
@@ -566,6 +582,7 @@ def create_app(test=False):
         return jsonify(response), status_code
 
     @app.route('/api/metric', methods=["POST"])
+    @check_token
     def metric_post():
         status_code = 200
         response = {

@@ -32,6 +32,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "authorization": userDetails["token"]
         },
       });
       if (response.status == 200) {
@@ -94,7 +95,10 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const calculate_similarity = async (a, b) => {
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/metric`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": userDetails["token"]
+       },
       body: JSON.stringify({
         phrasea: a,
         phraseb: b,
@@ -140,7 +144,10 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         `${ENV_VARS.REACT_APP_SERVER_IP}/api/performance`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": userDetails["token"]
+           },
           body: JSON.stringify({
             userid: userDetails["userid"],
             phraseid: phraseid,
@@ -195,7 +202,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
                       ? phrases[progress]["phraseid"]
                       : -1
                   }
-                  userid={userDetails["userid"]}
+                  userDetails={userDetails}
                 ></StarRating>
               </div>
             ) : null}
