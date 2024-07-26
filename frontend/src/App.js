@@ -22,7 +22,14 @@ function App() {
   const cachedUserid = localStorage.getItem("userid");
   useEffect(() => {
     if (cachedJWT !== null && cachedUserid !== null) {
-      fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/checkjwt`)
+      fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/checkjwt`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "authorization": cachedJWT
+          }
+        },
+      )
         .then((response) => {
           if (response.status === 200) {
             setUserDetails(() => ({ token: cachedJWT, userid: cachedUserid }));
