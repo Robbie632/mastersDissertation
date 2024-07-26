@@ -31,7 +31,7 @@ export default function About() {
               browse phrases added by other users, if you want to add a phrase
               pair to your learning then click GET PHRASE. Alternatively, you
               can add phrase pairs of your own, simply head to the LEARN page
-              then click "edit phrases" ,you will then be able to add, remove and
+              then click "edit phrases", you will then be able to add, remove and
               edit phrases if you wish.
             </li>
             <li>
