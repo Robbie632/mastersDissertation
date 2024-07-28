@@ -122,6 +122,7 @@ export default function EditCategory({
         type="text"
         value={l1input}
         onChange={onChangeInputL1}
+        placeholder="english phrase..."
         className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
       ></input>
       <input
@@ -129,6 +130,7 @@ export default function EditCategory({
         value={l2input}
         onChange={onChangeInputL2}
         className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
+        placeholder="swedish phrase..."
       ></input>
       <button
         type="submit"
