@@ -194,18 +194,6 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         >
           <div className="feedback">
             <div>{getFeedbackPhrase(similarity)}</div>
-            {similarity > 0.85 ? (
-              <div>
-                <StarRating
-                  phraseid={
-                    phrases && phrases.length != 0 && progress < phrases.length
-                      ? phrases[progress]["phraseid"]
-                      : -1
-                  }
-                  userDetails={userDetails}
-                ></StarRating>
-              </div>
-            ) : null}
           </div>
         </div>
       ) : displayFeedback === 0 ? null : displayFeedback === 2 ? (
