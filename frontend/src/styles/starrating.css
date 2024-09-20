@@ -1,3 +1,6 @@
 .star-rating:hover{
   cursor: pointer;
 }
+.star-rating {
+  width:100%
+}

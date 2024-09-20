@@ -15,7 +15,7 @@ export default function StarRating({ phraseid, userDetails}) {
   const stars = Array(5).fill(0);
   const [rating, setRating] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
-  // {0, 1, 2} 0: display stars 1: display tick showing rating sent, 2: loading symbol for when sent rating
+  // {0, 1, 2} 0: display stars, 1: display tick showing rating sent, 2: loading symbol for when sent rating
   const [displayStars, setDisplayStars] = useState(0);
 
 
@@ -85,6 +85,7 @@ export default function StarRating({ phraseid, userDetails}) {
         <TiTick />
       </IconContext.Provider>
     </div>;
+    setTimeout(()=>setDisplayStars(0), 2000);
   } else if (displayStars === 0) {
     var element = <div className="star-rating">
       {phraseid == -1 ? "" : starElements}

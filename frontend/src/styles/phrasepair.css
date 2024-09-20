@@ -1,7 +1,7 @@
 .phrase-pair-container-1 {
   display: flex;
   flex-direction: row;
-  gap:80px;
+  gap:50px;
   width:100%;
   color:white;
   align-items: center;
