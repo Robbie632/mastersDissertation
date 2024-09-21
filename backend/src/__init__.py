@@ -462,7 +462,7 @@ def create_app(test=False):
         try:
             db_response = db.session.query(PhraseSelection, Phrase).join(PhraseSelection, Phrase.phraseid == PhraseSelection.phraseid)\
                             .filter(Phrase.languageid == language_id)\
-                            .filter(Phrase.category == category).filter(Phrase.userid == user_id).all()
+                            .filter(Phrase.category == category).filter(PhraseSelection.userid == user_id).all()
             dicts = []
             for i in db_response:
                 t = i.tuple()
