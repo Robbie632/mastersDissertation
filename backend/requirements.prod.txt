@@ -8,3 +8,4 @@ requests
 Pyrebase4
 firebase-admin
 gunicorn
+sentence-transformers
