@@ -10,4 +10,4 @@ Pyrebase4
 firebase-admin
 jupyterlab
 notebook
-sentence-transformers
+fuzzywuzzy

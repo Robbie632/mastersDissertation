@@ -18,6 +18,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   //displayFeedback {0, 1, 2} 0: no feedback displayed, 1:display feedback, 2: display buffering
   const [displayFeedback, setDisplayFeedback] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
+
+  const similarityThreshold = 0.9;
   useEffect(() => {
     const fetchData = async () => {
       const url =
@@ -76,14 +78,14 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     }
   }
   const getFeedbackColor = (similarity) => {
-    if (similarity > 0.85) {
+    if (similarity > similarityThreshold) {
       return "#79A637";
-    } else if ((similarity < 0.85) & (similarity > 0.4)) {
+    } else if ((similarity < similarityThreshold) & (similarity > 0.4)) {
       return "#F2A922";
     }
   };
   const getFeedbackPhrase = (similarity) => {
-    if (similarity > 0.85) {
+    if (similarity > similarityThreshold) {
       return "Great job!";
     } else if ((similarity < 0.85) & (similarity > 0.4)) {
       return "You're close!";
@@ -140,7 +142,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       } 
       else {
         setSimilarity(() => similarity.toFixed(2));
-        if (similarity > 0.85) {
+        if (similarity > similarityThreshold) {
           setButtonSet("continue");
         }
         const response = await fetch(

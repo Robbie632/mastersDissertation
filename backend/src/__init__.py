@@ -8,7 +8,7 @@ from src.models.phraseselection import PhraseSelection
 from src.models.performance import Performance
 from src.utils import query
 from flask_cors import CORS
-from sentence_transformers import SentenceTransformer
+from fuzzywuzzy import fuzz
 from functools import wraps
 import firebase_admin
 import pyrebase
@@ -24,8 +24,7 @@ load_dotenv()
 
 def create_app(test=False):
     
-    # metric_model_api = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
-    similarity_model =  SentenceTransformer("all-MiniLM-L6-v2")
+
     # Connect to firebase
     cred = credentials.Certificate('./src/secrets/fbAdminConfig.json')
     firebase = firebase_admin.initialize_app(cred)
@@ -606,32 +605,15 @@ def create_app(test=False):
             status_code = 400
             response["status"] = "received unexpected data format"
         
-        # api_token = "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"
-        # headers = {"Authorization": f"Bearer {api_token}"}
-        sentences = [phrasea, phraseb]
-        # payload = {
-        #     "inputs": {
-        #         "source_sentence": phrasea,
-        #         "sentences": [phraseb]
-        #     }
-        # }
-        try:
-          embeddings = similarity_model.encode(sentences)
-          similarities = similarity_model.similarity(embeddings, embeddings)
-          try:
-            metric = float(similarities[0][1])
-            response["metric"] = [metric]
-          except:
-            status_code=400
-            response["status"] = "metric data not in expected format"
-          
-        except requests.exceptions.Timeout:
-            status_code=400
-            response["status"] = "api call to hugging faces model timed out"
-        except requests.exceptions.RequestException:
-            status_code = 400
-            response["status"] = "api call to hugging faces model raised RequestException"
-
+        if len(phrasea)==0 or len(phraseb)==0:
+            response["metric"] = [0]
+        else:
+            try:
+                metric = fuzz.ratio(phrasea, phraseb)*0.01
+                response["metric"] = [metric]
+            except:
+                status_code=400
+                response["status"] = "metric data not in expected format"
         return jsonify(response), status_code
     
     return app
