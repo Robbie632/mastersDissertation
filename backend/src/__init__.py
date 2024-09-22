@@ -8,6 +8,7 @@ from src.models.phraseselection import PhraseSelection
 from src.models.performance import Performance
 from src.utils import query
 from flask_cors import CORS
+from sentence_transformers import SentenceTransformer
 from functools import wraps
 import firebase_admin
 import pyrebase
@@ -23,7 +24,8 @@ load_dotenv()
 
 def create_app(test=False):
     
-    metric_model_api = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
+    # metric_model_api = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
+    similarity_model =  SentenceTransformer("all-MiniLM-L6-v2")
     # Connect to firebase
     cred = credentials.Certificate('./src/secrets/fbAdminConfig.json')
     firebase = firebase_admin.initialize_app(cred)
@@ -604,18 +606,25 @@ def create_app(test=False):
             status_code = 400
             response["status"] = "received unexpected data format"
         
-        api_token = "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"
-        headers = {"Authorization": f"Bearer {api_token}"}
-        
-        payload = {
-            "inputs": {
-                "source_sentence": phrasea,
-                "sentences": [phraseb]
-            }
-        }
+        # api_token = "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"
+        # headers = {"Authorization": f"Bearer {api_token}"}
+        sentences = [phrasea, phraseb]
+        # payload = {
+        #     "inputs": {
+        #         "source_sentence": phrasea,
+        #         "sentences": [phraseb]
+        #     }
+        # }
         try:
-          huggingface_response = requests.post(metric_model_api, headers=headers, json=payload, timeout=5)
-          response["metric"] = huggingface_response.json()
+          embeddings = similarity_model.encode(sentences)
+          similarities = similarity_model.similarity(embeddings, embeddings)
+          try:
+            metric = float(similarities[0][1])
+            response["metric"] = [metric]
+          except:
+            status_code=400
+            response["status"] = "metric data not in expected format"
+          
         except requests.exceptions.Timeout:
             status_code=400
             response["status"] = "api call to hugging faces model timed out"

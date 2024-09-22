@@ -26,8 +26,7 @@ class TestGetEndpoints(unittest.TestCase):
 
         cls.test_client = cls.app.test_client()
 
-        test_credentials = {"email": os.environ.get(
-            "ACCOUNT_EMAIL"), "password": os.environ.get("ACCOUNT_PASSWORD")}
+        test_credentials = {"email": "placeholderemail", "password": "placeholderpassword"}
 
         response = cls.test_client.post(
             "/api/token", json=test_credentials, content_type='application/json')
@@ -101,7 +100,7 @@ class TestGetEndpoints(unittest.TestCase):
                 db.session.commit()
 
         response = self.test_client.delete(
-            "/api/user", json=mock_data_user, content_type='application/json')
+            "/api/user", json=mock_data_user, content_type='application/json', headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
 
         with self.app.app_context():
@@ -574,7 +573,8 @@ class TestGetEndpoints(unittest.TestCase):
         response = self.test_client.delete("/api/phraseselection",
                                            json={
                                                "phraseselectionid": id_for_deletion},
-                                           content_type='application/json')
+                                           content_type='application/json',
+                                           headers={"authorization": self.jwt})
         self.assertEqual(response.status_code, 200)
         with self.app.app_context():
             response = PhraseSelection.query.all()

@@ -98,7 +98,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       headers: {
         "Content-Type": "application/json",
         "authorization": userDetails["token"]
-       },
+      },
       body: JSON.stringify({
         phrasea: a,
         phraseb: b,
@@ -135,30 +135,35 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
       var similarity = await calculate_similarity(answer, l2);
-      similarity = similarity || 0;
-      setSimilarity(() => similarity.toFixed(2));
-      if (similarity > 0.85) {
-        setButtonSet("continue");
-      }
-      const response = await fetch(
-        `${ENV_VARS.REACT_APP_SERVER_IP}/api/performance`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": userDetails["token"]
-           },
-          body: JSON.stringify({
-            userid: userDetails["userid"],
-            phraseid: phraseid,
-            metric: similarity,
-          }),
+      if (!similarity) {
+        alert("problem checking phrase, please contact website admin")
+      } 
+      else {
+        setSimilarity(() => similarity.toFixed(2));
+        if (similarity > 0.85) {
+          setButtonSet("continue");
         }
-      );
-      if (response.status !== 201) {
-        alert("problem writing result to database");
+        const response = await fetch(
+          `${ENV_VARS.REACT_APP_SERVER_IP}/api/performance`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "authorization": userDetails["token"]
+            },
+            body: JSON.stringify({
+              userid: userDetails["userid"],
+              phraseid: phraseid,
+              metric: similarity,
+            }),
+          }
+        );
+        if (response.status !== 201) {
+          alert("problem writing result to database");
+        }
+        setDisplayFeedback(1);
       }
-      setDisplayFeedback(1);
+
     }
   };
 
