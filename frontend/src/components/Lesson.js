@@ -1,4 +1,5 @@
 import StarRating from "./StarRating";
+import { getRandomSubarray } from "../utils/phraseUtils"; 
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
@@ -20,6 +21,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const [buttonSet, setButtonSet] = useState("check"); // or continue
 
   const similarityThreshold = 0.9;
+  const numPhrasesTested = 3;
   useEffect(() => {
     const fetchData = async () => {
       const url =
@@ -46,7 +48,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
             phraseid: Phrase.phraseid,
           };
         });
-        setPhrases(new_phrases);
+        const subset = getRandomSubarray(new_phrases, numPhrasesTested);
+        setPhrases(subset);
       } else {
         alert("problem calling backend api");
       }
