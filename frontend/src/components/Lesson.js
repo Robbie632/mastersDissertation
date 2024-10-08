@@ -1,5 +1,4 @@
-import StarRating from "./StarRating";
-import { getRandomSubarray } from "../utils/phraseUtils"; 
+import { getRandomSubarray, processPhrase } from "../utils/phraseUtils"; 
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
@@ -139,7 +138,9 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       setDisplayFeedback(() => 2);
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
-      var similarity = await calculate_similarity(answer, l2);
+      const l2Cleaned = processPhrase(l2);
+      const answerCleaned = processPhrase(answer); 
+      var similarity = await calculate_similarity(answerCleaned, l2Cleaned);
       if (!similarity) {
         alert("problem checking phrase, please contact website admin")
       } 
