@@ -606,7 +606,7 @@ def create_app(test=False):
             response["status"] = "received unexpected data format"
         
         if len(phrasea)==0 or len(phraseb)==0:
-            response["metric"] = [0]
+            response["metric"] = [0.01]
         else:
             try:
                 metric = fuzz.ratio(phrasea, phraseb)*0.01

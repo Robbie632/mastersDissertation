@@ -103,6 +103,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   };
 
   const calculate_similarity = async (a, b) => {
+
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/metric`, {
       method: "POST",
       headers: {
