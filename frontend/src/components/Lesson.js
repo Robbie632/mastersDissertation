@@ -125,6 +125,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
 
   const onContinue = () => {
     setl1Input("");
+    setPeekPhrase(0);
     safeProgressIncrement();
     setButtonSet("check");
   };
