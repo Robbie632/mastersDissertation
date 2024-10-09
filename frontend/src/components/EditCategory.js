@@ -33,7 +33,7 @@ export default function EditCategory({
       headers: {
         "Content-Type": "application/json",
         "authorization": userDetails["token"]
-       },
+      },
       body: JSON.stringify({
         l1: l1input,
         l2: l2input,
@@ -53,7 +53,7 @@ export default function EditCategory({
           headers: {
             "Content-Type": "application/json",
             "authorization": userDetails["token"]
-           },
+          },
           body: JSON.stringify({
             phraseid: phraseid,
             userid: userDetails["userid"],
@@ -118,20 +118,31 @@ export default function EditCategory({
 
   const addPhraseWidget = (
     <form onSubmit={onAddPhrasePair} className="add-phrase-widget-container">
-      <input
-        type="text"
-        value={l1input}
-        onChange={onChangeInputL1}
-        placeholder="english phrase..."
-        className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
-      ></input>
-      <input
-        type="text"
-        value={l2input}
-        onChange={onChangeInputL2}
-        className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
-        placeholder="swedish phrase..."
-      ></input>
+      <div>
+        <h4>
+          English Phrase
+        </h4>
+        <input
+          type="text"
+          value={l1input}
+          onChange={onChangeInputL1}
+          placeholder="english phrase..."
+          className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
+        ></input>
+      </div>
+      <div>
+        <h4>
+          Swedish Phrase
+        </h4>
+        <input
+          type="text"
+          value={l2input}
+          onChange={onChangeInputL2}
+          className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
+          placeholder="swedish phrase..."
+        ></input>
+      </div>
+
       <button
         type="submit"
         className="add-phrase-widget-submit heading-3 Holiday-Cheer-2-hex"

@@ -25,7 +25,7 @@
   gap:20px;
   align-items: center;
   justify-content: center;
-  width:100%
+  width:100%;
 }
 
 .add-phrase-widget {
@@ -37,7 +37,7 @@
 
 .add-phrase-widget-submit {
   border: 1px solid black;
-  flex:1;
+  flex:1/2;
   color: white;
   height: 50px;
   border-radius: 5px;
