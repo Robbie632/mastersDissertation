@@ -83,7 +83,10 @@ export default function Browse({userDetails}) {
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
               <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator}></PhrasePair>
+              <div className="rate-phrase-widget">
+              <a>Rate Phrase</a>
               <StarRating  {... { phraseid, userDetails }}></StarRating>
+              </div>
             </div>
           ))}
         </div>

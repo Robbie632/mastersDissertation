@@ -10,7 +10,9 @@
   cursor: pointer;
   border-radius:10px;
 }
-
+.rate-phrase-widget {
+  width:200px;
+}
 .dropdown label {
   margin-right: 20px;
 }

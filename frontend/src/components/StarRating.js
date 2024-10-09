@@ -13,7 +13,6 @@ export default function StarRating({ phraseid, userDetails}) {
   };
 
   const stars = Array(5).fill(0);
-  const [rating, setRating] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   // {0, 1, 2} 0: display stars, 1: display tick showing rating sent, 2: loading symbol for when sent rating
   const [displayStars, setDisplayStars] = useState(0);
@@ -28,7 +27,6 @@ export default function StarRating({ phraseid, userDetails}) {
   };
 
   const handleClickStar = async (value) => {
-    setRating(value);
     setDisplayStars(2);
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/rating`, {
       method: "POST",
@@ -45,6 +43,7 @@ export default function StarRating({ phraseid, userDetails}) {
     if (response.status !== 201) {
       alert("problem sending rating");
     } else {
+      setHoverValue(0);
       setDisplayStars(1);
     }
   };
@@ -57,15 +56,15 @@ export default function StarRating({ phraseid, userDetails}) {
       await sleep(4000);
       return 1;
   }
-
+  function onLeaveStars() {
+    setHoverValue(undefined);
+  }
   const starElements = stars.map((_, index) => {
     return (
       <FaStar
         key={index}
         size={24}
-        value={rating}
-        onChange={(e) => setRating(e.target.value)}
-        color={(hoverValue || rating) > index ? colors.orange : colors.grey}
+        color={(hoverValue) > index ? colors.orange : colors.grey}
         onClick={() => handleClickStar(index + 1)}
         onMouseOver={() => handleMouseOverStar(index + 1)}
         onMouseLeave={() => handleMouseLeaveStar}
@@ -84,14 +83,15 @@ export default function StarRating({ phraseid, userDetails}) {
       >
         <TiTick />
       </IconContext.Provider>
+      <a>rating submitted</a>
     </div>;
     setTimeout(()=>setDisplayStars(0), 2000);
   } else if (displayStars === 0) {
-    var element = <div className="star-rating">
+    var element = <div className="star-rating" onMouseLeave={onLeaveStars}>
       {phraseid == -1 ? "" : starElements}
     </div>;
   } else if (displayStars === 2) {
-    var element = <div className="star-rating">
+    var element = <div className="star-rating" onMouseLeave={onLeaveStars}>
     <AiOutlineLoading className="loading"/>
   </div>;
 
