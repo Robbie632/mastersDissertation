@@ -1,10 +1,11 @@
-import { getRandomSubarray, processPhrase } from "../utils/phraseUtils"; 
+import { getRandomSubarray, processPhrase } from "../utils/phraseUtils";
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
 import { AiOutlineLoading } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { FaEye } from "react-icons/fa";
 
 import "../styles/lesson.css";
 import "../App.css";
@@ -17,6 +18,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const [similarity, setSimilarity] = useState("");
   //displayFeedback {0, 1, 2} 0: no feedback displayed, 1:display feedback, 2: display buffering
   const [displayFeedback, setDisplayFeedback] = useState(0);
+  const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
 
   const similarityThreshold = 0.9;
@@ -72,9 +74,13 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     setDisplayFeedback(0);
   }
 
+  function togglePeekPhrase() {
+    setPeekPhrase((prev) =>~prev);
+  }
+
   function getNextPhrase() {
     if (progress < numQuestions) {
-      return phrases[progress]["l1"];
+      return <div className="l1">{phrases[progress]["l1"]}</div>;
     } else {
       return "";
     }
@@ -139,11 +145,11 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       const l2 = phrases[progress]["l2"];
       const phraseid = phrases[progress]["phraseid"];
       const l2Cleaned = processPhrase(l2);
-      const answerCleaned = processPhrase(answer); 
+      const answerCleaned = processPhrase(answer);
       var similarity = await calculate_similarity(answerCleaned, l2Cleaned);
       if (!similarity) {
         alert("problem checking phrase, please contact website admin")
-      } 
+      }
       else {
         setSimilarity(() => similarity.toFixed(2));
         if (similarity > similarityThreshold) {
@@ -255,13 +261,22 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
           finishedElement
         ) : (
           <div class="lesson-container-1ba Holiday-Cheer-5-hex">
-            <div class="lesson-l1">{getNextPhrase()}</div>
+            <div class="lesson-l1">{getNextPhrase()}
+              <div className="peeked-phrase">
+                {peekPhrase ? phrases[progress]["l2"] : null}
+              </div>
+              <div className="peek-icon" onClick={togglePeekPhrase}>
+                <FaEye />
+              </div>
+
+            </div>
             <input
               type="text"
               class="lesson-l2 Holiday-Cheer-5-hex"
               value={l1Input}
               onChange={(e) => setl1Input(e.target.value)}
             ></input>
+
           </div>
         )}
       </div>

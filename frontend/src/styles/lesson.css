@@ -8,7 +8,7 @@
   width:100%;
   flex:2;
   display: flex;
-  flex-direction: row;
+  flex-direction: row; 
 }
 .lesson-container-1aa {
   flex:2;
@@ -81,11 +81,27 @@ width: 40%;
 height: 20%;
 display: flex;
 font-size: 1.2em;
-flex-direction:row;
-align-items: center;
-justify-content: center;
-}
+display: grid;
+grid-template: repeat(1fr, 4) / repeat(1fr, 4);
 
+}
+.l1{
+  grid-row: 1/2;
+  grid-column:2/4;
+
+}
+.peek-icon{
+  grid-row: 1/2;
+  grid-column: 4/5;
+}
+.peek-icon:hover{
+  cursor: pointer;
+}
+.peeked-phrase {
+  color:green;
+  grid-row: 3/4;
+  grid-column:2/4;
+}
 .lesson-l2 {
   height:20%;
   border: 2px solid black;
