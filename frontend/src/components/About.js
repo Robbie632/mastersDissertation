@@ -38,6 +38,10 @@ export default function About() {
               In order to practise phrase pair translations, simply navigate to
               the LEARN page and select the category you would like to practise.
             </li>
+            <li>
+              Please try to rate as many phrases as possible via the BROWSE page, 
+              this will help with the analysis of how effective the website was after the study has finished.
+            </li>
           </ul>
         </div>
       </div>
