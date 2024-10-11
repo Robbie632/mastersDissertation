@@ -75,7 +75,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   }
 
   function togglePeekPhrase() {
-    setPeekPhrase((prev) =>~prev);
+    setPeekPhrase((prev) => ~prev);
   }
 
   function getNextPhrase() {
@@ -140,6 +140,9 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
     await sleep(4000);
     return 1;
   }
+  const onFormSubmit = async (event, answer) => {
+    event.preventDefault();
+  }
 
   const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
@@ -193,6 +196,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         <TiTick />
       </IconContext.Provider>
       <div
+        type="button"
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLesson("")}
       >
@@ -230,87 +234,94 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
 
   return numQuestions !== 0 ? (
     <div class="lesson-container-1 Holiday-Cheer-5-hex">
-      <div class="lesson-container-1a Holiday-Cheer-3-hex">
-        <div class="lesson-container-1aa Holiday-Cheer-5-hex"></div>
-        <div class="lesson-container-1ab Holiday-Cheer-5-hex">
-          <div class="progress-bar total">
-            <div
-              class="progress-bar completed"
-              style={{
-                display: `${viewProgressBar()}`,
-                width: `${getPercentageCompleted()}%`,
-              }}
-            ></div>
+      <form id="lesson-form" onSubmit={(event) => onFormSubmit(event, l1Input)}>
+        <div class="lesson-container-1a Holiday-Cheer-3-hex">
+          <div class="lesson-container-1aa Holiday-Cheer-5-hex"></div>
+          <div class="lesson-container-1ab Holiday-Cheer-5-hex">
+            <div class="progress-bar total">
+              <div
+                class="progress-bar completed"
+                style={{
+                  display: `${viewProgressBar()}`,
+                  width: `${getPercentageCompleted()}%`,
+                }}
+              ></div>
+            </div>
+            <div onClick={() => setLesson("")} className="close-button">
+              <IconContext.Provider
+                value={{
+                  size: 48,
+                  color: "black",
+                  className: "global-class-name",
+                }}
+              >
+                <IoCloseSharp />
+              </IconContext.Provider>
+            </div>
           </div>
-          <div onClick={() => setLesson("")} className="close-button">
-            <IconContext.Provider
-              value={{
-                size: 48,
-                color: "black",
-                className: "global-class-name",
-              }}
-            >
-              <IoCloseSharp />
-            </IconContext.Provider>
+          <div class="lesson-container-1ac Holiday-Cheer-5-hex">
+            <div class="heading-2">{category.toUpperCase()}</div>
           </div>
         </div>
-        <div class="lesson-container-1ac Holiday-Cheer-5-hex">
-          <div class="heading-2">{category.toUpperCase()}</div>
-        </div>
-      </div>
-      <div class="lesson-container-1b Holiday-Cheer-5-hex">
-        {progress == numQuestions ? (
-          finishedElement
-        ) : (
-          <div class="lesson-container-1ba Holiday-Cheer-5-hex">
-            <div class="lesson-l1">{getNextPhrase()}
-              <div className="peeked-phrase">
-                {peekPhrase ? phrases[progress]["l2"] : null}
+
+        <div class="lesson-container-1b Holiday-Cheer-5-hex">
+          {progress == numQuestions ? (
+            finishedElement
+          ) : (
+            <div class="lesson-container-1ba Holiday-Cheer-5-hex">
+              <div class="lesson-l1">{getNextPhrase()}
+                <div className="peeked-phrase">
+                  {peekPhrase ? phrases[progress]["l2"] : null}
+                </div>
+                <div className="peek-icon" onClick={togglePeekPhrase}>
+                  <FaEye />
+                </div>
+
               </div>
-              <div className="peek-icon" onClick={togglePeekPhrase}>
-                <FaEye />
-              </div>
+              <input
+                type="text"
+                class="lesson-l2 Holiday-Cheer-5-hex"
+                value={l1Input}
+                onChange={(e) => setl1Input(e.target.value)}
+              ></input>
 
             </div>
-            <input
-              type="text"
-              class="lesson-l2 Holiday-Cheer-5-hex"
-              value={l1Input}
-              onChange={(e) => setl1Input(e.target.value)}
-            ></input>
+          )}
+        </div>
+        <div class="lesson-container-1c Holiday-Cheer-5-hex">
+          {buttonSet === "check" ? (
+            <button
+              type="button"
+              class="lesson-skip lesson-button Holiday-Cheer-4-hex default-button"
+              onClick={() => safeProgressIncrement()}
+            >
+              <div>SKIP</div>
+            </button>
+          ) : (
+            <div class="lesson-button-placeholder"></div>
+          )}
 
-          </div>
-        )}
-      </div>
-      <div class="lesson-container-1c Holiday-Cheer-5-hex">
-        {buttonSet === "check" ? (
-          <button
-            class="lesson-skip lesson-button Holiday-Cheer-4-hex default-button"
-            onClick={() => safeProgressIncrement()}
-          >
-            <div>SKIP</div>
-          </button>
-        ) : (
-          <div class="lesson-button-placeholder"></div>
-        )}
+          {feedback}
+          {buttonSet === "check" ? (
+            <button
+              type="submit"
+              class="lesson-check lesson-button Holiday-Cheer-4-hex default-button"
+              onClick={() => checkAnswer(l1Input)}
+            >
+              <div>CHECK</div>
 
-        {feedback}
-        {buttonSet === "check" ? (
-          <button
-            class="lesson-check lesson-button Holiday-Cheer-4-hex default-button"
-            onClick={() => checkAnswer(l1Input)}
-          >
-            <div>CHECK</div>
-          </button>
-        ) : (
-          <button
-            class="lesson-check lesson-button Holiday-Cheer-4-hex"
-            onClick={() => onContinue()}
-          >
-            <div>CONTINUE</div>
-          </button>
-        )}
-      </div>
+            </button>
+          ) : (
+            <button
+              type="submit"
+              class="lesson-check lesson-button Holiday-Cheer-4-hex"
+              onClick={() => onContinue()}
+            >
+              <div>CONTINUE</div>
+            </button>
+          )}
+        </div>
+      </form>
     </div>
   ) : (
     noPhrasesElement
