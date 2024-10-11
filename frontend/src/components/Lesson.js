@@ -195,13 +195,13 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       >
         <TiTick />
       </IconContext.Provider>
-      <div
-        type="button"
+      <button
+        type="submit"
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLesson("")}
       >
-        HOME
-      </div>
+        <div>HOME</div>
+      </button>
     </div>
   );
 
@@ -289,7 +289,8 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
           )}
         </div>
         <div class="lesson-container-1c Holiday-Cheer-5-hex">
-          {buttonSet === "check" ? (
+
+          {buttonSet === "check" && progress != numQuestions ? (
             <button
               type="button"
               class="lesson-skip lesson-button Holiday-Cheer-4-hex default-button"
@@ -302,7 +303,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
           )}
 
           {feedback}
-          {buttonSet === "check" ? (
+          {buttonSet === "check" && progress != numQuestions ? (
             <button
               type="submit"
               class="lesson-check lesson-button Holiday-Cheer-4-hex default-button"
@@ -312,13 +313,15 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
 
             </button>
           ) : (
-            <button
+            buttonSet == "continue" && progress != numQuestions ? <button
               type="submit"
               class="lesson-check lesson-button Holiday-Cheer-4-hex"
               onClick={() => onContinue()}
             >
               <div>CONTINUE</div>
-            </button>
+            </button> : null
+
+
           )}
         </div>
       </form>
