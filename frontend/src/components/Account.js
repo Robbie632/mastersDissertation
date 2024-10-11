@@ -61,12 +61,12 @@ export default function Account({
   const logOutElement = (
     <div className="success-login-container">
       <div
-        className="success-login Holiday-Cheer-3-hex default-button"
+        className="success-login Holiday-Cheer-3-hex default-button log-out"
         onClick={() => {
           setLoggedIn(false);
         }}
       >
-        <div className="log-out">LOG OUT</div>
+        <div >LOG OUT</div>
       </div>
     </div>
   );
