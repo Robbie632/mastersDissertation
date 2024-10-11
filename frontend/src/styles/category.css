@@ -28,19 +28,19 @@
   align-items: center;
   width:100%;
   gap:10px;
-  margin-bottom:10px;
+  margin-bottom:5px;
+  font-size: small;
 }
 .delete-icon:hover {
   cursor:pointer;
 }
 .edit-icon:hover {
   cursor:pointer;
-  border: 2px solid black;
-
+  text-decoration: underline;
 
 }
 .edit-icon {
-  border: 1px solid black;
-  border-radius: 5px;
+  /* border: 1px solid black;
+  border-radius: 5px; */
   padding:10px;
 }
