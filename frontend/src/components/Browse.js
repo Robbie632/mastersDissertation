@@ -80,11 +80,11 @@ export default function Browse({userDetails}) {
     </div>
       <div className="browse-container-1">
         <div id="browse-container-2">
+          {phrases.length === 0 ? <h5>Oops, no phrases available...</h5> : null}
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
-              <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator}></PhrasePair>
+              <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator} stars={stars}></PhrasePair>
               <div className="rate-phrase-widget">
-              <a>Rate Phrase</a>
               <StarRating  {... { phraseid, userDetails }}></StarRating>
               </div>
             </div>

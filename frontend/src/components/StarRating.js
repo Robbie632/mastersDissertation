@@ -6,7 +6,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
 
-export default function StarRating({ phraseid, userDetails}) {
+export default function StarRating({ phraseid, userDetails }) {
   const colors = {
     orange: "#F2C265",
     grey: "a9a9a9",
@@ -33,7 +33,7 @@ export default function StarRating({ phraseid, userDetails}) {
       headers: {
         "Content-Type": "application/json",
         "authorization": userDetails["token"]
-       },
+      },
       body: JSON.stringify({
         phraseid: phraseid,
         userid: userDetails["userid"],
@@ -48,13 +48,13 @@ export default function StarRating({ phraseid, userDetails}) {
     }
   };
 
-  function sleep (time) {
+  function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
-  
+
   async function example() {
-      await sleep(4000);
-      return 1;
+    await sleep(4000);
+    return 1;
   }
   function onLeaveStars() {
     setHoverValue(undefined);
@@ -85,15 +85,19 @@ export default function StarRating({ phraseid, userDetails}) {
       </IconContext.Provider>
       <a>rating submitted</a>
     </div>;
-    setTimeout(()=>setDisplayStars(0), 2000);
+    setTimeout(() => setDisplayStars(0), 2000);
   } else if (displayStars === 0) {
     var element = <div className="star-rating" onMouseLeave={onLeaveStars}>
-      {phraseid == -1 ? "" : starElements}
+      <a>Rate Phrase</a>
+      <div>
+        {phraseid == -1 ? "" : starElements}
+      </div>
+
     </div>;
   } else if (displayStars === 2) {
     var element = <div className="star-rating" onMouseLeave={onLeaveStars}>
-    <AiOutlineLoading className="loading"/>
-  </div>;
+      <AiOutlineLoading className="loading" />
+    </div>;
 
   }
   return (

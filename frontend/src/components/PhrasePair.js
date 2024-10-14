@@ -1,5 +1,6 @@
 import "../styles/phrasepair.css";
 import { ENV_VARS } from "../env";
+import StaticStars from "./StaticStars";
 import { MdEdit } from "react-icons/md";
 import { FaRegSave } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -14,7 +15,8 @@ export default function PhrasePair({
   phraseselectionid,
   togglePhrasesChangedIndicator,
   userDetails,
-  setUpdatePhrasesIndicator
+  setUpdatePhrasesIndicator,
+  stars
 }) {
   const [mode, setMode] = useState("view");
 
@@ -39,7 +41,7 @@ export default function PhrasePair({
         headers: {
           "Content-Type": "application/json",
           "authorization": userDetails["token"]
-         },
+        },
         body: JSON.stringify({
           phraseid: phraseid,
           userid: userDetails["userid"],
@@ -55,14 +57,14 @@ export default function PhrasePair({
       const phraseselectionid = response["id"];
     }
   }
-  
+
   const handleSave = async (e) => {
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phrase`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "authorization": userDetails["token"]
-       },
+      },
       body: JSON.stringify({
         l1: formData["l1"],
         l2: formData["l2"],
@@ -85,7 +87,7 @@ export default function PhrasePair({
       headers: {
         "Content-Type": "application/json",
         "authorization": userDetails["token"]
-       },
+      },
       body: JSON.stringify({
         phraseselectionid: phraseselectionid,
       }),
@@ -130,9 +132,13 @@ export default function PhrasePair({
     </div>
   );
   const addToPhraseSelectionElement = (
-    <div className="Holiday-Cheer-2-hex get-phrase-button" onClick={handleGetPhrase}>
-      <div>GET PHRASE</div>
+    <div>
+      <div className="Holiday-Cheer-2-hex get-phrase-button" onClick={handleGetPhrase}>
+        <div>GET PHRASE</div>
+      </div>
+      <StaticStars starCount={stars} ></StaticStars>
     </div>
+
   );
   function renderAddToPhraseSelectionElement() {
     if ((mode === "view") & allowAddToPhraseSelection) {

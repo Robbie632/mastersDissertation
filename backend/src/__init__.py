@@ -240,7 +240,7 @@ def create_app(test=False):
                         WHERE userid = '{userid}')
                 AND phrases.category = '{category}'
                 GROUP BY phrases.phraseid
-                ORDER BY AVG(ratings.rating) ASC
+                ORDER BY AVG(ratings.rating) DESC
                 """, db)
 
             data["data"] = db_response
