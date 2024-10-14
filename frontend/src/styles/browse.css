@@ -19,7 +19,12 @@
 .dropdown option {
   width:40%;
 }
-
+.get-description{
+  margin-top:20px;
+}
+.get-description span {
+  font-weight: bold;
+}
 .dropdown option:hover {
   cursor: pointer;
 }

@@ -9,7 +9,7 @@ import { IconContext } from "react-icons";
 import { FaStar } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
 
-export default function Browse({userDetails}) {
+export default function Browse({ userDetails }) {
   const [phrases, setPhrases] = useState([]);
   const [category, setCategory] = useState("introductions");
   const [updatePhrasesIndicator, setUpdatePhrasesIndicator] = useState(0);
@@ -48,16 +48,16 @@ export default function Browse({userDetails}) {
     fetchData();
   }, [category, updatePhrasesIndicator]);
 
-    const handleChange = (event) => {
-      setCategory(event.target.value);
-    };
+  const handleChange = (event) => {
+    setCategory(event.target.value);
+  };
   return (
     <div>
       <div className="dropdown">
         <label for="categories" className="heading-1">
           Category:
         </label>
-        <select onChange={handleChange} className="heading-2" name="categories" id="categories">
+        <select onChange={handleChange} className="heading-3" name="categories" id="categories">
           <option className="heading-3" value="cafe">
             Cafe
           </option>
@@ -75,9 +75,9 @@ export default function Browse({userDetails}) {
           </option>
         </select>
       </div>
-      <div>
-        Select "Get Phrase" to add the phrase to your lesson
-    </div>
+      <p className="get-description">
+        Click <span>GET PHRASE</span> to add the phrase to your lesson
+      </p>
       <div className="browse-container-1">
         <div id="browse-container-2">
           {phrases.length === 0 ? <h5>Oops, no phrases available...</h5> : null}
@@ -85,7 +85,7 @@ export default function Browse({userDetails}) {
             <div id="phrase-pair-container">
               <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator} stars={stars}></PhrasePair>
               <div className="rate-phrase-widget">
-              <StarRating  {... { phraseid, userDetails }}></StarRating>
+                <StarRating  {... { phraseid, userDetails }}></StarRating>
               </div>
             </div>
           ))}
