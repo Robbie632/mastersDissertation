@@ -1,14 +1,22 @@
 .about-text {
   margin: 5% 20%;
-  font-size: 1.5em;
+  font-size: 1.3em;
   text-align: left;
   display: flex;
   flex-direction: column;
   gap:50px;
 }
-.title {
-  text-align: center;
+.about-text span {
   font-weight: bold;
   font-style: italic;
-
+}
+.title {
+  text-align: center;
+  font-weight: light;
+  font-style: italic;
+}
+.about-text .divider {
+  width:100%;
+  border:2px solid black;
+  height:2px;
 }

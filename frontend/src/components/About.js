@@ -6,43 +6,44 @@ export default function About() {
     <div>
       <div className="about-text">
         <div>
-        <div>
-          This web app is being developed by Robert Morse for his MSc in
+          <h2>Introduction</h2>
+          <p>
+            This web application is being developed by Robert Morse for his MSc in
             Computer Science dissertation, titled:
-          </div>
-          <br></br>
-        <div className="title">
-          The specification, design, implementation and evaluation of a language
-          learning platform that tests user-generated content in a gamified
-          manner for self-directed learning.
-        </div>
+          </p>
+          <p className="title">
+            The specification, design, implementation and evaluation of a language
+            learning platform that tests user-generated content in a gamified
+            manner for self-directed learning.
+          </p>
+
           <h2>Instructions for use</h2>
-          <ul>
-            <li>
+         
+            <p>
               Please note this web application is only suitable for use on computers/laptops.
-            </li>
-            <li>
-              Please head to the ACOUNT page in order to sign up using your
+            </p>
+            <p>
+              Please head to the <span>ACOUNT</span> page in order to sign up using your
               email and password.
-            </li>
-            <li>You will then be able to login.</li>
-            <li>
-              Once logged in you can either head to the BROWSE page in order to
+            </p>
+            <p>You will then be able to login.</p>
+            <p>
+              Once logged in you can either head to the <span>BROWSE</span> page in order to
               browse phrases added by other users, if you want to add a phrase
-              pair to your learning then click GET PHRASE. Alternatively, you
-              can add phrase pairs of your own, simply head to the LEARN page
-              then click "edit phrases", you will then be able to add, remove and
+              pair to your learning then click <span>GET PHRASE</span>. Alternatively, you
+              can add phrase pairs of your own, simply head to the <span>LEARN</span> page
+              then click <span>edit phrases</span>, you will then be able to add, remove and
               edit phrases if you wish.
-            </li>
-            <li>
+            </p>
+            <p>
               In order to practise phrase pair translations, simply navigate to
-              the LEARN page and select the category you would like to practise.
-            </li>
-            <li>
-              Please try to rate as many phrases as possible via the BROWSE page, 
-              this will help with the analysis of how effective the website was after the study has finished.
-            </li>
-          </ul>
+              the <span>LEARN</span> page and select the category you would like to practise.
+            </p>
+            <p>
+              Please try to rate as many phrases as possible via the <span>BROWSE</span> page,
+              this will help with the analysis of the web application's effectiveness.
+            </p>
+     
         </div>
       </div>
     </div>
