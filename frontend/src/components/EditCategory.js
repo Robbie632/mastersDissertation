@@ -5,7 +5,7 @@ import { ENV_VARS } from "../env";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
-import { IoCloseSharp } from "react-icons/io5";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export default function EditCategory({
   category,
@@ -151,7 +151,6 @@ export default function EditCategory({
     <div className="edit-category-container-1">
       <div id="edit-category-container-2">
         <div className={"category-status"}>
-          {category.toUpperCase()}
           <div className="close" onClick={() => setEdit("")}>
             <IconContext.Provider
               value={{
@@ -160,9 +159,10 @@ export default function EditCategory({
                 className: "global-class-name",
               }}
             >
-              <IoCloseSharp />
+              <IoMdArrowRoundBack />
             </IconContext.Provider>
           </div>
+          {category.toUpperCase()}
         </div>
         <IconContext.Provider
           value={{

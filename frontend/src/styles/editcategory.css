@@ -34,7 +34,7 @@
   color:black;
 }
 
-.close {
+.close:hover {
   cursor: pointer;
 }
 
@@ -92,9 +92,8 @@
 .category-status {
   display: flex;
   flex-direction: row;
-  align-self: flex-end;
+  align-self: flex-start;
   font-size: 1.8em;
-
   padding: 10px;
-  border: 2px black dashed;
+
 }
