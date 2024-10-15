@@ -118,30 +118,25 @@ export default function EditCategory({
 
   const addPhraseWidget = (
     <form onSubmit={onAddPhrasePair} className="add-phrase-widget-container">
-      <div>
-        <h4>
-          English Phrase
-        </h4>
-        <input
-          type="text"
-          value={l1input}
-          onChange={onChangeInputL1}
-          placeholder="english phrase..."
-          className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
-        ></input>
-      </div>
-      <div>
-        <h4>
-          Swedish Phrase
-        </h4>
-        <input
-          type="text"
-          value={l2input}
-          onChange={onChangeInputL2}
-          className="add-phrase-widget heading-3 Holiday-Cheer-5-hex"
-          placeholder="swedish phrase..."
-        ></input>
-      </div>
+
+
+      <input
+        type="text"
+        value={l1input}
+        onChange={onChangeInputL1}
+        placeholder="english phrase..."
+        className="add-phrase-widget-1 heading-3 Holiday-Cheer-5-hex"
+      ></input>
+
+
+      <input
+        type="text"
+        value={l2input}
+        onChange={onChangeInputL2}
+        className="add-phrase-widget-2 heading-3 Holiday-Cheer-5-hex"
+        placeholder="swedish phrase..."
+      ></input>
+
 
       <button
         type="submit"
@@ -181,11 +176,14 @@ export default function EditCategory({
             onClick={() => displayAddPhraseWidget()}
           >
             {addPhraseWidgetDisplayed ? (
-              <CiCircleMinus />
+              <div className="add-phrase-symbol-container">
+                <CiCircleMinus />
+              </div>
+
             ) : (
               <div className="add-phrase-symbol-container">
-                {" "}
-                <CiCirclePlus /> Add Phrase
+                <CiCirclePlus /> 
+                <span className="black-text">Add Phrase</span>
               </div>
             )}
           </div>

@@ -104,7 +104,7 @@ export default function PhrasePairEdit({
 
   const l1ElementEdit = (
     <input
-      className="l-view-edit Holiday-Cheer-3-hex heading-2 indent"
+      className="l-view-edit input-mode Holiday-Cheer-5-hex heading-2 indent"
       type="text"
       name="l1"
       value={formData.l1}
@@ -115,7 +115,7 @@ export default function PhrasePairEdit({
   );
   const l2ElementEdit = (
     <input
-      className="l-view-edit Holiday-Cheer-3-hex heading-2 indent"
+      className="l-view-edit input-mode Holiday-Cheer-5-hex heading-2 indent"
       type="text"
       name="l2"
       value={formData.l2}
@@ -159,7 +159,10 @@ export default function PhrasePairEdit({
       {renderAddToPhraseSelectionElement()}
       {mode === "view" && allowEdit && (
         <div className="edit-widgets">
+          <div className="edit-phrase-pair">
           <MdEdit onClick={() => setMode("edit")} />
+          </div>
+          
         </div>
       )}
       {mode == "edit" && (
@@ -174,7 +177,7 @@ export default function PhrasePairEdit({
             <button type="submit" className="Holiday-Cheer-5-hex" id="save-phrase-pair" onClick={handleSave}>
               <FaRegSave />
             </button>
-            <div id="edit-phrase-pair">
+            <div className="edit-phrase-pair">
               <MdEdit onClick={() => setMode("view")} />
             </div>
             <div

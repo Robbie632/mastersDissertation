@@ -30,7 +30,7 @@ export default function Learn({ userDetails, language }) {
   );
 
   const editCategoryElement = (
-    <div>
+    <div className="max-width">
       <EditCategory category={edit} userDetails={userDetails} language={language} setEdit={setEdit}></EditCategory>
     </div>
   );
