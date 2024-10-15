@@ -51,6 +51,9 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
         });
         const subset = getRandomSubarray(new_phrases, numPhrasesTested);
         setPhrases(subset);
+      } else if (response.status === 403) {
+        alert("please log back in to continue")
+
       } else {
         alert("problem calling backend api");
       }

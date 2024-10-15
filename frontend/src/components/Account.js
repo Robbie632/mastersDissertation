@@ -51,7 +51,7 @@ export default function Account({
       localStorage.setItem("userid", result["userid"])
       setLoggedIn((prev) => true);
       setMenuSelection(() => "learn");
-    } else if (response.status === 400) {
+    } else if (response.status === 403) {
       setIsWaiting(false);
       alert("invalid credentials");
 
@@ -61,7 +61,7 @@ export default function Account({
   const logOutElement = (
     <div className="success-login-container">
       <div
-        className="success-login Holiday-Cheer-3-hex default-button log-out"
+        className="success-login Holiday-Cheer-5-hex log-out"
         onClick={() => {
           setLoggedIn(false);
         }}

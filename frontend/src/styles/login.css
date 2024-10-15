@@ -16,9 +16,14 @@
   width: 20%;
   padding:20px;
   font-size: 1.5em;
-  color: white;
+  text-decoration: underline;
+  color: black;
   cursor: pointer;
   border-radius:10px;
+}
+.success-login:hover{
+  color: grey;
+  cursor: pointer;
 }
 .divider{
   width:90%;

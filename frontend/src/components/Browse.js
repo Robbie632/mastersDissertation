@@ -39,6 +39,9 @@ export default function Browse({ userDetails }) {
           };
         });
         setPhrases(() => new_phrases);
+      } else if (response.status == 403) {
+        alert("please log back in to continue")
+
       } else {
         alert("problem calling backend api");
       }

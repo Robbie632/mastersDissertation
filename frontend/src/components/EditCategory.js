@@ -109,6 +109,8 @@ export default function EditCategory({
           };
         });
         setPhrases(() => new_phrases);
+      } else if (response.status == 403) {
+        alert("Please log back in to continue")
       } else {
         alert("problem calling backend api");
       }

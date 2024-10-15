@@ -68,7 +68,7 @@ def create_app(test=False):
                     user = "testuser"
                 request.user = user
             except:
-                return {'message': 'Invalid token provided.'}, 400
+                return {'message': 'Invalid token provided.'}, 403
             return f(*args, **kwargs)
         return wrap
     
