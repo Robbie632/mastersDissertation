@@ -1,6 +1,6 @@
 import "../App.css";
 import "../styles/editcategory.css";
-import PhrasePair from "./PhrasePair";
+import PhrasePairEdit from "./PhrasePairEdit";
 import { ENV_VARS } from "../env";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useEffect, useState } from "react";
@@ -192,7 +192,7 @@ export default function EditCategory({
           {addPhraseWidgetDisplayed ? addPhraseWidget : null}
         </IconContext.Provider>
         {phrases.map(({ l1, l2, phraseid, phraseselectionid }) => (
-          <div key={phraseselectionid}>
+          <div className="list-width" key={phraseselectionid}>
             <IconContext.Provider
               value={{
                 size: 32,
@@ -200,15 +200,15 @@ export default function EditCategory({
                 className: "global-class-name",
               }}
             >
-              <div id="phrase-pair-container">
-                <PhrasePair
+              <div id="phrase-pair-container-editcategory">
+                <PhrasePairEdit
                   l1={l1}
                   l2={l2}
                   userDetails={userDetails}
                   phraseid={phraseid}
                   phraseselectionid={phraseselectionid}
                   togglePhrasesChangedIndicator={togglePhrasesChangedIndicator}
-                ></PhrasePair>
+                ></PhrasePairEdit>
               </div>
             </IconContext.Provider>
           </div>

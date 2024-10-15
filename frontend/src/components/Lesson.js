@@ -228,7 +228,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
   const noPhrasesElement = (
     <div className="add-phrases-content">
       <div class="heading-2 category-name">{category.toUpperCase()}</div>
-      <div className="add-phrases">No phrases yet, head to LEARN or BROWSE to add some ...</div>
+      <div className="add-phrases">Looks like there are no phrases yet, add some or browse phrases added by others.</div>
     </div>
   );
 

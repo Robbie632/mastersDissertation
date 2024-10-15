@@ -11,20 +11,31 @@
 
 .l-view {
   width:500px;
-  height:120px;
+  height:140px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  border: none;
   overflow-y: auto;
 }
 .l-edit {
   width:500px;
   height:80px;
 }
+#edit-mode {
+  border-radius:0px;;
+}
+.edit-widgets-browse {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-
+#save-phrase-pair{
+  border: none;
+}
 #save-phrase-pair:hover {
   cursor: pointer;
 }
@@ -52,4 +63,9 @@
 
 .get-phrase-button:hover {
   cursor: pointer;
+}
+
+.indent {
+  font-style: italic;
+  padding-left: 50px;
 }

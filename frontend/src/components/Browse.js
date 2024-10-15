@@ -1,13 +1,11 @@
 import "../styles/browse.css";
 import "../App.css";
-import PhrasePair from "./PhrasePair";
+import PhrasePairBrowse from "./PhrasePairBrowse";
 import StarRating from "./StarRating";
 import { ENV_VARS } from "../env";
 
 import { useState, useEffect } from "react";
-import { IconContext } from "react-icons";
-import { FaStar } from "react-icons/fa";
-import { CiStar } from "react-icons/ci";
+
 
 export default function Browse({ userDetails }) {
   const [phrases, setPhrases] = useState([]);
@@ -83,7 +81,7 @@ export default function Browse({ userDetails }) {
           {phrases.length === 0 ? <h5>Oops, no phrases available...</h5> : null}
           {phrases.map(({ l1, l2, phraseid, stars }) => (
             <div id="phrase-pair-container">
-              <PhrasePair key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator} stars={stars}></PhrasePair>
+              <PhrasePairBrowse key={phraseid} l1={l1} l2={l2} allowEdit={false} phraseid={phraseid} allowAddToPhraseSelection={true} userDetails={userDetails} setUpdatePhrasesIndicator={setUpdatePhrasesIndicator} stars={stars}></PhrasePairBrowse>
               <div className="rate-phrase-widget">
                 <StarRating  {... { phraseid, userDetails }}></StarRating>
               </div>

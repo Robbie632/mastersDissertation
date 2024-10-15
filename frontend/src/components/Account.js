@@ -85,6 +85,7 @@ export default function Account({
               value={formData.email}
               onChange={handleChange}
               required
+              autoFocus
             />
             <label>Password:</label>
             <input

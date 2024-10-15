@@ -1,4 +1,4 @@
-import "../styles/phrasepair.css";
+import "../styles/phrasepairbrowse.css";
 import { ENV_VARS } from "../env";
 import StaticStars from "./StaticStars";
 import { MdEdit } from "react-icons/md";
@@ -6,7 +6,7 @@ import { FaRegSave } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 
-export default function PhrasePair({
+export default function PhrasePairBrowse({
   l1,
   l2,
   allowEdit = true,
@@ -59,6 +59,7 @@ export default function PhrasePair({
   }
 
   const handleSave = async (e) => {
+    e.preventDefault()
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phrase`, {
       method: "PATCH",
       headers: {
@@ -74,13 +75,12 @@ export default function PhrasePair({
     if (response.status === 200) {
       const data = await response.json();
       setMode("view");
-      alert("updated phrase");
     } else {
       alert("problem updating phrase");
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/phraseselection`, {
       method: "DELETE",
@@ -94,7 +94,6 @@ export default function PhrasePair({
     });
 
     if (response.status == 200) {
-      alert("successful delete");
       togglePhrasesChangedIndicator();
     } else {
       alert("problem trying to delete");
@@ -105,20 +104,23 @@ export default function PhrasePair({
 
   const l1ElementEdit = (
     <input
-      className="l-edit"
+      className="l-view Holiday-Cheer-3-hex heading-2 indent"
       type="text"
       name="l1"
       value={formData.l1}
       onChange={handleChange}
+      autoFocus
+      required
     ></input>
   );
   const l2ElementEdit = (
     <input
-      className="l-edit"
+      className="l-view Holiday-Cheer-3-hex heading-2 indent"
       type="text"
       name="l2"
       value={formData.l2}
       onChange={handleChange}
+      required
     ></input>
   );
   const l1ElementView = (
@@ -157,22 +159,25 @@ export default function PhrasePair({
         </div>
       )}
       {mode == "edit" && (
-        <form onSubmit={handleSubmit} className="phrase-pair-container-1">
+        <form onSubmit={handleSave} className="phrase-pair-container-1">
           {l1ElementEdit}
           {l2ElementEdit}
-          <div id="edit-phrase-pair">
-            <MdEdit onClick={() => setMode("view")} />
+          <div className="edit-widgets-browse">
+            <div id="edit-phrase-pair">
+              <MdEdit onClick={() => setMode("view")} />
+            </div>
+            <button type="submit" className="Holiday-Cheer-5-hex" id="save-phrase-pair" onClick={handleSave}>
+              <FaRegSave />
+            </button>
+            <div
+              className="Holiday-Cheer-5-hex"
+              onClick={handleDelete}
+              id="delete-phrase-pair"
+            >
+              <FaRegTrashAlt />
+            </div>
           </div>
-          <div id="save-phrase-pair" onClick={handleSave}>
-            <FaRegSave />
-          </div>
-          <button
-            className="Holiday-Cheer-5-hex"
-            type="submit"
-            id="delete-phrase-pair"
-          >
-            <FaRegTrashAlt />
-          </button>
+
         </form>
       )}
     </div>
