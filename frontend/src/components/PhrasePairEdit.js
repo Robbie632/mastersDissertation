@@ -167,10 +167,13 @@ export default function PhrasePairEdit({
       )}
       {mode == "edit" && (
         <form onSubmit={handleSave} className="width-100">
+
           <div className="l1-block">
+            <h5>English phrase</h5>
             {l1ElementEdit}
           </div>
           <div className="l2-block">
+          <h5>Swedish phrase</h5>
             {l2ElementEdit}
           </div>
           <div className="edit-widgets">
