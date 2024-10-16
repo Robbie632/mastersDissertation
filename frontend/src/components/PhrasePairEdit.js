@@ -16,7 +16,8 @@ export default function PhrasePairEdit({
   togglePhrasesChangedIndicator,
   userDetails,
   setUpdatePhrasesIndicator,
-  stars
+  stars,
+  AllowOnlyDelete
 }) {
   const [mode, setMode] = useState("view");
 
@@ -151,38 +152,41 @@ export default function PhrasePairEdit({
   return (
     <div className="phrase-pair-container-1-edit">
 
-      {mode === "view" && <div className="l1-block"> {l1ElementView} </div>}
+      {mode === "view" | AllowOnlyDelete && <div className="l1-block"> {l1ElementView} </div>}
 
 
-      {mode === "view" && <div className="l2-block"> {l2ElementView} </div>}
+      {mode === "view" | AllowOnlyDelete && <div className="l2-block"> {l2ElementView} </div>}
 
       {renderAddToPhraseSelectionElement()}
       {mode === "view" && allowEdit && (
         <div className="edit-widgets">
           <div className="edit-phrase-pair">
-          <MdEdit onClick={() => setMode("edit")} />
+            <MdEdit onClick={() => setMode("edit")} />
           </div>
-          
+
         </div>
       )}
       {mode == "edit" && (
-        <form onSubmit={handleSave} className="width-100">
-
-          <div className="l1-block">
+        <form onSubmit={AllowOnlyDelete ? (e) => e.preventDefault() : handleSave} className="width-100">
+          {!AllowOnlyDelete ? <div className="l1-block">
             <h5>English phrase</h5>
             {l1ElementEdit}
-          </div>
-          <div className="l2-block">
-          <h5>Swedish phrase</h5>
+          </div> : null}
+          {!AllowOnlyDelete ? <div className="l2-block">
+            <h5>Swedish phrase</h5>
             {l2ElementEdit}
-          </div>
+          </div> : null}
+
+
           <div className="edit-widgets">
-            <button type="submit" className="Holiday-Cheer-5-hex" id="save-phrase-pair" onClick={handleSave}>
+            {!AllowOnlyDelete ? <button type="submit" className="Holiday-Cheer-5-hex" id="save-phrase-pair" onClick={handleSave}>
               <FaRegSave />
-            </button>
+            </button> : null}
+
             <div className="edit-phrase-pair">
               <MdEdit onClick={() => setMode("view")} />
             </div>
+
             <div
               className="Holiday-Cheer-5-hex"
               onClick={handleDelete}

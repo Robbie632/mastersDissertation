@@ -106,6 +106,7 @@ export default function EditCategory({
             l2: Phrase.l2,
             phraseid: Phrase.phraseid,
             phraseselectionid: PhraseSelection.phraseselectionid,
+            userid: Phrase.userid
           };
         });
         setPhrases(() => new_phrases);
@@ -191,7 +192,7 @@ export default function EditCategory({
           </div>
           {addPhraseWidgetDisplayed ? addPhraseWidget : null}
         </IconContext.Provider>
-        {phrases.map(({ l1, l2, phraseid, phraseselectionid }) => (
+        {phrases.map(({ l1, l2, phraseid, phraseselectionid, userid }) => (
           <div className="list-width" key={phraseselectionid}>
             <IconContext.Provider
               value={{
@@ -208,6 +209,7 @@ export default function EditCategory({
                   phraseid={phraseid}
                   phraseselectionid={phraseselectionid}
                   togglePhrasesChangedIndicator={togglePhrasesChangedIndicator}
+                AllowOnlyDelete={!(userDetails["userid"] === userid)}
                 ></PhrasePairEdit>
               </div>
             </IconContext.Provider>
