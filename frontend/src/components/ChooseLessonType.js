@@ -65,7 +65,7 @@ export default function ChooseLessonType({
                             </div>
                         </li>
                         <li onClick={() => onSelectLessonType("missingWords")}>
-                            <h5>missing words</h5>
+                            <h5>Missing words</h5>
                             <div>
                             <IconContext.Provider
                                 value={{
