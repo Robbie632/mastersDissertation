@@ -1,4 +1,10 @@
-import FromL1Lesson from "./FromL1Lesson";
+import TranslationLesson from "./TranslationLesson";
+import { MdOutlineClearAll } from "react-icons/md";
+import { IconContext } from "react-icons";
+
+import "../styles/chooselessontype.css"
+
+import { TbWriting } from "react-icons/tb";
 
 import { useState } from "react";
 
@@ -6,28 +12,73 @@ import { useState } from "react";
 export default function ChooseLessonType({
     category, setViewLessonTypes, userDetails, language }) {
 
+    function onSelectLessonType(lessonType){
+        setLessonType(lessonType);
+    }
+
     const [lessonType, setLessonType] = useState("");
     var body;
     if (lessonType === "fromL1") {
         body =
-            <FromL1Lesson {...{ category, setViewLessonTypes, userDetails, language }}></FromL1Lesson>
-
+            <TranslationLesson fromL1={true} {...{ category, setLessonType, userDetails, language }}></TranslationLesson>
 
     } else if (lessonType === "fromL2") {
-        body = <div>fromL2 lesson</div>;
+        body =
+            <TranslationLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></TranslationLesson>
+
     } else if (lessonType === "missingWords") {
         body = <div>missingWords lesson</div>;
     } else if (lessonType === "") {
         body =
-            <div>
-                <h2>ChooseLessonTypeDivElement</h2>
-                category: {category}
+            <div className="lesson-type-body">
+                <h1>Lesson Type</h1>
                 {
-                    (lessonType === "") ? <ol>
-                        <li onClick={() => setLessonType("fromL1")}>l1 - l2</li>
-                        <li onClick={() => setLessonType("fromL2")}>l2 - l1</li>
-                        <li onClick={() => setLessonType("missingWords")}>missing words</li>
-                    </ol> : <div>lesson</div>
+                    (lessonType === "") ? <ul>
+                        <li onClick={() => onSelectLessonType("fromL1")}>
+                            <h5>Writing Swedish</h5>
+                            <div className="lesson-type-icon">
+                                <IconContext.Provider
+                                    value={{
+                                        size: 100,
+                                        color: "black",
+                                        className: "global-class-name",
+                                    }}
+                                >
+                                    <TbWriting />
+                                </IconContext.Provider>
+                            </div>
+                        </li>
+                        <li onClick={() => onSelectLessonType("fromL2")}>
+                            <h5>
+                                Writing English
+                            </h5>
+                            <div className="lesson-type-icon">
+                                <IconContext.Provider
+                                    value={{
+                                        size: 100,
+                                        color: "black",
+                                        className: "global-class-name",
+                                    }}
+                                >
+                                    <TbWriting />
+                                </IconContext.Provider>
+                            </div>
+                        </li>
+                        <li onClick={() => onSelectLessonType("missingWords")}>
+                            <h5>missing words</h5>
+                            <div>
+                            <IconContext.Provider
+                                value={{
+                                    size: 100,
+                                    color: "black",
+                                    className: "global-class-name",
+                                }}
+                            >
+                                <MdOutlineClearAll />
+                            </IconContext.Provider>
+                            </div>
+                        </li>
+                    </ul> : <div>lesson</div>
                 }
             </div>
 

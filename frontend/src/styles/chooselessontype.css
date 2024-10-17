@@ -1,0 +1,40 @@
+ul {
+    list-style-type: none;
+}
+.lesson-type-body ul {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+}
+.lesson-type-body h1 {
+    margin-top:20px;
+
+}
+
+.lesson-type-body li {
+    display:grid;
+    grid-template: repeat(4, 1fr) / 1fr;
+    width:300px;
+    height: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.lesson-type-body li:hover{
+    cursor: pointer;
+}
+.lesson-type-body li h5 {
+    grid-column: 1;
+    grid-row: 5;
+}
+.lesson-type-body li div {
+    grid-column: 1;
+    grid-row: 2/4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
