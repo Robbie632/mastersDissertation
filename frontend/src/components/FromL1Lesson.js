@@ -10,7 +10,7 @@ import { FaEye } from "react-icons/fa";
 import "../styles/lesson.css";
 import "../App.css";
 
-export default function Lesson({ category, setLesson, userDetails, language }) {
+export default function FromL1Lesson({ category, setViewLessonTypes, userDetails, language }) {
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
   const [progress, setProgress] = useState(0);
@@ -201,7 +201,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
       <button
         type="submit"
         className="lesson-button home Holiday-Cheer-4-hex"
-        onClick={() => setLesson("")}
+        onClick={() => setViewLessonTypes("")}
       >
         <div>HOME</div>
       </button>
@@ -250,7 +250,7 @@ export default function Lesson({ category, setLesson, userDetails, language }) {
                 }}
               ></div>
             </div>
-            <div onClick={() => setLesson("")} className="close-button">
+            <div onClick={() => setViewLessonTypes("")} className="close-button">
               <IconContext.Provider
                 value={{
                   size: 48,

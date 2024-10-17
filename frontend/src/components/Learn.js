@@ -1,13 +1,15 @@
 import "../styles/learn.css";
 import "../App.css";
 import Category from "./Category";
-import Lesson from "./Lesson";
+import ChooseLessonType from "./ChooseLessonType";
 import EditCategory from "./EditCategory";
 import { useState } from "react";
 
 export default function Learn({ userDetails, language }) {
   const [lesson, setLesson] = useState("");
   const [edit, setEdit] = useState("");
+  const [viewLessonTypes, setViewLessonTypes] = useState(false);
+
   const categories = [
     "cafe",
     "restaurant",
@@ -19,11 +21,11 @@ export default function Learn({ userDetails, language }) {
 
   const categoryElements = (
     <div className="category-tiles-container">
-          <div id="category-tiles">
-      {categories.map((v) => (
-        <Category name={v} setEdit={setEdit} setLesson={setLesson}></Category>
-      ))}
-    </div>
+      <div id="category-tiles">
+        {categories.map((v) => (
+          <Category name={v} setEdit={setEdit} setLesson={setLesson} setViewLessonTypes={setViewLessonTypes}></Category>
+        ))}
+      </div>
 
     </div>
 
@@ -35,14 +37,16 @@ export default function Learn({ userDetails, language }) {
     </div>
   );
   var body = <div></div>;
-  
-  if (lesson === "") {
+
+  if (!viewLessonTypes) {
     body = <div id="category-container-1" class="Holiday-Cheer-5-hex">
-    {edit === "" && categoryElements}
-    {edit !== "" && editCategoryElement}
+      {edit === "" && categoryElements}
+      {edit !== "" && editCategoryElement}
     </div>
-  }  else {
-    body = <Lesson category={ lesson } setLesson={ setLesson } userDetails={userDetails} language={language}></Lesson>;
+  } else {
+    body = <div>
+      <ChooseLessonType category={lesson} {...{setViewLessonTypes, userDetails, language}}></ChooseLessonType>
+    </div>
   }
 
   return (
