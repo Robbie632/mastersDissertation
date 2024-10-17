@@ -1,4 +1,5 @@
 import "../styles/menu.css";
+import swedishFlag from "../assets/swedish_flag.png";
 
 export default function Menu({loggedIn, setMenuSelection, menuSelection, language }) {
   
@@ -17,7 +18,9 @@ export default function Menu({loggedIn, setMenuSelection, menuSelection, languag
       <div className="menu-button default-button" style={highlightBorder("about")} onClick={() => setMenuSelection("about")}>
         ABOUT
       </div>
-      <div className="current-language">language: {language["name"]}</div>
+      <div className="current-language">
+        <img alt="Swedish flag" src={swedishFlag}></img>
+      </div>
     </header>
   );
 }

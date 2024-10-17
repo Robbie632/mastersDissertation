@@ -152,10 +152,10 @@ export default function PhrasePairEdit({
   return (
     <div className="phrase-pair-container-1-edit">
 
-      {mode === "view" | AllowOnlyDelete && <div className="l1-block"> {l1ElementView} </div>}
+      {mode === "view" | AllowOnlyDelete ? <div className="l1-block"> {l1ElementView} </div> : null}
 
 
-      {mode === "view" | AllowOnlyDelete && <div className="l2-block"> {l2ElementView} </div>}
+      {mode === "view" | AllowOnlyDelete ? <div className="l2-block"> {l2ElementView} </div> : null}
 
       {renderAddToPhraseSelectionElement()}
       {mode === "view" && allowEdit && (
