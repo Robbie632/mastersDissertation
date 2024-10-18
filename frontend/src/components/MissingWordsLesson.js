@@ -21,7 +21,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   const [displayFeedback, setDisplayFeedback] = useState(0);
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
-  const missingWordData = useRef(null);
+  const [missingWordData, SetMissingWordData] = useState(null);
 
   const similarityThreshold = 0.9;
   const numPhrasesTested = 3;
@@ -64,11 +64,12 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   }, [userDetails["userid"]]);
 
   useEffect(() => {
+    
     if (phrases.length !== 0 &  progress < numQuestions) {
       var extractedWordData = extractWord(phrases[progress]["l2"]);
-      missingWordData.current = extractedWordData;
+      SetMissingWordData(extractedWordData);
     }
-    // TO DO problem, I think the progress is updated afetr the first input is made
+    // TO DO problem, I think the progress is updated after the first input is made
 
   }, [progress, phrases])
 
@@ -89,9 +90,13 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   }
 
   function extractWord(sentence) {
+
     var splitSentence = sentence.split(" ");
     var index = Math.floor(splitSentence.length * Math.random());
     var word = splitSentence[index];
+    splitSentence[index] = "__";
+    splitSentence = splitSentence.join(" ");
+
     return ({
       splitSentence,
       word,
@@ -106,10 +111,8 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   function getNextPhrase() {
     if (progress < numQuestions) {
       var phraseWithMissingWord = null;
-      if (missingWordData.current) {
-        phraseWithMissingWord = missingWordData.current.splitSentence;
-        phraseWithMissingWord[missingWordData.current.index] = "__";
-        phraseWithMissingWord = phraseWithMissingWord.join(" ");
+      if (missingWordData) {
+        phraseWithMissingWord = missingWordData.splitSentence;
       } 
 
       return <div className="l1">{phraseWithMissingWord}</div>;
@@ -160,7 +163,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
       setDisplayFeedback(() => 2);
 
       const phraseid = phrases[progress]["phraseid"];
-      const phraseBCleaned = processPhrase(missingWordData.current.word);
+      const phraseBCleaned = processPhrase(missingWordData.word);
       const answerCleaned = processPhrase(answer);
 
       var similarity = await calculate_similarity(answerCleaned, phraseBCleaned, userDetails);
@@ -283,7 +286,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
             <div class="lesson-container-1ba Holiday-Cheer-5-hex">
               <div class="lesson-l1">{getNextPhrase()}
                 <div className="peeked-phrase">
-                  {peekPhrase ? fromL1 ? phrases[progress]["l2"] : phrases[progress]["l1"] : null}
+                  {peekPhrase ? missingWordData.word : null}
                 </div>
                 <div className="peek-icon" onClick={togglePeekPhrase}>
                   <FaEye />
