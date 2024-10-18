@@ -1,17 +1,16 @@
 import { getRandomSubarray, processPhrase, calculate_similarity } from "../utils/phraseUtils";
-
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
 import { AiOutlineLoading } from "react-icons/ai";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 
 import "../styles/lesson.css";
 import "../App.css";
 
-export default function TranslationLesson({ category, setLessonType, userDetails, language, fromL1 }) {
+export default function MissingWordsLesson({ category, setLessonType, userDetails, language, fromL1 }) {
 
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
@@ -22,6 +21,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
   const [displayFeedback, setDisplayFeedback] = useState(0);
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
+  const missingWordData = useRef(null);
 
   const similarityThreshold = 0.9;
   const numPhrasesTested = 3;
@@ -63,6 +63,15 @@ export default function TranslationLesson({ category, setLessonType, userDetails
     fetchData();
   }, [userDetails["userid"]]);
 
+  useEffect(() => {
+    if (phrases.length !== 0 &  progress < numQuestions) {
+      var extractedWordData = extractWord(phrases[progress]["l2"]);
+      missingWordData.current = extractedWordData;
+    }
+    // TO DO problem, I think the progress is updated afetr the first input is made
+
+  }, [progress, phrases])
+
   function getPercentageCompleted() {
     const percent = 100 * (progress / numQuestions);
     return percent;
@@ -79,13 +88,31 @@ export default function TranslationLesson({ category, setLessonType, userDetails
     setDisplayFeedback(0);
   }
 
+  function extractWord(sentence) {
+    var splitSentence = sentence.split(" ");
+    var index = Math.floor(splitSentence.length * Math.random());
+    var word = splitSentence[index];
+    return ({
+      splitSentence,
+      word,
+      index
+    })
+  }
+
   function togglePeekPhrase() {
     setPeekPhrase((prev) => ~prev);
   }
 
   function getNextPhrase() {
     if (progress < numQuestions) {
-      return <div className="l1">{fromL1 ? phrases[progress]["l1"] : phrases[progress]["l2"]}</div>;
+      var phraseWithMissingWord = null;
+      if (missingWordData.current) {
+        phraseWithMissingWord = missingWordData.current.splitSentence;
+        phraseWithMissingWord[missingWordData.current.index] = "__";
+        phraseWithMissingWord = phraseWithMissingWord.join(" ");
+      } 
+
+      return <div className="l1">{phraseWithMissingWord}</div>;
     } else {
       return "";
     }
@@ -132,10 +159,10 @@ export default function TranslationLesson({ category, setLessonType, userDetails
       var phraseB;
       setDisplayFeedback(() => 2);
 
-      phraseB = fromL1 ? phrases[progress]["l2"] : phrases[progress]["l1"];
       const phraseid = phrases[progress]["phraseid"];
-      const phraseBCleaned = processPhrase(phraseB);
+      const phraseBCleaned = processPhrase(missingWordData.current.word);
       const answerCleaned = processPhrase(answer);
+
       var similarity = await calculate_similarity(answerCleaned, phraseBCleaned, userDetails);
       if (!similarity) {
         alert("problem checking phrase, please contact website admin")

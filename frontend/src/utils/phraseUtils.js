@@ -1,3 +1,5 @@
+import { ENV_VARS } from "../env";
+
 /**
  *returns a random subset of array of length size 
  */
@@ -24,3 +26,25 @@ export function processPhrase(text) {
     text = text.replace(regex, "")
     return text;
 }
+
+export async function calculate_similarity(a, b, userDetails) {
+
+    const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/metric`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "authorization": userDetails["token"]
+      },
+      body: JSON.stringify({
+        phrasea: a,
+        phraseb: b,
+      }),
+    });
+    if (response.status !== 200) {
+      alert("problem getting similarity metric");
+    } else {
+      const metric = await response.json();
+      const metric_list = metric["metric"];
+      return metric_list[0];
+    }
+  };

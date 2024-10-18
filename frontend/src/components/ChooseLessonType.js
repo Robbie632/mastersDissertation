@@ -1,4 +1,5 @@
 import TranslationLesson from "./TranslationLesson";
+import MissingWordsLesson from "./MissingWordsLesson";
 import { MdOutlineClearAll } from "react-icons/md";
 import { IconContext } from "react-icons";
 
@@ -27,7 +28,8 @@ export default function ChooseLessonType({
             <TranslationLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></TranslationLesson>
 
     } else if (lessonType === "missingWords") {
-        body = <div>missingWords lesson</div>;
+        body = <MissingWordsLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></MissingWordsLesson>
+
     } else if (lessonType === "") {
         body =
             <div className="lesson-type-body">
