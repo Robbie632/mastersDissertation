@@ -11,11 +11,11 @@ import "../styles/lesson.css";
 import "../App.css";
 
 export default function TranslationLesson({ category, setLessonType, userDetails, language, fromL1 }) {
-  //  TODO: refcator so that can accomodate for fromL1 =true | false
+
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
   const [progress, setProgress] = useState(0);
-  const [l1Input, setl1Input] = useState("");
+  const [phraseAInput, setPhraseAInput] = useState("");
   const [similarity, setSimilarity] = useState("");
   //displayFeedback {0, 1, 2} 0: no feedback displayed, 1:display feedback, 2: display buffering
   const [displayFeedback, setDisplayFeedback] = useState(0);
@@ -84,7 +84,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
 
   function getNextPhrase() {
     if (progress < numQuestions) {
-      return <div className="l1">{phrases[progress]["l1"]}</div>;
+      return <div className="l1">{fromL1 ? phrases[progress]["l1"] : phrases[progress]["l2"]}</div>;
     } else {
       return "";
     }
@@ -129,7 +129,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
   };
 
   const onContinue = () => {
-    setl1Input("");
+    setPhraseAInput("");
     setPeekPhrase(0);
     safeProgressIncrement();
     setButtonSet("check");
@@ -150,12 +150,14 @@ export default function TranslationLesson({ category, setLessonType, userDetails
 
   const checkAnswer = async (answer) => {
     if (progress < numQuestions) {
+      var phraseB;
       setDisplayFeedback(() => 2);
-      const l2 = phrases[progress]["l2"];
+
+      phraseB = fromL1 ? phrases[progress]["l2"] : phrases[progress]["l1"];
       const phraseid = phrases[progress]["phraseid"];
-      const l2Cleaned = processPhrase(l2);
+      const phraseBCleaned = processPhrase(phraseB);
       const answerCleaned = processPhrase(answer);
-      var similarity = await calculate_similarity(answerCleaned, l2Cleaned);
+      var similarity = await calculate_similarity(answerCleaned, phraseBCleaned);
       if (!similarity) {
         alert("problem checking phrase, please contact website admin")
       }
@@ -238,7 +240,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
 
   return numQuestions !== 0 ? (
     <div class="lesson-container-1 Holiday-Cheer-5-hex">
-      <form id="lesson-form" onSubmit={(event) => onFormSubmit(event, l1Input)}>
+      <form id="lesson-form" onSubmit={(event) => onFormSubmit(event, phraseAInput)}>
         <div class="lesson-container-1a Holiday-Cheer-3-hex">
           <div class="lesson-container-1aa Holiday-Cheer-5-hex"></div>
           <div class="lesson-container-1ab Holiday-Cheer-5-hex">
@@ -275,7 +277,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
             <div class="lesson-container-1ba Holiday-Cheer-5-hex">
               <div class="lesson-l1">{getNextPhrase()}
                 <div className="peeked-phrase">
-                  {peekPhrase ? phrases[progress]["l2"] : null}
+                  {peekPhrase ? fromL1 ? phrases[progress]["l2"] : phrases[progress]["l1"] : null}
                 </div>
                 <div className="peek-icon" onClick={togglePeekPhrase}>
                   <FaEye />
@@ -285,8 +287,8 @@ export default function TranslationLesson({ category, setLessonType, userDetails
               <input
                 type="text"
                 class="lesson-l2 Holiday-Cheer-5-hex"
-                value={l1Input}
-                onChange={(e) => setl1Input(e.target.value)}
+                value={phraseAInput}
+                onChange={(e) => setPhraseAInput(e.target.value)}
               ></input>
 
             </div>
@@ -311,7 +313,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
             <button
               type="submit"
               class="lesson-check lesson-button Holiday-Cheer-4-hex default-button"
-              onClick={() => checkAnswer(l1Input)}
+              onClick={() => checkAnswer(phraseAInput)}
             >
               <div>CHECK</div>
 
