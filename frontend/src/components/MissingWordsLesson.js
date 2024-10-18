@@ -8,6 +8,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 
 import "../styles/lesson.css";
+import "../styles/missingwordslesson.css";
 import "../App.css";
 
 export default function MissingWordsLesson({ category, setLessonType, userDetails, language, fromL1 }) {
@@ -291,6 +292,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
                 <div className="peek-icon" onClick={togglePeekPhrase}>
                   <FaEye />
                 </div>
+                <div className="phrase-b">{phrases[progress]["l1"]}</div>
 
               </div>
               <input
