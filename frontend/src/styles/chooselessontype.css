@@ -22,8 +22,10 @@ ul {
     border: 1px solid black;
     border-radius: 10px;
 }
+
 .lesson-type-body li:hover{
     cursor: pointer;
+    scale:1.2;
 }
 .lesson-type-body li h5 {
     grid-column: 1;

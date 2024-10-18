@@ -36,7 +36,7 @@ export default function ChooseLessonType({
                 <h1>Lesson Type</h1>
                 {
                     (lessonType === "") ? <ul>
-                        <li onClick={() => onSelectLessonType("fromL1")}>
+                        <li className="Holiday-Cheer-5-hex" onClick={() => onSelectLessonType("fromL1")}>
                             <h5>Writing Swedish</h5>
                             <div className="lesson-type-icon">
                                 <IconContext.Provider
@@ -50,7 +50,7 @@ export default function ChooseLessonType({
                                 </IconContext.Provider>
                             </div>
                         </li>
-                        <li onClick={() => onSelectLessonType("fromL2")}>
+                        <li className="Holiday-Cheer-5-hex" onClick={() => onSelectLessonType("fromL2")}>
                             <h5>
                                 Writing English
                             </h5>
@@ -66,7 +66,7 @@ export default function ChooseLessonType({
                                 </IconContext.Provider>
                             </div>
                         </li>
-                        <li onClick={() => onSelectLessonType("missingWords")}>
+                        <li className="Holiday-Cheer-5-hex" onClick={() => onSelectLessonType("missingWords")}>
                             <h5>Missing words</h5>
                             <div>
                             <IconContext.Provider
