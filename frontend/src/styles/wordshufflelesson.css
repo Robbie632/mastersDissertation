@@ -1,0 +1,32 @@
+.blanks {
+    grid-row: 4/6;
+    grid-column: 2/4;
+}
+
+.shuffle-word {
+    width: 200px;
+    height: 50px;
+    border: 5px solid green;
+    border-radius: 5px;
+    background-color: green;
+    color: white;
+}
+
+.shuffle-word:hover {
+    cursor: pointer;
+}
+
+.shuffle-word-selection {
+    height: 20%;
+    border: 2px solid black;
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    width: 40%;
+    height: 40%;
+    border-radius: 10px;
+}

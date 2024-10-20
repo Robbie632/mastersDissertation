@@ -1,5 +1,7 @@
 import TranslationLesson from "./TranslationLesson";
 import MissingWordsLesson from "./MissingWordsLesson";
+import WordShuffleLesson from "./WordShuffleLesson";
+import { PiSquaresFour } from "react-icons/pi";
 import { MdOutlineClearAll } from "react-icons/md";
 import { IconContext } from "react-icons";
 
@@ -29,6 +31,10 @@ export default function ChooseLessonType({
 
     } else if (lessonType === "missingWords") {
         body = <MissingWordsLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></MissingWordsLesson>
+
+    } else if (lessonType === "wordShuffle") {
+        body =
+            <WordShuffleLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></WordShuffleLesson>
 
     } else if (lessonType === "") {
         body =
@@ -77,6 +83,20 @@ export default function ChooseLessonType({
                                 }}
                             >
                                 <MdOutlineClearAll />
+                            </IconContext.Provider>
+                            </div>
+                        </li>
+                        <li className="Holiday-Cheer-5-hex" onClick={() => onSelectLessonType("wordShuffle")}>
+                            <h5>Word shuffle</h5>
+                            <div>
+                            <IconContext.Provider
+                                value={{
+                                    size: 100,
+                                    color: "black",
+                                    className: "global-class-name",
+                                }}
+                            >
+                                <PiSquaresFour />
                             </IconContext.Provider>
                             </div>
                         </li>
