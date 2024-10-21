@@ -1,4 +1,4 @@
-import { getRandomSubarray, processPhrase, calculate_similarity, ShuffleWord } from "../utils/phraseUtils";
+import { getRandomSubarray, processPhrase, calculate_similarity, ShuffleWord, joinWords } from "../utils/phraseUtils";
 import { useShuffledWords } from "./customhooks/useShuffleWords";
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
@@ -24,7 +24,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
   const [blanks, setBlanks] = useState("");
-  const {selected, unselected, select, unselect, setSelected, setUnselected} = useShuffledWords([], []);
+  const { selected, unselected, select, unselect, setSelected, setUnselected } = useShuffledWords([], []);
 
   const similarityThreshold = 0.9;
   const numPhrasesTested = 3;
@@ -144,45 +144,19 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
     event.preventDefault();
   }
 
-  const checkAnswer = async (answer) => {
+  const checkAnswer = async () => {
     if (progress < numQuestions) {
-      var phraseB;
       setDisplayFeedback(() => 2);
+      var submittedAnswer = processPhrase(joinWords(selected));
+      var expectedAnswer = processPhrase(phrases[progress]["l2"]);
 
-      phraseB = fromL1 ? phrases[progress]["l2"] : phrases[progress]["l1"];
-      const phraseid = phrases[progress]["phraseid"];
-      const phraseBCleaned = processPhrase(phraseB);
-      const answerCleaned = processPhrase(answer);
-      var similarity = await calculate_similarity(answerCleaned, phraseBCleaned, userDetails);
-      if (!similarity) {
-        alert("problem checking phrase, please contact website admin")
+      if (submittedAnswer === expectedAnswer) {
+        setSimilarity(() => 1)
+        setButtonSet("continue");
+      } else {
+        setSimilarity(() => 0.1)
       }
-      else {
-        setSimilarity(() => similarity.toFixed(2));
-        if (similarity > similarityThreshold) {
-          setButtonSet("continue");
-        }
-        const response = await fetch(
-          `${ENV_VARS.REACT_APP_SERVER_IP}/api/performance`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "authorization": userDetails["token"]
-            },
-            body: JSON.stringify({
-              userid: userDetails["userid"],
-              phraseid: phraseid,
-              metric: similarity,
-            }),
-          }
-        );
-        if (response.status !== 201) {
-          alert("problem writing result to database");
-        }
-        setDisplayFeedback(1);
-      }
-
+      setDisplayFeedback(1);
     }
   };
 
@@ -236,7 +210,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
   return numQuestions !== 0 ? (
     <div class="lesson-container-1 Holiday-Cheer-5-hex">
-      <form id="lesson-form" >
+      <form id="lesson-form" onSubmit={(e) => e.preventDefault()}>
         <div class="lesson-container-1a Holiday-Cheer-3-hex">
           <div class="lesson-container-1aa Holiday-Cheer-5-hex"></div>
           <div class="lesson-container-1ab Holiday-Cheer-5-hex">
@@ -282,9 +256,9 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
               </div>
               <div className="shuffle-word-unselected-container">
-              <div className="shuffle-word-unselected Holiday-Cheer-5-hex">
-                {unselected.map((word) => <div key={word.getId()}  onClick={() => select(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}
-              </div>
+                <div className="shuffle-word-unselected Holiday-Cheer-5-hex">
+                  {unselected.map((word) => <div key={word.getId()} onClick={() => select(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}
+                </div>
               </div>
 
             </div>
@@ -309,7 +283,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
             <button
               type="submit"
               class="lesson-check lesson-button Holiday-Cheer-4-hex default-button"
-              onClick={() => checkAnswer("")}
+              onClick={() => checkAnswer()}
             >
               <div>CHECK</div>
 

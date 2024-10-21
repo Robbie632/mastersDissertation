@@ -63,3 +63,12 @@ export async function calculate_similarity(a, b, userDetails) {
     }
   }
 
+  export function joinWords(words) {
+    var joinedWords = "";
+    words.forEach(word => {
+      joinedWords = joinedWords + " " + word.getWord();
+    });
+    joinedWords = joinedWords.trimStart();
+    return joinedWords
+  }
+
