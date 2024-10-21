@@ -24,7 +24,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
   const [blanks, setBlanks] = useState("");
-  const {selected, unselected, select, unselect, setUnselected} = useShuffledWords([], []);
+  const {selected, unselected, select, unselect, setSelected, setUnselected} = useShuffledWords([], []);
 
   const similarityThreshold = 0.9;
   const numPhrasesTested = 3;
@@ -80,6 +80,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
       const shuffled = getRandomSubarray(splitPhrase.map((v, i) => new ShuffleWord(v, i)
       ), splitPhrase.length);
       setUnselected(shuffled);
+      setSelected([]);
     }
 
   }, [progress, phrases])
@@ -280,9 +281,12 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
                 </div>
 
               </div>
+              <div className="shuffle-word-unselected-container">
               <div className="shuffle-word-unselected Holiday-Cheer-5-hex">
                 {unselected.map((word) => <div key={word.getId()}  onClick={() => select(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}
               </div>
+              </div>
+
             </div>
           )}
         </div>

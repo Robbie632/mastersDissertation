@@ -48,7 +48,9 @@ export function useShuffledWords(selectedWords, unselectedWords){
         selected,
         unselected,
         select,
-        unselect, 
+        unselect,
+        setSelected,
         setUnselected
+        
     }
 }
