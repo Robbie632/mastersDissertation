@@ -48,3 +48,18 @@ export async function calculate_similarity(a, b, userDetails) {
       return metric_list[0];
     }
   };
+
+
+  export class ShuffleWord {
+    constructor(word, id) {
+      this.word = word;
+      this.id = id
+    }
+    getWord(){
+      return this.word;
+    }
+    getId() {
+      return this.id;
+    }
+  }
+

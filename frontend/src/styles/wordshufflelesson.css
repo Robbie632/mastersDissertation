@@ -1,8 +1,3 @@
-.blanks {
-    grid-row: 4/6;
-    grid-column: 2/4;
-}
-
 .shuffle-word {
     width: 200px;
     height: 50px;
@@ -16,7 +11,7 @@
     cursor: pointer;
 }
 
-.shuffle-word-selection {
+.shuffle-word-unselected {
     height: 20%;
     border: 2px solid black;
     display: flex;
@@ -29,4 +24,17 @@
     width: 40%;
     height: 40%;
     border-radius: 10px;
+}
+
+.shuffle-word-selected {
+    grid-row: 3/6;
+    grid-column: 1/6;
+    height: 20%;
+    display: flex;
+    gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
 }

@@ -1,5 +1,5 @@
-import { getRandomSubarray, processPhrase, calculate_similarity } from "../utils/phraseUtils";
-
+import { getRandomSubarray, processPhrase, calculate_similarity, ShuffleWord } from "../utils/phraseUtils";
+import { useShuffledWords } from "./customhooks/useShuffleWords";
 import { ENV_VARS } from "../env";
 import { TiTick } from "react-icons/ti";
 import { IconContext } from "react-icons";
@@ -24,8 +24,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
   const [blanks, setBlanks] = useState("");
-  const [currentShuffledWords, setCurrentShuffledWords] = useState([]);
-  const [chosenWords,setChosenWords] = useState([]);
+  const {selected, unselected, select, unselect, setUnselected} = useShuffledWords([], []);
 
   const similarityThreshold = 0.9;
   const numPhrasesTested = 3;
@@ -78,13 +77,12 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   useEffect(() => {
     if (phrases && phrases.length > 0 & progress < numQuestions) {
       const splitPhrase = phrases[progress]["l2"].split(" ");
-      const shuffled = getRandomSubarray(splitPhrase.map((v, i) => <div className="shuffle-word" key={i}>{v}</div>), splitPhrase.length);
-      setCurrentShuffledWords(shuffled);
+      const shuffled = getRandomSubarray(splitPhrase.map((v, i) => new ShuffleWord(v, i)
+      ), splitPhrase.length);
+      setUnselected(shuffled);
     }
 
   }, [progress, phrases])
-
-
 
 
   function getPercentageCompleted() {
@@ -273,7 +271,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
           ) : (
             <div class="lesson-container-1ba Holiday-Cheer-5-hex">
               <div class="lesson-l1"><div className="l1">{phrases[progress]["l2"]}</div>
-                <div className="blanks">{blanks}</div>
+                <div className="shuffle-word-selected">{selected.map((word) => <div key={word.getId()} onClick={() => unselect(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}</div>
                 <div className="peeked-phrase">
                   {peekPhrase ? phrases[progress]["l2"] : null}
                 </div>
@@ -282,8 +280,8 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
                 </div>
 
               </div>
-              <div className="shuffle-word-selection Holiday-Cheer-5-hex">
-                {currentShuffledWords}
+              <div className="shuffle-word-unselected Holiday-Cheer-5-hex">
+                {unselected.map((word) => <div key={word.getId()}  onClick={() => select(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}
               </div>
             </div>
           )}
