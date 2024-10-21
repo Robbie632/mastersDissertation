@@ -270,9 +270,9 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
             finishedElement
           ) : (
             <div class="lesson-container-1ba Holiday-Cheer-5-hex">
-              <div class="lesson-l1"><div className="l1">{phrases[progress]["l2"]}</div>
+              <div className="shuffle-lesson-l1"><div className="shuffle-l1">{phrases[progress]["l1"]}</div>
                 <div className="shuffle-word-selected">{selected.map((word) => <div key={word.getId()} onClick={() => unselect(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}</div>
-                <div className="peeked-phrase">
+                <div className="shuffle-peeked-phrase">
                   {peekPhrase ? phrases[progress]["l2"] : null}
                 </div>
                 <div className="peek-icon" onClick={togglePeekPhrase}>
