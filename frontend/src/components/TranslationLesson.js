@@ -24,7 +24,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
   const [buttonSet, setButtonSet] = useState("check"); // or continue
 
   const similarityThreshold = 0.9;
-  const numPhrasesTested = 3;
+  const numPhrasesTested = 10;
   useEffect(() => {
     const fetchData = async () => {
       const url =

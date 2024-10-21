@@ -25,7 +25,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   const [missingWordData, SetMissingWordData] = useState(null);
 
   const similarityThreshold = 0.9;
-  const numPhrasesTested = 3;
+  const numPhrasesTested = 10;
   useEffect(() => {
     const fetchData = async () => {
       const url =

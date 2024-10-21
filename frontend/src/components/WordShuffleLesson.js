@@ -27,7 +27,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   const { selected, unselected, select, unselect, setSelected, setUnselected } = useShuffledWords([], []);
 
   const similarityThreshold = 0.9;
-  const numPhrasesTested = 3;
+  const numPhrasesTested = 10;
   useEffect(() => {
     const fetchData = async () => {
       const url =
