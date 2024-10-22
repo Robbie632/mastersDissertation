@@ -30,7 +30,7 @@ export default function ChooseLessonType({
             <TranslationLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></TranslationLesson>
 
     } else if (lessonType === "missingWords") {
-        body = <MissingWordsLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></MissingWordsLesson>
+        body = <MissingWordsLesson {...{ category, setLessonType, userDetails, language }}></MissingWordsLesson>
 
     } else if (lessonType === "wordShuffle") {
         body =

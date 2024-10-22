@@ -11,7 +11,7 @@ import "../styles/lesson.css";
 import "../styles/missingwordslesson.css";
 import "../App.css";
 
-export default function MissingWordsLesson({ category, setLessonType, userDetails, language, fromL1 }) {
+export default function MissingWordsLesson({ category, setLessonType, userDetails, language }) {
 
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
