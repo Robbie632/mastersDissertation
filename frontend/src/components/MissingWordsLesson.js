@@ -168,7 +168,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
       const answerCleaned = processPhrase(answer);
 
       var similarity = await calculate_similarity(answerCleaned, phraseBCleaned, userDetails);
-      if (!similarity) {
+      if (similarity == null) {
         alert("problem checking phrase, please contact website admin")
       }
       else {
@@ -216,7 +216,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
       >
-        <div>HOME</div>
+        <div>Back to exercises</div>
       </button>
     </div>
   );

@@ -179,7 +179,7 @@ grid-template: repeat(4, 1fr) / repeat(4, 1fr );
 }
 
 .home {
-  height:50px;
+  height:100px;
   width: 10%;
   display: flex;
   justify-content: center;

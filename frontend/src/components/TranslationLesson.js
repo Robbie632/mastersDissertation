@@ -137,7 +137,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
       const phraseBCleaned = processPhrase(phraseB);
       const answerCleaned = processPhrase(answer);
       var similarity = await calculate_similarity(answerCleaned, phraseBCleaned, userDetails);
-      if (!similarity) {
+      if (similarity == null) {
         alert("problem checking phrase, please contact website admin")
       }
       else {
@@ -185,7 +185,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
       >
-        <div>HOME</div>
+        <div>Back to exercises</div>
       </button>
     </div>
   );

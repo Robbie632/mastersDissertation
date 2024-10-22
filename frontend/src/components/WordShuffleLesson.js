@@ -176,7 +176,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
       >
-        <div>HOME</div>
+        <div>Back to exercises</div>
       </button>
     </div>
   );
