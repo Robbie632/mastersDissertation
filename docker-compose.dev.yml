@@ -49,6 +49,18 @@ services:
       - "./frontend/public:/app/public"
     networks:
       - frontend
+  pgadmin4:
+    build: 
+      context: ./pgadmin
+      dockerfile: ./Dockerfile.dev
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=rob.632@hotmail.co.uk
+      - PGADMIN_DEFAULT_PASSWORD=password
+    networks:
+      - backend
 networks:
   frontend:
   backend:
