@@ -158,7 +158,7 @@ export default function PhrasePairEdit({
       {mode === "view" | AllowOnlyDelete ? <div className="l2-block"> {l2ElementView} </div> : null}
 
       {renderAddToPhraseSelectionElement()}
-      {mode === "view" && allowEdit && (
+      {mode === "view" && allowEdit && !AllowOnlyDelete && (
         <div className="edit-widgets">
           <div className="edit-phrase-pair">
             <MdEdit onClick={() => setMode("edit")} />
@@ -166,6 +166,16 @@ export default function PhrasePairEdit({
 
         </div>
       )}
+      {mode == "view" && allowEdit && AllowOnlyDelete &&
+        <div className="edit-widgets">
+          <div
+            className="edit-phrase-pair"
+            id="delete-phrase-pair"
+          >
+            <FaRegTrashAlt onClick={handleDelete} />
+          </div>
+        </div>
+      }
       {mode == "edit" && (
         <form onSubmit={AllowOnlyDelete ? (e) => e.preventDefault() : handleSave} className="width-100">
           {!AllowOnlyDelete ? <div className="l1-block">
