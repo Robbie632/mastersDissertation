@@ -76,7 +76,9 @@
 
 .shuffle-word-selected {
     grid-row: 3/6;
-    grid-column: 2/5;
+    grid-column: 1/6;
+    margin: 0px 20px;
+
     height: 20%;
     display: flex;
     gap: 20px;
