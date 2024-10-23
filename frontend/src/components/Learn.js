@@ -45,7 +45,7 @@ export default function Learn({ userDetails, language }) {
     </div>
   } else {
     body = <div>
-      <ChooseLessonType category={lesson} {...{setViewLessonTypes, userDetails, language}}></ChooseLessonType>
+      <ChooseLessonType category={lesson} {...{setViewLessonTypes, userDetails, language, setViewLessonTypes}}></ChooseLessonType>
     </div>
   }
 

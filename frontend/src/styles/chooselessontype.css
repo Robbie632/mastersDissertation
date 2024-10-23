@@ -13,6 +13,9 @@ ul {
     margin-top:20px;
 
 }
+.lessontype-back-arrow {
+    cursor: pointer;
+}
 
 .lesson-type-body li {
     display:grid;
@@ -21,6 +24,13 @@ ul {
     height: 300px;
     border: 1px solid black;
     border-radius: 10px;
+}
+.lessontype-back-arrow-container {
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+margin-left:20px;
+align-items: center;
 }
 
 .lesson-type-body li:hover{

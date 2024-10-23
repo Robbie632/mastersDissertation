@@ -3,6 +3,7 @@ import MissingWordsLesson from "./MissingWordsLesson";
 import WordShuffleLesson from "./WordShuffleLesson";
 import { PiSquaresFour } from "react-icons/pi";
 import { MdOutlineClearAll } from "react-icons/md";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { IconContext } from "react-icons";
 
 import "../styles/chooselessontype.css"
@@ -15,7 +16,7 @@ import { useState } from "react";
 export default function ChooseLessonType({
     category, setViewLessonTypes, userDetails, language }) {
 
-    function onSelectLessonType(lessonType){
+    function onSelectLessonType(lessonType) {
         setLessonType(lessonType);
     }
 
@@ -39,6 +40,20 @@ export default function ChooseLessonType({
     } else if (lessonType === "") {
         body =
             <div className="lesson-type-body">
+                <div className="lessontype-back-arrow-container" >
+                    <div className="lessontype-back-arrow" onClick={() => setViewLessonTypes(false)}>
+                        <IconContext.Provider
+                            value={{
+                                size: 48,
+                                color: "black",
+                                className: "lessontype-back-arrow-graphic",
+                            }}
+                        >
+                            <IoMdArrowRoundBack />
+                        </IconContext.Provider>
+                    </div>
+
+                </div>
                 <h1>Lesson Type</h1>
                 {
                     (lessonType === "") ? <ul>
@@ -75,29 +90,29 @@ export default function ChooseLessonType({
                         <li className="Holiday-Cheer-5-hex" onClick={() => onSelectLessonType("missingWords")}>
                             <h5>Missing words</h5>
                             <div>
-                            <IconContext.Provider
-                                value={{
-                                    size: 100,
-                                    color: "black",
-                                    className: "global-class-name",
-                                }}
-                            >
-                                <MdOutlineClearAll />
-                            </IconContext.Provider>
+                                <IconContext.Provider
+                                    value={{
+                                        size: 100,
+                                        color: "black",
+                                        className: "global-class-name",
+                                    }}
+                                >
+                                    <MdOutlineClearAll />
+                                </IconContext.Provider>
                             </div>
                         </li>
                         <li className="Holiday-Cheer-5-hex" onClick={() => onSelectLessonType("wordShuffle")}>
                             <h5>Word shuffle</h5>
                             <div>
-                            <IconContext.Provider
-                                value={{
-                                    size: 100,
-                                    color: "black",
-                                    className: "global-class-name",
-                                }}
-                            >
-                                <PiSquaresFour />
-                            </IconContext.Provider>
+                                <IconContext.Provider
+                                    value={{
+                                        size: 100,
+                                        color: "black",
+                                        className: "global-class-name",
+                                    }}
+                                >
+                                    <PiSquaresFour />
+                                </IconContext.Provider>
                             </div>
                         </li>
                     </ul> : <div>lesson</div>
