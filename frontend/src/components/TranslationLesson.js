@@ -184,6 +184,8 @@ export default function TranslationLesson({ category, setLessonType, userDetails
         type="submit"
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
+        autoFocus = {progress == numQuestions ? 1: 0}
+        onKeyDown = {(e) => { e.key == "Enter" && setLessonType("")}} 
       >
         <div>Back to exercises</div>
       </button>

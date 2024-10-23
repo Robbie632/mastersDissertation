@@ -183,6 +183,8 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
         <TiTick />
       </IconContext.Provider>
       <button
+        autoFocus = {progress == numQuestions ? 1: 0}
+        onKeyDown = {(e) => { e.key == "Enter" && setLessonType("")}} 
         type="submit"
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}

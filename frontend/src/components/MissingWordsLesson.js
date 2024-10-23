@@ -213,6 +213,8 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
       </IconContext.Provider>
       <button
         type="submit"
+        autoFocus = {progress == numQuestions ? 1: 0}
+        onKeyDown = {(e) => { e.key == "Enter" && setLessonType("")}} 
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
       >
