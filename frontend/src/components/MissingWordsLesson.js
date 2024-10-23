@@ -88,6 +88,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   function safeProgressIncrement() {
     setProgress((prev) => Math.min(numQuestions, prev + 1));
     setDisplayFeedback(0);
+    setPeekPhrase(0);
   }
 
   function extractWord(sentence) {
