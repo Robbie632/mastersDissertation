@@ -160,6 +160,8 @@ grid-template: repeat(4, 1fr) / repeat(4, 1fr );
 
   .lesson-check {
       height:35%;
+      caret-color: transparent;
+      text-align: center;
   }
 
   .lesson-skip {
