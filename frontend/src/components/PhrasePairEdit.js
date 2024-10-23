@@ -68,8 +68,8 @@ export default function PhrasePairEdit({
         "authorization": userDetails["token"]
       },
       body: JSON.stringify({
-        l1: formData["l1"],
-        l2: formData["l2"],
+        l1: formData["l1"].trim(),
+        l2: formData["l2"].trim(),
         phraseid: phraseid,
       }),
     });
