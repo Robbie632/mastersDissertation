@@ -125,10 +125,18 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
     }
   };
 
-  const onContinue = () => {
+  const onContinue = async (e) => {
     setPeekPhrase(0);
     safeProgressIncrement();
     setButtonSet("check");
+
+  };
+
+  const onContinueKeyDown = async (e) => {
+    if (e.key == "Enter") {
+      await onContinue(e);
+    }
+
   };
 
 
@@ -140,8 +148,11 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
     await sleep(4000);
     return 1;
   }
-  const onFormSubmit = async (event, answer) => {
-    event.preventDefault();
+  const handleEnterKey = async (event) => {
+    if (event.key = "Enter") {
+      await checkAnswer();
+    }
+
   }
 
   const checkAnswer = async () => {
@@ -210,7 +221,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
   return numQuestions !== 0 ? (
     <div class="lesson-container-1 Holiday-Cheer-5-hex">
-      <form id="lesson-form" onSubmit={(e) => e.preventDefault()}>
+      <div id="lesson-form">
         <div class="lesson-container-1a Holiday-Cheer-3-hex">
           <div class="lesson-container-1aa Holiday-Cheer-5-hex"></div>
           <div class="lesson-container-1ab Holiday-Cheer-5-hex">
@@ -255,11 +266,13 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
                 </div>
 
               </div>
-              <div className="shuffle-word-unselected-container">
+
+              <div tabindex={buttonSet == "check" ? 0 : -1} onKeyDown={handleEnterKey} className="shuffle-word-unselected-container">
                 <div className="shuffle-word-unselected Holiday-Cheer-5-hex">
                   {unselected.map((word) => <div key={word.getId()} onClick={() => select(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}
                 </div>
               </div>
+
 
             </div>
           )}
@@ -289,18 +302,16 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
             </button>
           ) : (
-            buttonSet == "continue" && progress != numQuestions ? <button
-              type="submit"
-              class="lesson-check lesson-button Holiday-Cheer-4-hex"
+            buttonSet == "continue" && progress != numQuestions ? <input  
+            class="lesson-check lesson-button Holiday-Cheer-4-hex"
+              value="CONTINUE"
+             autoFocus = {buttonSet == "continue" ? 1 : 0} onKeyDown={onContinueKeyDown}
               onClick={() => onContinue()}
             >
-              <div>CONTINUE</div>
-            </button> : null
-
-
+            </input> : null
           )}
         </div>
-      </form>
+      </div>
     </div>
   ) : (
     noPhrasesElement
