@@ -11,7 +11,7 @@ export default function Menu({ loggedIn, setMenuSelection, menuSelection, langua
 
   return (
     <header className="App-header Holiday-Cheer-1-hex heading-1">
-      <div className="menu-item logo-container">
+      <div className="menu-item logo-container" onClick={() => setMenuSelection("learn")} >
         <img className="logo" alt="logo" src={logo}></img>
       </div>
       {loggedIn && <div className="menu-item menu-button default-button" style={highlightBorder("learn")} onClick={() => setMenuSelection("learn")} >LEARN</div>}
