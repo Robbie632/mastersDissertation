@@ -201,8 +201,13 @@ grid-template: repeat(4, 1fr) / repeat(4, 1fr );
   justify-content: center;
   height:100%;
   border-radius: 10px;
+  animation-name: feedback;
+  animation-duration: 1s;
 }
-
+@keyframes feedback {
+  from {text-decoration: none}
+  to {text-decoration: underline;}
+}
 .add-phrases {
   color: black;
   display:flex;
@@ -210,7 +215,6 @@ grid-template: repeat(4, 1fr) / repeat(4, 1fr );
   align-items: center;
   justify-content: center;
   font-size: 1.5em;
-
   padding:20px;
 
 }

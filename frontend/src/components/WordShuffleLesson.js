@@ -23,9 +23,9 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   const [displayFeedback, setDisplayFeedback] = useState(0);
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
-  const [blanks, setBlanks] = useState("");
-  const { selected, unselected, select, unselect, setSelected, setUnselected } = useShuffledWords([], []);
 
+  const { selected, unselected, select, unselect, setSelected, setUnselected } = useShuffledWords([], []);
+  const [updateFeedback, setUpdateFeedback] = useState(0);
   const similarityThreshold = 0.9;
   const numPhrasesTested = 10;
   useEffect(() => {
@@ -66,13 +66,6 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
     fetchData();
 
   }, [userDetails["userid"]]);
-  useEffect(() => {
-    if (phrases && phrases.length > 0 & progress < numQuestions) {
-      const phrase = phrases[progress]["l2"];
-      setBlanks(phrase.split(" ").map(() => " _"));
-    }
-
-  }, [progress, phrases])
 
   useEffect(() => {
     if (phrases && phrases.length > 0 & progress < numQuestions) {
@@ -106,6 +99,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
   function togglePeekPhrase() {
     setPeekPhrase((prev) => ~prev);
   }
+
 
 
 
@@ -158,6 +152,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
   const checkAnswer = async () => {
     if (progress < numQuestions) {
+      setUpdateFeedback((prev) => !prev);
       setDisplayFeedback(() => 2);
       var submittedAnswer = processPhrase(joinWords(selected));
       var expectedAnswer = processPhrase(phrases[progress]["l2"]);
@@ -205,7 +200,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
             height: "100%",
           }}
         >
-          <div className="feedback">
+          <div key={updateFeedback} className="feedback">
             <div>{getFeedbackPhrase(similarity)}</div>
           </div>
         </div>
@@ -270,7 +265,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
               </div>
 
-              <div tabindex={buttonSet == "check" ? 0 : -1} onKeyDown={handleEnterKey} className="shuffle-word-unselected-container">
+              <div tabIndex={buttonSet == "check" ? 0 : -1} onKeyDown={handleEnterKey} className="shuffle-word-unselected-container">
                 <div className="shuffle-word-unselected Holiday-Cheer-5-hex">
                   {unselected.map((word) => <div key={word.getId()} onClick={() => select(word.getId())} className="shuffle-word"> {word.getWord()} </div>)}
                 </div>
@@ -305,7 +300,8 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
             </button>
           ) : (
-            buttonSet == "continue" && progress != numQuestions ? <input  
+            buttonSet == "continue" && progress != numQuestions ? <input 
+            reaOnly 
             class="lesson-check lesson-button Holiday-Cheer-4-hex"
               value="CONTINUE"
              autoFocus = {buttonSet == "continue" ? 1 : 0} onKeyDown={onContinueKeyDown}
