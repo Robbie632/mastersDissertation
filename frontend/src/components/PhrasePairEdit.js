@@ -58,6 +58,9 @@ export default function PhrasePairEdit({
       const phraseselectionid = response["id"];
     }
   }
+  function processPhraseForInput(phrase) {
+    return phrase.trim().replace(/\s{2,}/g, " ")
+  }
 
   const handleSave = async (e) => {
     e.preventDefault()
@@ -68,8 +71,8 @@ export default function PhrasePairEdit({
         "authorization": userDetails["token"]
       },
       body: JSON.stringify({
-        l1: formData["l1"].trim(),
-        l2: formData["l2"].trim(),
+        l1: processPhraseForInput(formData["l1"]),
+        l2: processPhraseForInput(formData["l2"]),
         phraseid: phraseid,
       }),
     });
