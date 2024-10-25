@@ -3,13 +3,17 @@ import swedishFlag from "../assets/swedish_flag.png";
 import logo from "../assets/logo.jpeg";
 import { IconContext } from "react-icons";
 import { CgProfile } from "react-icons/cg";
+import { useState, useEffect } from "react";
 
-export default function Menu({ loggedIn, setMenuSelection, menuSelection, language }) {
+export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language }) {
+
+  const [accountHover, setAccountHover] = useState(false);
 
   function highlightBorder(menu) {
     const style = menuSelection === menu ? { "borderBottom": "2px solid white" } : {}
     return style
   }
+  
 
   return (
     <header className="App-header Holiday-Cheer-1-hex heading-1">
@@ -24,7 +28,10 @@ export default function Menu({ loggedIn, setMenuSelection, menuSelection, langua
       <div className=" menu-item current-language">
         <img alt="Swedish flag" src={swedishFlag}></img>
       </div>
-      <div className="account menu-item menu-button default-button" style={highlightBorder("account")} onClick={() => setMenuSelection("account")}>
+      <div
+        onMouseEnter={() => setAccountHover(true)}
+        onMouseLeave={() => setAccountHover(false)}
+        className="account menu-item menu-button default-button" style={highlightBorder("account")} onClick={!loggedIn ? () => setMenuSelection("account"): null}>
         <IconContext.Provider
           value={{
             size: 78,
@@ -34,6 +41,7 @@ export default function Menu({ loggedIn, setMenuSelection, menuSelection, langua
         >
           <CgProfile />
         </IconContext.Provider>
+        {accountHover & loggedIn ? <div onClick = {() => {setLoggedIn(false); setMenuSelection("account")}}>Sign out</div> : null}
       </div>
     </header>
   );

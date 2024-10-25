@@ -46,10 +46,7 @@ function App() {
     <div className="App Holiday-Cheer-5-hex">
       <div>
         <Menu
-          loggedIn={loggedIn}
-          setMenuSelection={setMenuSelection}
-          menuSelection={menuSelection}
-          language={language}
+        {...{setLoggedIn, loggedIn, setMenuSelection, menuSelection, language}}
         ></Menu>
       </div>
       {menuSelection === "floating" && (
@@ -70,7 +67,8 @@ function App() {
         //   setUserDetails={setUserDetails}
         //   setMenuSelection={setMenuSelection}
         // ></Account>
-        <FloatingLogin {...{ userDetails, setUserDetails, setMenuSelection, setLoggedIn, setSignedUp }}></FloatingLogin>
+          <FloatingLogin {...{ userDetails, setUserDetails, setMenuSelection, setLoggedIn, setSignedUp }}></FloatingLogin>
+        
       )}
       {menuSelection === "signup" && (
         <SignUp setSignedUp={setSignedUp}></SignUp>
