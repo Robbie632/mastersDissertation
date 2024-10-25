@@ -2,6 +2,7 @@ import "../styles/menu.css";
 import swedishFlag from "../assets/swedish_flag.png";
 import logo from "../assets/logo.jpeg";
 import { IconContext } from "react-icons";
+import { GoSignOut } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
 import { useState, useEffect } from "react";
 
@@ -43,7 +44,12 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
         </IconContext.Provider>
         {accountHover && loggedIn ?
           <div className="Holiday-Cheer-2-hex" id="sign-out-container">
-            <div onClick={() => { setLoggedIn(false); setMenuSelection("account"); setAccountHover(false) }} id="sign-out-button">Sign out</div>
+            <div onClick={() => { setLoggedIn(false); setMenuSelection("account"); setAccountHover(false) }} id="sign-out-button">
+              <GoSignOut />
+              <div>
+                Sign out
+              </div>
+            </div>
           </div> : null}
       </div>
     </header>

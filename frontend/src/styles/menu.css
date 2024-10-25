@@ -43,7 +43,7 @@ header .logo {
 }
 #sign-out-button {
   color: white;
-  font-size: medium;
+  font-size: small;
 }
 
 #sign-out-button:hover {
@@ -54,8 +54,38 @@ header .logo {
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
-  align-items: center;
+  align-items: left;
   height:100px;
-  border-radius: 10px;;
+  min-width:120px;
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
   padding: 10px;
+  animation: sign-out-animation 0.2s;
+  transform-origin: top center;
+  top:100px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+@keyframes sign-out-animation {
+  from {
+      transform: scaleY(0.2);
+  }
+  to {
+      transform: scaleY(1);
+  }
+}
+
+.account {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#sign-out-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
 }
