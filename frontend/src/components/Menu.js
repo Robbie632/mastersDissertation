@@ -41,9 +41,9 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
         >
           <CgProfile />
         </IconContext.Provider>
-        {accountHover & loggedIn ?
+        {accountHover && loggedIn ?
           <div className="Holiday-Cheer-2-hex" id="sign-out-container">
-            <div onClick={() => { setLoggedIn(false); setMenuSelection("account") }} id="sign-out-button">Sign out</div>
+            <div onClick={() => { setLoggedIn(false); setMenuSelection("account"); setAccountHover(false) }} id="sign-out-button">Sign out</div>
           </div> : null}
       </div>
     </header>
