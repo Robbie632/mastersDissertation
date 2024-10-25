@@ -39,7 +39,7 @@ export default function Browse({ userDetails }) {
           };
         });
         setPhrases(() => new_phrases);
-      } else if (response.status == 403) {
+      } else if (response.status == 401) {
         alert("please log back in to continue")
 
       } else {

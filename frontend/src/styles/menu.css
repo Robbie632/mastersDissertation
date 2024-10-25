@@ -7,6 +7,9 @@
   color: white;
   height: 100px
 }
+.menu-item:last-child{
+  margin-right: 30px;
+}
 
 .menu-item:first-child {
   margin-right: auto;

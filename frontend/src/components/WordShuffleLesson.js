@@ -56,7 +56,7 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
         });
         const subset = getRandomSubarray(new_phrases, numPhrasesTested);
         setPhrases(subset);
-      } else if (response.status === 403) {
+      } else if (response.status === 401) {
         alert("please log back in to continue")
 
       } else {

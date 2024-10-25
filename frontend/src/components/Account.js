@@ -51,7 +51,7 @@ export default function Account({
       localStorage.setItem("userid", result["userid"])
       setLoggedIn((prev) => true);
       setMenuSelection(() => "learn");
-    } else if (response.status === 403) {
+    } else if (response.status === 401) {
       setIsWaiting(false);
       alert("invalid credentials");
 

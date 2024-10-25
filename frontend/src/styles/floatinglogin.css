@@ -1,0 +1,31 @@
+.floating-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding:10px;
+
+}
+.floating-input-container input[type=submit] {
+    margin-top:10px;
+}
+.floating-input-container legend {
+    text-align: left;
+    font-size: medium;
+}
+.floating-login-form {
+    width:300px;
+    padding: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+    margin:auto;
+    margin-top: 20px;
+}
+#underline-hyperlink {
+    text-decoration: underline;
+    border: none;
+    background-color: inherit;
+    font-size: small;
+}
+#underline-hyperlink {
+    cursor: pointer;
+}

@@ -68,7 +68,7 @@ def create_app(test=False):
                     user = "testuser"
                 request.user = user
             except:
-                return {'message': 'Invalid token provided.'}, 403
+                return {'message': 'Invalid token provided.'}, 401
             return f(*args, **kwargs)
         return wrap
     
@@ -150,7 +150,7 @@ def create_app(test=False):
         email = data.get('email')
         password = data.get('password')
         if email is None or password is None:
-            status_code = 400
+            status_code = 403
             response["status"] = "password and or email missing"
             return jsonify(response), status_code
         try:
@@ -169,7 +169,7 @@ def create_app(test=False):
             return jsonify(response), status_code
         except Exception as e:
             response["status"] = f"could not retrieve jwt: {e}"
-            status_code = 400
+            status_code = 403
 
             return jsonify(response), status_code
     
@@ -184,7 +184,7 @@ def create_app(test=False):
             data["data"] = dicts
             data["status_code"] = status_code
         except Exception as e:
-            status_code = 400
+            status_code = 403
             data["status"] = f"error: {e}"
             data["status_code"] = status_code
 
