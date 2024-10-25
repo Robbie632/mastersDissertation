@@ -13,7 +13,7 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
     const style = menuSelection === menu ? { "borderBottom": "2px solid white" } : {}
     return style
   }
-  
+
 
   return (
     <header className="App-header Holiday-Cheer-1-hex heading-1">
@@ -31,7 +31,7 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
       <div
         onMouseEnter={() => setAccountHover(true)}
         onMouseLeave={() => setAccountHover(false)}
-        className="account menu-item menu-button default-button" style={highlightBorder("account")} onClick={!loggedIn ? () => setMenuSelection("account"): null}>
+        className="account menu-item menu-button default-button" style={highlightBorder("account")} onClick={!loggedIn ? () => setMenuSelection("account") : null}>
         <IconContext.Provider
           value={{
             size: 78,
@@ -41,7 +41,10 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
         >
           <CgProfile />
         </IconContext.Provider>
-        {accountHover & loggedIn ? <div onClick = {() => {setLoggedIn(false); setMenuSelection("account")}}>Sign out</div> : null}
+        {accountHover & loggedIn ?
+          <div className="Holiday-Cheer-2-hex" id="sign-out-container">
+            <div onClick={() => { setLoggedIn(false); setMenuSelection("account") }} id="sign-out-button">Sign out</div>
+          </div> : null}
       </div>
     </header>
   );

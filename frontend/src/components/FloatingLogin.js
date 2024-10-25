@@ -34,17 +34,15 @@ export default function FloatingLogin({ userDetails, setUserDetails, setMenuSele
         })
 
         if (response.status === 201) {
-            alert("succesfully signed up");
+            alert("succesfully signed up. when you dismiss this message you will directed to the login page");
             setIsWaiting(false);
+            setSignedUp((prev) => true);
+            setMode("login");
         } else {
             setIsWaiting(false);
             alert("problem signing up");
         }
         const result = await response.json()
-
-        setSignedUp((prev) => true);
-        alert("successfully signed up, next you will be redirected to the login page")
-        setMode("login");
 
     };
 
