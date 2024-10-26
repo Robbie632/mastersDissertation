@@ -8,6 +8,7 @@ import FloatingLogin from "./components/FloatingLogin";
 import React, { useState, useEffect } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import {attemptRefresh} from "./utils/fetchUtils";
 import { ENV_VARS } from "./env";
 
 function App() {
@@ -27,30 +28,13 @@ function App() {
    */
   useEffect(() => {
     const getToken = async () => {
-      const cachedRefreshToken = localStorage.getItem("refreshtoken");
-      if (cachedRefreshToken != null) {
-        const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/token/refresh`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              refreshtoken: cachedRefreshToken,
-            }),
-          },
-        )
-        if (response.status === 200) {
-          const data = await response.json();
-          setUserDetails(() => ({ token: data["token"], userid: data["userid"] }));
+        const response = await attemptRefresh();
+        if (response.status === 200 && response.token !== null) {
+          setUserDetails(() => ({ token: response["token"], userid: response["userid"] }));
           setLoggedIn(() => true, setMenuSelection("learn"))
-          localStorage.setItem("refreshtoken", data["refreshtoken"]);
-          localStorage.setItem("userid", data["userid"])
         } else {
           setMenuSelection("account");
         }
-      }
-
     }
     if (localStorage.getItem("loggedin") == 1) {
       getToken();
