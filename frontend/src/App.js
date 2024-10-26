@@ -18,32 +18,44 @@ function App() {
     id: 0,
   });
 
-  const cachedJWT = localStorage.getItem("JWT");
-  const cachedUserid = localStorage.getItem("userid");
+
+  /**
+   * if a cached refresh token exists does POST request to /api/token/refresh then sets user details
+   * with token, userid and refresh token and writes refresh token to cache
+   */
   useEffect(() => {
-    if (cachedJWT !== null && cachedUserid !== null) {
-      fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/checkjwt`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "authorization": cachedJWT
-          }
-        },
-      )
-        .then((response) => {
-          if (response.status === 200) {
-            setUserDetails(() => ({ token: cachedJWT, userid: cachedUserid }));
-            setLoggedIn(() => true, setMenuSelection("learn"))
-          }
-        })
+    const getToken = async () => {
+      const cachedRefreshToken = localStorage.getItem("refreshtoken");
+      if (cachedRefreshToken != null) {
+        const response = await fetch(`${ENV_VARS.REACT_APP_SERVER_IP}/api/token/refresh`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              refreshtoken: cachedRefreshToken,
+            }),
+          },
+        )
+        if (response.status === 200) {
+          const data = await response.json();
+          setUserDetails(() => ({ token: data["token"], userid: data["userid"] }));
+          setLoggedIn(() => true, setMenuSelection("learn"))
+          localStorage.setItem("refreshtoken", data["refreshtoken"]);
+          localStorage.setItem("userid", data["userid"])
+        }
+      }
+
     }
+    getToken();
   }, []);
 
   return (
     <div className="App Holiday-Cheer-5-hex">
       <div>
         <Menu
-        {...{setLoggedIn, loggedIn, setMenuSelection, menuSelection, language}}
+          {...{ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language }}
         ></Menu>
       </div>
       {menuSelection === "learn" && loggedIn && (
@@ -53,8 +65,8 @@ function App() {
         <Browse userDetails={userDetails}></Browse>
       )}
       {menuSelection === "account" && (
-          <FloatingLogin {...{ userDetails, setUserDetails, setMenuSelection, setLoggedIn, setSignedUp }}></FloatingLogin>
-        
+        <FloatingLogin {...{ userDetails, setUserDetails, setMenuSelection, setLoggedIn, setSignedUp }}></FloatingLogin>
+
       )}
       {menuSelection === "about" && <About></About>}
     </div>

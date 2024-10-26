@@ -62,9 +62,11 @@ export default function FloatingLogin({ userDetails, setUserDetails, setMenuSele
             setUserDetails(() => ({
                 token: result["token"],
                 userid: result["userid"],
+                refreshtoken: result["refreshtoken"]
             }));
             localStorage.setItem("JWT", result["token"])
             localStorage.setItem("userid", result["userid"])
+            localStorage.setItem("refreshtoken", result["refreshtoken"])
             setLoggedIn((prev) => true);
             setMenuSelection(() => "learn");
         } else {

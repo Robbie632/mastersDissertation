@@ -44,6 +44,7 @@ def create_app(test=False):
 
     CORS(app, resources={r"/api/user": {"origins": "*"},
                          r"/api/token": {"origins": "*"},
+                         r"/api/token/refresh": {"origins": "*"},
                          r"/api/phraseselection": {"origins": "*"},
                          r"/api/phraseselection/category": {"origins": "*"},
                          r"/api/phrase": {"origins": "*"},
@@ -144,29 +145,29 @@ def create_app(test=False):
         status_code = 200
         response = {
             "status": "",
-            "token": ""
+            "refreshtoken": "",
+            "jwt": ""
         }
         data = request.json
-        refresh_token = data.get('refreshToken')
+        refresh_token = data.get('refreshtoken')
         if refresh_token is None:
             status_code = 403
-            response["status"] = "refreshToken missing"
+            response["status"] = "refreshtoken missing"
             return jsonify(response), status_code
         try:
             if not test:
-                user = auth.refresh(refresh_token)
-                jwt = user['idToken']
-                userid = user['localId']
+                user = pb.auth().refresh(refresh_token)
                 refresh_token = user["refreshToken"]
+                jwt = user["idToken"]
+                userid = user["userId"]
                 
             else:
-                jwt = "testtoken"
-                userid = "testid"
                 refresh_token = "refresh_token"
+                jwt="jwt"
 
-            response['token'] = jwt
+            response["refreshtoken"] = refresh_token
+            response["token"] = jwt
             response["userid"] = userid
-            response["refreshToken"] = refresh_token
             response["status"] = "successfully retieved JWT"
             status_code = 200
             return jsonify(response), status_code
@@ -200,12 +201,13 @@ def create_app(test=False):
             else:
                 jwt = "testtoken"
                 userid = "testid"
-                refresh_token = "refresh_token"
+                refresh_token = "refreshToken"
 
             response['token'] = jwt
             response["userid"] = userid
-            response["refreshtoken"] = refresh_token
             response["status"] = "successfully retieved JWT"
+            response["refreshtoken"] = refresh_token
+            
             status_code = 200
             return jsonify(response), status_code
         except Exception as e:
