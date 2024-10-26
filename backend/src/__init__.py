@@ -138,6 +138,44 @@ def create_app(test=False):
         except Exception as e:
             response["status"] = f'Error deleting user: {e}'
             return jsonify(response), 500
+        
+    @app.route('/api/token/refresh', methods=["POST"])
+    def token_refresh():
+        status_code = 200
+        response = {
+            "status": "",
+            "token": ""
+        }
+        data = request.json
+        refresh_token = data.get('refreshToken')
+        if refresh_token is None:
+            status_code = 403
+            response["status"] = "refreshToken missing"
+            return jsonify(response), status_code
+        try:
+            if not test:
+                user = auth.refresh(refresh_token)
+                jwt = user['idToken']
+                userid = user['localId']
+                refresh_token = user["refreshToken"]
+                
+            else:
+                jwt = "testtoken"
+                userid = "testid"
+                refresh_token = "refresh_token"
+
+            response['token'] = jwt
+            response["userid"] = userid
+            response["refreshToken"] = refresh_token
+            response["status"] = "successfully retieved JWT"
+            status_code = 200
+            return jsonify(response), status_code
+        except Exception as e:
+            response["status"] = f"could not retrieve jwt: {e}"
+            status_code = 403
+
+            return jsonify(response), status_code
+    
 
     @app.route('/api/token', methods=["POST"])
     def token():
@@ -158,12 +196,15 @@ def create_app(test=False):
                 user = pb.auth().sign_in_with_email_and_password(email, password)
                 jwt = user['idToken']
                 userid = user['localId']
+                refresh_token = user["refreshToken"]
             else:
                 jwt = "testtoken"
                 userid = "testid"
+                refresh_token = "refresh_token"
 
             response['token'] = jwt
             response["userid"] = userid
+            response["refreshtoken"] = refresh_token
             response["status"] = "successfully retieved JWT"
             status_code = 200
             return jsonify(response), status_code
