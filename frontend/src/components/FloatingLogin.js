@@ -1,7 +1,8 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import "../styles/floatinglogin.css";
 import { ENV_VARS } from "../env";
 import { AiOutlineLoading } from "react-icons/ai";
+import { IconContext } from "react-icons";
 
 
 export default function FloatingLogin({ userDetails, setUserDetails, setMenuSelection, setLoggedIn, setSignedUp }) {
@@ -82,7 +83,16 @@ export default function FloatingLogin({ userDetails, setUserDetails, setMenuSele
         <div className="floating-login-form" >
 
             {isWaiting ? <div>
-                <AiOutlineLoading className="account-loading" />
+                <IconContext.Provider
+                    value={{
+                        size: 48,
+                        color: "black",
+                        className: "",
+                    }}
+                >
+                    <AiOutlineLoading className="account-loading" />
+                </IconContext.Provider>
+
             </div> :
 
                 mode === "login" ?

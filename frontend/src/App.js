@@ -6,10 +6,12 @@ import Browse from "./components/Browse";
 import About from "./components/About";
 import FloatingLogin from "./components/FloatingLogin";
 import React, { useState, useEffect } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
+import { IconContext } from "react-icons";
 import { ENV_VARS } from "./env";
 
 function App() {
-  const [menuSelection, setMenuSelection] = useState("account");
+  const [menuSelection, setMenuSelection] = useState("waiting");
   const [loggedIn, setLoggedIn] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
   const [userDetails, setUserDetails] = useState({});
@@ -44,12 +46,16 @@ function App() {
           setLoggedIn(() => true, setMenuSelection("learn"))
           localStorage.setItem("refreshtoken", data["refreshtoken"]);
           localStorage.setItem("userid", data["userid"])
+        } else {
+          setMenuSelection("account");
         }
       }
 
     }
     if (localStorage.getItem("loggedin") == 1) {
       getToken();
+    } else {
+      setMenuSelection("account");
     }
   }, []);
 
@@ -60,6 +66,18 @@ function App() {
           {...{ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language }}
         ></Menu>
       </div>
+      {menuSelection == "waiting" && <div>
+        <IconContext.Provider
+          value={{
+            size: 48,
+            color: "black",
+            className: "",
+          }}
+        >
+          <AiOutlineLoading className="app-loading" />
+        </IconContext.Provider>
+
+      </div>}
       {menuSelection === "learn" && loggedIn && (
         <Learn userDetails={userDetails} language={language}></Learn>
       )}

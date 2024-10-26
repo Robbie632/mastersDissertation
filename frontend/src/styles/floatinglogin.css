@@ -29,3 +29,18 @@
 #underline-hyperlink {
     cursor: pointer;
 }
+
+.account-loading{
+    color: #53736A;
+    animation: spin-account-loading 1s infinite linear;
+    margin-top:200px;
+  
+  }
+  @keyframes spin-account-loading {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+  }

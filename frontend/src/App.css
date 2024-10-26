@@ -12,3 +12,18 @@
 .heading-3 {font-size: 1.3em}
 .text-1 {font-size: 1.2em}
 
+.app-loading{
+  color: #53736A;
+  animation: spin-account-loading 1s infinite linear;
+  margin-top:200px;
+
+}
+@keyframes spin-account-loading {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+
