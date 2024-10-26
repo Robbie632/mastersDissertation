@@ -68,6 +68,7 @@ export default function FloatingLogin({ userDetails, setUserDetails, setMenuSele
             localStorage.setItem("userid", result["userid"])
             localStorage.setItem("refreshtoken", result["refreshtoken"])
             setLoggedIn((prev) => true);
+            localStorage.setItem("loggedin", 1);
             setMenuSelection(() => "learn");
         } else {
             setIsWaiting(false);

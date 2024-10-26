@@ -48,7 +48,9 @@ function App() {
       }
 
     }
-    getToken();
+    if (localStorage.getItem("loggedin") == 1) {
+      getToken();
+    }
   }, []);
 
   return (
