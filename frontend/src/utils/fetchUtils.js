@@ -23,6 +23,22 @@ export async function attemptRefresh() {
                         }),
                     },
                 )
+                if (response.status === 200) {
+                    const data = await response.json();
+                    localStorage.setItem("refreshtoken", data["refreshtoken"]);
+                    localStorage.setItem("userid", data["userid"])
+                    return {
+                        token: data["token"],
+                        refreshtoken: data["refreshtoken"],
+                        userid: data["userid"],
+                        status: response.status
+                    }
+                } else return {
+                    token: null,
+                    refreshtoken: null,
+                    userid: null,
+                    status: response.status
+                }
             } catch {
                 return {
                     token: null,
@@ -30,24 +46,6 @@ export async function attemptRefresh() {
                     userid: null,
                     status: 500
                 }
-
-            }
-
-            if (response.status === 200) {
-                const data = await response.json();
-                localStorage.setItem("refreshtoken", data["refreshtoken"]);
-                localStorage.setItem("userid", data["userid"])
-                return {
-                    token: data["token"],
-                    refreshtoken: data["refreshtoken"],
-                    userid: data["userid"],
-                    status: response.status
-                }
-            } else return {
-                token: null,
-                refreshtoken: null,
-                userid: null,
-                status: response.status
             }
         }
     } else {
