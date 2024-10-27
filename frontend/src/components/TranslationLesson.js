@@ -23,7 +23,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
   const [peekPhrase, setPeekPhrase] = useState(0);
   const [buttonSet, setButtonSet] = useState("check"); // or continue
 
-  const similarityThreshold = 0.9;
+  const similarityThreshold = 0.92;
   const numPhrasesTested = 10;
   useEffect(() => {
     const fetchData = async () => {
