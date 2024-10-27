@@ -11,10 +11,10 @@
   margin-right: 30px;
 }
 
-.menu-item:first-child {
+/* .menu-item:first-child {
   margin-right: auto;
   margin-left:20px;
-}
+} */
 
 .current-language {
   padding: 10px;
@@ -33,7 +33,7 @@
 }
 
 header .logo-container {
-  height: 80%;
+  height: 90%;
 }
 
 header .logo {
