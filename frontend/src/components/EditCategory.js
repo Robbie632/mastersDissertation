@@ -111,7 +111,7 @@ export default function EditCategory({
         });
         setPhrases(() => new_phrases);
       } else if (response.status == 401) {
-        alert("Please log back in to continue")
+        alert("Your session has expired. Please refresh to continue, if this doesnt work please log in again")
       } else {
         alert("problem calling backend api");
       }

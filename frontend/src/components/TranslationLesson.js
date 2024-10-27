@@ -54,7 +54,7 @@ export default function TranslationLesson({ category, setLessonType, userDetails
         const subset = getRandomSubarray(new_phrases, numPhrasesTested);
         setPhrases(subset);
       } else if (response.status === 401) {
-        alert("please log back in to continue")
+        alert("Your session has expired. Please refresh to continue, if this doesnt work please log in again")
 
       } else {
         alert("problem calling backend api");
