@@ -17,11 +17,15 @@ export function getRandomSubarray(arr, size) {
  * 
  * cleans phrase
  */
-export function processPhrase(text) {
+export function processPhrase(text, ignore_swedish_vowels=false) {
     if (text.size == 0) {
         return text;
     } 
-    text = text.toLowerCase().replace("ö", "o").replace("ä", "a").replace("å", "a")
+    text = text.toLowerCase()
+    if (ignore_swedish_vowels) {
+      text = text.replace("ö", "o").replace("ä", "a").replace("å", "a")
+    }
+    
     const regex = /[.,\/#?!$%\^&\*;:{}=\-_`~()]/g;
     text = text.replace(regex, "")
     return text;

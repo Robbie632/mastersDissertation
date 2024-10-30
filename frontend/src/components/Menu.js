@@ -6,7 +6,7 @@ import { GoSignOut } from "react-icons/go";
 import { CgProfile } from "react-icons/cg";
 import { useState, useEffect } from "react";
 
-export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language }) {
+export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language, ignoreSwedishVowels }) {
 
   const [accountHover, setAccountHover] = useState(false);
 
@@ -52,6 +52,7 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
             </div>
           </div> : null}
       </div>
+      {loggedIn && <div className="menu-item menu-button default-button" style={highlightBorder("settings")} onClick={() => setMenuSelection("settings")}>SETTINGS</div>}
     </header>
   );
 }

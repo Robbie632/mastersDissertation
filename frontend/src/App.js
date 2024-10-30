@@ -16,6 +16,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [signedUp, setSignedUp] = useState(false);
   const [userDetails, setUserDetails] = useState({});
+  const [ignoreSwedishVowels, setIgnoreSwedishVowels ] = useState(false);
   const [language, setLanguage] = useState({
     name: "swedish",
     id: 0,
@@ -47,7 +48,7 @@ function App() {
     <div className="App Holiday-Cheer-5-hex">
       <div>
         <Menu
-          {...{ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language }}
+          {...{ setLoggedIn, loggedIn, setMenuSelection, menuSelection, language, setIgnoreSwedishVowels }}
         ></Menu>
       </div>
       {menuSelection == "waiting" && <div>
