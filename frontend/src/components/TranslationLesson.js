@@ -8,10 +8,11 @@ import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 
+
 import "../styles/lesson.css";
 import "../App.css";
 
-export default function TranslationLesson({ category, setLessonType, userDetails, language, fromL1 }) {
+export default function TranslationLesson({ category, setLessonType, userDetails, language, fromL1, setViewLessonTypes }) {
 
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
@@ -185,8 +186,8 @@ export default function TranslationLesson({ category, setLessonType, userDetails
         type="submit"
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
-        autoFocus = {progress == numQuestions ? 1: 0}
-        onKeyDown = {(e) => { e.key == "Enter" && setLessonType("")}} 
+        autoFocus={progress == numQuestions ? 1 : 0}
+        onKeyDown={(e) => { e.key == "Enter" && setLessonType("") }}
       >
         <div>Back to exercises</div>
       </button>
@@ -215,8 +216,23 @@ export default function TranslationLesson({ category, setLessonType, userDetails
 
   const noPhrasesElement = (
     <div className="add-phrases-content">
-      <div class="heading-2 category-name">{category.toUpperCase()}</div>
-      <div className="add-phrases">Looks like there are no phrases yet, add some or browse phrases added by others.</div>
+      <div className="no-phrases">
+        <div class="heading-2 category-name">{category.toUpperCase()}</div>
+        <div onClick={() => {setLessonType(""); setViewLessonTypes(false)}} className="close-button-nophrases">
+          <IconContext.Provider
+            value={{
+              size: 48,
+              color: "black",
+              className: "global-class-name",
+            }}
+          >
+            <IoCloseSharp />
+          </IconContext.Provider>
+        </div>
+        <div className="add-phrases">Looks like there are no phrases yet,
+          add some or browse phrases added by others.</div>
+      </div>
+
     </div>
   );
 

@@ -192,6 +192,19 @@ grid-template: repeat(4, 1fr) / repeat(4, 1fr );
 .close-button:hover {
   cursor: pointer;
 }
+.close-button-nophrases{
+  align-self: flex-start;
+  transform: translateX(25%);
+}
+.close-button-nophrases:hover {
+  cursor: pointer;
+}
+.no-phrases{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
 .feedback {
   display: flex;

@@ -24,7 +24,7 @@ export default function ChooseLessonType({
     var body;
     if (lessonType === "fromL1") {
         body =
-            <TranslationLesson fromL1={true} {...{ category, setLessonType, userDetails, language }}></TranslationLesson>
+            <TranslationLesson fromL1={true} {...{ category, setLessonType, userDetails, language, setViewLessonTypes }}></TranslationLesson>
 
     } else if (lessonType === "fromL2") {
         body =
