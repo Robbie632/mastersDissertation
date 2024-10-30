@@ -28,14 +28,14 @@ export default function ChooseLessonType({
 
     } else if (lessonType === "fromL2") {
         body =
-            <TranslationLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></TranslationLesson>
+            <TranslationLesson fromL1={false} {...{ category, setLessonType, userDetails, language, setViewLessonTypes }}></TranslationLesson>
 
     } else if (lessonType === "missingWords") {
-        body = <MissingWordsLesson {...{ category, setLessonType, userDetails, language }}></MissingWordsLesson>
+        body = <MissingWordsLesson {...{ category, setLessonType, userDetails, language, setViewLessonTypes }}></MissingWordsLesson>
 
     } else if (lessonType === "wordShuffle") {
         body =
-            <WordShuffleLesson fromL1={false} {...{ category, setLessonType, userDetails, language }}></WordShuffleLesson>
+            <WordShuffleLesson fromL1={false} {...{ category, setLessonType, userDetails, language, setViewLessonTypes }}></WordShuffleLesson>
 
     } else if (lessonType === "") {
         body =

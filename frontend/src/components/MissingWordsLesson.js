@@ -11,7 +11,7 @@ import "../styles/lesson.css";
 import "../styles/missingwordslesson.css";
 import "../App.css";
 
-export default function MissingWordsLesson({ category, setLessonType, userDetails, language }) {
+export default function MissingWordsLesson({ category, setLessonType, userDetails, language, setViewLessonTypes }) {
 
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
@@ -65,8 +65,8 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
   }, [userDetails["userid"]]);
 
   useEffect(() => {
-    
-    if (phrases.length !== 0 &  progress < numQuestions) {
+
+    if (phrases.length !== 0 & progress < numQuestions) {
       var extractedWordData = extractWord(phrases[progress]["l2"]);
       SetMissingWordData(extractedWordData);
     }
@@ -115,7 +115,7 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
       var phraseWithMissingWord = null;
       if (missingWordData) {
         phraseWithMissingWord = missingWordData.splitSentence;
-      } 
+      }
 
       return <div className="l1">{phraseWithMissingWord}</div>;
     } else {
@@ -214,8 +214,8 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
       </IconContext.Provider>
       <button
         type="submit"
-        autoFocus = {progress == numQuestions ? 1: 0}
-        onKeyDown = {(e) => { e.key == "Enter" && setLessonType("")}} 
+        autoFocus={progress == numQuestions ? 1 : 0}
+        onKeyDown={(e) => { e.key == "Enter" && setLessonType("") }}
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
       >
@@ -246,8 +246,22 @@ export default function MissingWordsLesson({ category, setLessonType, userDetail
 
   const noPhrasesElement = (
     <div className="add-phrases-content">
-      <div class="heading-2 category-name">{category.toUpperCase()}</div>
-      <div className="add-phrases">Looks like there are no phrases yet, add some or browse phrases added by others.</div>
+      <div className="no-phrases">
+        <div class="heading-2 category-name">{category.toUpperCase()}</div>
+        <div onClick={() => { setLessonType(""); setViewLessonTypes(false) }} className="close-button-nophrases">
+          <IconContext.Provider
+            value={{
+              size: 48,
+              color: "black",
+              className: "global-class-name",
+            }}
+          >
+            <IoCloseSharp />
+          </IconContext.Provider>
+        </div>
+        <div className="add-phrases">Looks like there are no phrases yet,
+          add some or browse phrases added by others.</div>
+      </div>
     </div>
   );
 

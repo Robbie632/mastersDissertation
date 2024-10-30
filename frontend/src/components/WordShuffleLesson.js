@@ -12,7 +12,7 @@ import "../styles/lesson.css";
 import "../styles/wordshufflelesson.css";
 import "../App.css";
 
-export default function WordShuffleLesson({ category, setLessonType, userDetails, language, fromL1 }) {
+export default function WordShuffleLesson({ category, setLessonType, userDetails, language, fromL1, setViewLessonTypes }) {
 
   const [phrases, setPhrases] = useState([]);
   const numQuestions = phrases.length;
@@ -179,8 +179,8 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
         <TiTick />
       </IconContext.Provider>
       <button
-        autoFocus = {progress == numQuestions ? 1: 0}
-        onKeyDown = {(e) => { e.key == "Enter" && setLessonType("")}} 
+        autoFocus={progress == numQuestions ? 1 : 0}
+        onKeyDown={(e) => { e.key == "Enter" && setLessonType("") }}
         type="submit"
         className="lesson-button home Holiday-Cheer-4-hex"
         onClick={() => setLessonType("")}
@@ -212,8 +212,22 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
   const noPhrasesElement = (
     <div className="add-phrases-content">
-      <div class="heading-2 category-name">{category.toUpperCase()}</div>
-      <div className="add-phrases">Looks like there are no phrases yet, add some or browse phrases added by others.</div>
+      <div className="no-phrases">
+        <div class="heading-2 category-name">{category.toUpperCase()}</div>
+        <div onClick={() => { setLessonType(""); setViewLessonTypes(false) }} className="close-button-nophrases">
+          <IconContext.Provider
+            value={{
+              size: 48,
+              color: "black",
+              className: "global-class-name",
+            }}
+          >
+            <IoCloseSharp />
+          </IconContext.Provider>
+        </div>
+        <div className="add-phrases">Looks like there are no phrases yet,
+          add some or browse phrases added by others.</div>
+      </div>
     </div>
   );
 
@@ -300,11 +314,11 @@ export default function WordShuffleLesson({ category, setLessonType, userDetails
 
             </button>
           ) : (
-            buttonSet == "continue" && progress != numQuestions ? <input 
-            reaOnly 
-            class="lesson-check lesson-button Holiday-Cheer-4-hex"
+            buttonSet == "continue" && progress != numQuestions ? <input
+              reaOnly
+              class="lesson-check lesson-button Holiday-Cheer-4-hex"
               value="CONTINUE"
-             autoFocus = {buttonSet == "continue" ? 1 : 0} onKeyDown={onContinueKeyDown}
+              autoFocus={buttonSet == "continue" ? 1 : 0} onKeyDown={onContinueKeyDown}
               onClick={() => onContinue()}
             >
             </input> : null
