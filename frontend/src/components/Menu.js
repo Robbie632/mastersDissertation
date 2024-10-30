@@ -52,7 +52,6 @@ export default function Menu({ setLoggedIn, loggedIn, setMenuSelection, menuSele
             </div>
           </div> : null}
       </div>
-      {loggedIn && <div className="menu-item menu-button default-button" style={highlightBorder("settings")} onClick={() => setMenuSelection("settings")}>SETTINGS</div>}
     </header>
   );
 }
