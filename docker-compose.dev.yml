@@ -59,6 +59,8 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=rob.632@hotmail.co.uk
       - PGADMIN_DEFAULT_PASSWORD=password
+    volumes:
+      - "/home/robbie/pgadmin4volume:/var/lib/pgadmin/storage/rob.632_hotmail.co.uk/shared"
     networks:
       - backend
 networks:
