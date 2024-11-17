@@ -1,0 +1,7 @@
+services:
+  jupyterlab:
+    image: jupyter/datascience-notebook
+    volumes:
+      - /home/robbie/repos/mastersDissertation/analysis/volume:/home/jovyan/work
+    ports:
+      - "8888:8888"
