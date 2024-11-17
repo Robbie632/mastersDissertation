@@ -114,3 +114,16 @@ update `REACT_APP_SERVER_IP` in `frontend/src/env.js`
 * Implement tunneling with cloudflare, this is required because on vodafone guest network port forwarding isn't possible, so instead tunnel needs to be used
 * Need to make cloudfare your authoratative DNS 
 * add public hostname on cloudfare
+
+# Analysis
+* navigate to analysis directory
+* put any data you want to analyse in analysis/volume as this is mounted on the container
+* run 
+
+```bash launch_analysis_services.sh```
+
+navigate to 
+
+```http://localhost:8888```
+
+look at container logs to find token, copy and pasted into box
