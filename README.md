@@ -5,13 +5,6 @@ The live web application can be found at
 
 https://languageapp.codex201.com/
 
-Please feel free to try the web application using the following details to log in:
-
-**username**: `rob.632@hotmail.co.uk`<br>**password**: `languagelearning`
-
-Alternatively, you can sign up with your own email and password.
-
-
 ## Running the codebase
 If you wish to run the codebase yourself, please ensure you have docker installed.
 
